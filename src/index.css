@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+	font-family: 'Poppins';
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	background-color: #171717;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+	@apply py-3 px-5 rounded-full duration-1000 w-32;
+}
+
+.btn-red {
+	@apply bg-myRed text-white;
+}
+
+.btn-purple {
+	@apply bg-myPurple-100 text-white;
+}
+
+.btn-red:hover {
+	@apply bg-transparent border-myRed text-myRed;
+}
+
+.btn-purple:hover {
+	@apply bg-transparent border-myPurple-100 text-myPurple-100;
+}

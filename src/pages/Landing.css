@@ -1,0 +1,15 @@
+.neon {
+	border: 0.1rem solid #fff;
+	color: #fff;
+	box-shadow: 0 0 0.5rem #fff, inset 0 0 0.5rem #fff, 0 0 2rem #a238ff,
+		inset 0 0 2rem #a238ff, 0 0 4rem #a238ff, inset 0 0 4rem #a238ff;
+}
+.neon::-moz-selection {
+	background-color: #a238ff;
+}
+.neon::selection {
+	background-color: #a238ff;
+}
+.neon:focus {
+	outline: none;
+}
