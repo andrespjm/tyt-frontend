@@ -10,14 +10,14 @@ const Landing = () => {
 			>
 				<div
 					className='h-full flex flex-col justify-center items-center
-				
-										sm:bg-blue-500
-										md:bg-yellow-500
-										lg:bg-red-500 lg:flex-row
-										xl:bg-green-500
-										2xl:bg-gray-500
-				'
+					lg:flex-row
+					'
 				>
+					{/* sm:bg-blue-500
+					md:bg-yellow-500
+					lg:bg-red-500
+					xl:bg-green-500
+					2xl:bg-gray-500 */}
 					{/* IMAGE */}
 					<div
 						className='w-3/4 h-1/2 
@@ -35,12 +35,12 @@ const Landing = () => {
 					{/* PARAGRAPH */}
 					<div
 						className='w-3/4 h-1/2
-					lg:h-fit lg:w-full
+					lg:w-full lg:h-fit
 					'
 					>
 						<div
 							className='neon flex flex-col items-center p-10 text-white bg-neutral-900 rounded-xl drop-shadow-2xl 
-						lg:w-3/4 lg:-ml-16
+						lg:w-4/5 lg:-ml-16
 						2xl:-ml-32
 						'
 						>
@@ -63,7 +63,6 @@ const Landing = () => {
 								className='mt-4 text-center max-w-xl text-sm
 								lg:max-w-md lg:text-[12px]
 								xl:max-w-2xl  xl:text-[14px]
-								2xl:text-[20px]
 								'
 							>
 								Functional Art in your Table. Original pieces created with love
