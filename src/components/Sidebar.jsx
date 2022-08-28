@@ -23,8 +23,17 @@ const Sidebar = () => {
 		if (localStorage.getItem('Color'))
 			setFilter(JSON.parse(localStorage.getItem('Color')));
 	}, []);
+
 	const toogleSidebar = () =>
 		document.querySelector('#sidebar').classList.toggle('hidden');
+
+	// const updateSwitchColors = () => {
+	// 	if (queryColors.length) return;
+	// 	document.querySelectorAll('.mycolors').forEach(element => {
+	// 		if (queryColors.includes(element.name)) element.checked = true;
+	// 	});
+	// };
+	// console.log(document.querySelectorAll('.mycolors')[0].name);
 
 	const handleGetColors = () => {
 		!redColors.length && dispatch(getColors());
@@ -64,7 +73,7 @@ const Sidebar = () => {
 		});
 		localStorage.removeItem('Filter');
 		localStorage.removeItem('Colors');
-		toogleSidebar();
+		// toogleSidebar();
 	};
 
 	const queryString = () =>
