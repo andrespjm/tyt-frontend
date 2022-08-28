@@ -8,7 +8,7 @@ import {
 	GET_USERS,
 	SET_LOADING,
 	SET_LOGIN,
-	SET_PAGE,
+	SET_PAGE
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -61,19 +61,19 @@ export const getColors = () => {
 
 // USERS
 export const addUser = async user => {
-	const res = await axios.post('http://localhost:3001/users/signup', user);
+	const res = await axios.post('/users/signup', user);
 	return res.data;
 };
 
 export const updateUserP = async user => {
 	const id = user.id;
-	const res = await axios.put('http://localhost:3001/users/user/' + id, user);
+	const res = await axios.put('/users/user/' + id, user);
 	return res.data;
 };
 
 export const getUsers = () => {
 	return async dispatch => {
-		const json = await axios.get('http://localhost:3001/users');
+		const json = await axios.get('/users');
 		return dispatch({
 			type: GET_USERS,
 			payload: json.data,
@@ -84,7 +84,7 @@ export const getUsers = () => {
 // USER_ID
 export const getUser = id => {
 	return async dispatch => {
-		const json = await axios.get(`http://localhost:3001/users/${id}`);
+		const json = await axios.get(`/users/${id}`);
 		return dispatch({
 			type: GET_USER,
 			payload: json.data,
