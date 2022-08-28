@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 // import TemporaryDrawer from '../components/Drawer';
@@ -6,6 +6,7 @@ import { ShoppingCartContext } from '../context/ShoppingCartContext';
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ userLoggedComplete }) {
 	const [cart, setCart] = useContext(ShoppingCartContext); // eslint-disable-line no-unused-vars
+	const [menuSign, setMenuSign] = useState(false);
 	const location = useLocation();
 
 	useEffect(() => {
@@ -16,6 +17,13 @@ export default function Navbar({ userLoggedComplete }) {
 		document.getElementById('menubar').classList.toggle('flex');
 		document.getElementById('menubar').classList.toggle('hidden');
 	};
+
+	// const handleonclicksignin = () {
+	// si no esta logueado se va a la ruta de logueo
+	// si esta logueado se muestra el nombre o avatar
+	// y si da click setMenuSign(true)
+
+	// }
 
 	return (
 		<nav
@@ -168,7 +176,7 @@ export default function Navbar({ userLoggedComplete }) {
 						Other
 					</a>
 
-					<a
+					<Link
 						role='menuitem'
 						className='
  flex
@@ -179,7 +187,6 @@ export default function Navbar({ userLoggedComplete }) {
 						duration-1000
  	'
 						to='/shop/shoppingCart'
-						href='/shop/shoppingCart'
 					>
 						<div className='flex justify-center items-center'>
 							<svg
@@ -204,22 +211,42 @@ export default function Navbar({ userLoggedComplete }) {
 							></span>
 						</div>
 						In the bag
-					</a>
-					<a
-						role='menuitem'
-						className={`
-						py-2
-						px-6
-						${location.pathname === '/home' ? 'bg-blue-500' : 'bg-myPurple-100'}
-						text-white
-						rounded-md
+					</Link>
+					<div className='relative'>
+						<button
+							role='menuitem'
+							onClick={() => setMenuSign(!menuSign)}
+							className={`py-2 px-6 text-white rounded-md
+							${location.pathname === '/home' ? 'bg-blue-500' : 'bg-myPurple-100'}
 					`}
-						to='/signin'
-						href='/signin'
-					>
-						<i className='text-2xl mr-3 fa-solid fa-circle-user'></i>
-						Sign In
-					</a>
+							to='/signin'
+							// href='/signin'
+						>
+							<i className='text-2xl mr-3 fa-solid fa-circle-user'></i>
+							Sign In
+						</button>
+						{menuSign && (
+							<>
+								<div
+									className='fixed inset-0 h-screen w-screen'
+									onClick={() => setMenuSign(false)}
+									tabIndex='-1'
+								></div>
+
+								<div className='absolute right-0 mt-2 py-2 w-48 bg-black rounded-lg text-sm text-left text-white '>
+									<a
+										href='#'
+										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
+									>
+										Account settings
+									</a>
+									<button className='block px-4 py-2 text-myRed  hover:bg-blue-500 hover:text-pink-300 w-full text-left'>
+										Sign out
+									</button>
+								</div>
+							</>
+						)}
+					</div>
 				</div>
 			</div>
 		</nav>
