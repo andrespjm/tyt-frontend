@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import DashBoard from './components/Administrator';
+import DashBoard from './components/Administrator/Index';
 import { SignIn } from './components/auth/SignIn';
 import { SignUp } from './components/auth/SignUp';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
