@@ -21,12 +21,16 @@ const Home = () => {
 		'
 		>
 			<Sidebar />
-			<div className=' container grid grid-cols-3 gap-x-1 mt-20'>
+			<div
+				className=' container grid grid-cols-2 grid-rows-3 gap-x-1
+			lg:grid-cols-3
+			'
+			>
 				{redData?.map((prod, i) => (
 					<div key={i} className='relative max-w-lg max-h-[520px] mt-1'>
 						<Link to={`/${prod.id}`}>
 							<div className='absolute inset-0 z-10 flex transition duration-700 ease-in hover:opacity-0'>
-								<div className='absolute inset-0 bg-black opacity-70'></div>
+								<div className='absolute inset-0 bg-black opacity-50'></div>
 								<div className='border w-full flex flex-col  text-white z-10 p-3 justify-between'>
 									<div className=' flex justify-between'>
 										<span className='w-fit p-1 text-lg'>{prod.name}</span>
