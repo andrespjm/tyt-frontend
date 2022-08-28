@@ -15,6 +15,8 @@ import { auth, getUserInfo, userExists } from "./firebase/firebase";
 import Detail from "./pages/Detail";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
+import PaySuccess from "./components/PaySuccess";
+import PayFailure from "./components/PayFailure";
 
 function App() {
   const [userLoggedComplete, setUserLoggedComplete] = useState(false);
@@ -44,6 +46,9 @@ function App() {
         <Route exact path="/shop/shoppingCart" component={ShoppingCart} />
         <Route exact path="/bases/try" component={Try} />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path={"/paysuccess"} component={PaySuccess}/>
+        <Route exact path={"/payfailure"} component={PayFailure}/>
+
         <Route exact path="/user/edit" component={EditUserProfile} />
         {/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
         <Route exact path="/signin" component={SignIn} />
