@@ -8,7 +8,8 @@ import {
 	GET_USERS,
 	SET_LOADING,
 	SET_LOGIN,
-	SET_PAGE
+	SET_PAGE,
+	ERROR_FILTERING_DATA,
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -42,12 +43,17 @@ export const getFilteredData = query => {
 			dispatch({ type: GET_FILTERED_DATA, payload: response.data });
 			setPage(1);
 		} catch (error) {
-			alert('No data found');
+			dispatch(setErrorFilter(true));
 			getData();
 		}
 		dispatch(setLoading(false));
 	};
 };
+
+export const setErrorFilter = payload => ({
+	type: ERROR_FILTERING_DATA,
+	payload,
+});
 
 // Get Colors from backend
 export const getColors = () => {
