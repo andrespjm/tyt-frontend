@@ -1,7 +1,12 @@
+import { Menu } from './Menu';
+
 export const DataAddress = () => {
   return (
-    <div>
-      Address
-    </div>
+    <>
+      <Menu />
+      <div className="container mx-auto text-white">
+        Address
+      </div>
+    </>
   )
 };

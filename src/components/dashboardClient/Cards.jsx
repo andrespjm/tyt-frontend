@@ -10,7 +10,7 @@ export default function Cards({ redUser }) {
           <div key={b}>
             <UserCard
               id={u.id}
-              name={u.name}
+              firstName={u.firstName}
             />
           </div>
         )
