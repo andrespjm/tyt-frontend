@@ -1,10 +1,16 @@
+import { Alert, Snackbar } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getColors, getData, getFilteredData } from '../redux/actions';
+import {
+	getColors,
+	getData,
+	getFilteredData,
+	setErrorFilter,
+} from '../redux/actions';
 
 const Sidebar = () => {
 	const dispatch = useDispatch();
-	const { redColors } = useSelector(state => state);
+	const { redColors, redErrorFilter } = useSelector(state => state);
 	const [queryColors, setQueryColors] = useState([]);
 	const [filter, setFilter] = useState({
 		onStock: true,
@@ -13,6 +19,12 @@ const Sidebar = () => {
 		coll3: true,
 		coll4: true,
 	});
+	const [state] = useState({
+		vertical: 'top',
+		horizontal: 'center',
+	});
+
+	const { vertical, horizontal } = state;
 
 	useEffect(() => {
 		if (localStorage.getItem('Filter')) {
@@ -20,33 +32,51 @@ const Sidebar = () => {
 			const sidebar = document.querySelector('#sidebar');
 			sidebar.classList[0] === 'hidden' && toogleSidebar();
 		}
-		if (localStorage.getItem('Color'))
-			setFilter(JSON.parse(localStorage.getItem('Color')));
+		if (localStorage.getItem('Colors')) {
+			setQueryColors(JSON.parse(localStorage.getItem('Colors')));
+			updateSwitchColors();
+		}
 	}, []);
 
 	const toogleSidebar = () =>
 		document.querySelector('#sidebar').classList.toggle('hidden');
 
-	// const updateSwitchColors = () => {
-	// 	if (queryColors.length) return;
-	// 	document.querySelectorAll('.mycolors').forEach(element => {
-	// 		if (queryColors.includes(element.name)) element.checked = true;
-	// 	});
-	// };
-	// console.log(document.querySelectorAll('.mycolors')[0].name);
+	const updateSwitchColors = () => {
+		if (!queryColors.length) return;
+		document.querySelectorAll('.mycolors').forEach(element => {
+			if (queryColors.includes(element.name)) {
+				element.checked = true;
+				element.parentNode.style.backgroundColor = element.name;
+			}
+		});
+	};
 
 	const handleGetColors = () => {
 		!redColors.length && dispatch(getColors());
 		document.querySelector('#colors').classList.toggle('hidden');
 		document.querySelector('#arr-clr').classList.toggle('rotate-180');
+		updateSwitchColors();
 	};
 
 	const handleOnClickColors = e => {
 		if (e.target.checked) {
 			if (queryColors.length === 3) return;
+			if (queryColors.length === 2)
+				document.querySelectorAll('.mycolors').forEach(element => {
+					if (!element.checked) element.disabled = true;
+				});
 			setQueryColors([...queryColors, e.target.name]);
-			e.target.parentNode.style.backgroundColor = e.target.name;
+			e.target.parentNode.style.backgroundColor =
+				e.target.name === 'water green'
+					? '#03bb85'
+					: e.target.name === 'light blue'
+					? '#ADD8E6'
+					: e.target.name;
 		} else {
+			if (queryColors.length === 3)
+				document.querySelectorAll('.mycolors').forEach(element => {
+					if (element.disabled) element.disabled = false;
+				});
 			setQueryColors(queryColors.filter(color => color !== e.target.name));
 			e.target.parentNode.style.backgroundColor = '';
 		}
@@ -73,7 +103,7 @@ const Sidebar = () => {
 		});
 		localStorage.removeItem('Filter');
 		localStorage.removeItem('Colors');
-		// toogleSidebar();
+		dispatch(setErrorFilter(false));
 	};
 
 	const queryString = () =>
@@ -321,6 +351,21 @@ const Sidebar = () => {
 					)}
 				</div>
 			</div>
+			<Snackbar
+				anchorOrigin={{ vertical, horizontal }}
+				open={redErrorFilter}
+				autoHideDuration={6000}
+				// onClose={() => dispatch(setErrorFilter(false))}
+				key={vertical + horizontal}
+			>
+				<Alert
+					onClose={() => dispatch(setErrorFilter(false))}
+					severity='warning'
+					sx={{ width: '100%' }}
+				>
+					We are sorry. No data found 😢 !!
+				</Alert>
+			</Snackbar>
 		</div>
 	);
 };

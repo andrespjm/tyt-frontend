@@ -23,9 +23,15 @@ const Home = () => {
 			<Sidebar />
 			<div
 				className=' container grid grid-cols-2 grid-rows-3 gap-x-1
-			lg:grid-cols-3
-			'
+				lg:grid-cols-3
+				'
 			>
+				{/* lg:grid-cols-3
+				sm:bg-blue-500
+					md:bg-yellow-500
+					lg:bg-red-500
+					xl:bg-green-500
+					2xl:bg-gray-500 */}
 				{redData?.map((prod, i) => (
 					<div key={i} className='relative max-w-lg max-h-[520px] mt-1'>
 						<Link to={`/${prod.id}`}>
