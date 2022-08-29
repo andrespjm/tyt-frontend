@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { useContext, useEffect } from 'react';
+import { useEffect, useState,  useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignIn } from './components/auth/SignIn';
@@ -18,6 +18,7 @@ import Detail from './pages/Detail';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 
+
 function App() {
 	const { setCurrentUserF } = useContext(AuthContext);
 	useEffect(() => {
@@ -27,6 +28,7 @@ function App() {
 		if (user) {
 			const isRegister = await userExists(user.uid);
 			if (isRegister) {
+
 				const userInfo = await getUserInfo(user.uid);
 				if (userInfo.processCompleted) {
 					// console.log(userInfo);
@@ -43,7 +45,9 @@ function App() {
 	}
 	return (
 		<>
+
 			<Navbar />
+
 			<Switch>
 				<Route exact path='/' component={Landing} />
 				<Route exact path='/home' component={Home} />
@@ -54,7 +58,6 @@ function App() {
 				<Route exact path='/signup' component={SignUp} />
 				<Route exact path={'/paysuccess'} component={PaySuccess} />
 				<Route exact path={'/payfailure'} component={PayFailure} />
-
 				<Route exact path='/user/edit' component={EditUserProfile} />
 				{/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
 				<Route exact path='/signin' component={SignIn} />
