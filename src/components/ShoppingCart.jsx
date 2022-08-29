@@ -30,7 +30,7 @@ const ShoppingCart = () => {
 	const [pay, setPay] = useState(false);
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
-	const [order, setOrder] = useState();
+	// const [order, setOrder] = useState();
 
 	function handleIncrement(e) {
 		const cart2 = [...cart];
@@ -195,6 +195,8 @@ const ShoppingCart = () => {
 				// if it already exists, update contact information (If it has previous orders it brings previous information )
 				if (orderId.length > 0) {
 					orderId = orderId[0].id;
+					// setOrder(orderId);
+
 					await axios.put(`/purchases/user/${orderId}`, {
 						...orderData,
 						shipmentFee: totalShipping,
@@ -202,33 +204,30 @@ const ShoppingCart = () => {
 					});
 				} else {
 					// if it doesn't exist, I create the purchase order
-					const orderId = (
+					orderId = (
 						await axios.post(`/purchases/${userId}`, {
 							...orderData,
 							shipmentFee: totalShipping,
 							tax: (totalPrice + totalShipping) * 0.2,
 						})
 					).data.id;
-					console.log(orderId);
-					setOrder(orderId);
+					// setOrder(orderId);
 				}
-				await axios.delete(`/order-items/PurchaseId/${orderId}`);
+				await axios.delete(`/order-items/PurchaseId/${orderId}`); // ok
 				// set order items and decrement stock
-				console.log('creo los nuevos');
 				await Promise.all(
 					cart.map(el =>
 						axios.post('/order-items', {
 							stockId: el.stockId,
 							quantity: el.quantity,
-							purchaseId: order,
+							purchaseId: orderId,
 							price: el.price,
 							confirmed: false,
 						})
 					)
 				);
-				console.log('cree los nuevos');
 			} catch (error) {
-				alert(error.request.response);
+				alert(error.message);
 			}
 			setCheckout(false);
 			// setPay(true)
