@@ -34,7 +34,7 @@ export const AuthProvider = ({
 					id: user.uid,
 					displayName: user.displayName,
 					email: user.email,
-					profilePicture: '',
+					profilePicture: user.profileImageURL || user.photoURL,
 					username: '',
 					processCompleted: false,
 				});

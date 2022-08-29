@@ -6,6 +6,7 @@ export const ShoppingCartContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const ShoopingCartProvider = ({ children }) => {
 	const [cart, setCart] = useLocalStorage('ShoppingCart', []);
+
 	return (
 		<ShoppingCartContext.Provider value={[cart, setCart]}>
 			{children}
