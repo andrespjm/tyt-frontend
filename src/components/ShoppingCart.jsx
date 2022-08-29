@@ -248,7 +248,7 @@ const ShoppingCart = () => {
 					? 'Logout(SignedIn)'
 					: 'Loggin (SignedOut)'}
 			</button> */}
-			<h1>Loggin simulation until implemented</h1>
+			{/* <h1>Loggin simulation until implemented</h1> */}
 			<div className='shopping-bag'>
 				<div className='shopping-header'>
 					<h2>Bag</h2>
