@@ -1,13 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
+import { signout } from '../firebase/firebase';
 // import TemporaryDrawer from '../components/Drawer';
 
 // eslint-disable-next-line react/prop-types
-export default function Navbar({ userLoggedComplete }) {
+export default function Navbar() {
 	const [cart, setCart] = useContext(ShoppingCartContext); // eslint-disable-line no-unused-vars
 	const [menuSign, setMenuSign] = useState(false);
 	const location = useLocation();
+	const navigate = useHistory();
+	const { currentUserF, setIsLogged } = useContext(AuthContext);
 
 	useEffect(() => {
 		document.getElementById('shp-num').innerHTML = cart.length;
@@ -18,6 +22,17 @@ export default function Navbar({ userLoggedComplete }) {
 		document.getElementById('menubar').classList.toggle('hidden');
 	};
 
+	const handleOnClickAuth = () => {
+		if (Object.entries(currentUserF).length === 0) {
+			navigate.push('/signin');
+		} else {
+			setMenuSign(!menuSign);
+		}
+	};
+
+	const handleSignout = () => {
+		signout().then(() => setIsLogged(true));
+	};
 	// const handleonclicksignin = () {
 	// si no esta logueado se va a la ruta de logueo
 	// si esta logueado se muestra el nombre o avatar
@@ -215,15 +230,32 @@ export default function Navbar({ userLoggedComplete }) {
 					<div className='relative'>
 						<button
 							role='menuitem'
-							onClick={() => setMenuSign(!menuSign)}
+							onClick={handleOnClickAuth}
 							className={`py-2 px-6 text-white rounded-md
 							${location.pathname === '/home' ? 'bg-blue-500' : 'bg-myPurple-100'}
 					`}
-							to='/signin'
 							// href='/signin'
 						>
-							<i className='text-2xl mr-3 fa-solid fa-circle-user'></i>
-							Sign In
+							{Object.entries(currentUserF).length !== 0 ? (
+								<>
+									<img
+										className='inline-block h-7 w-7 mr-2 rounded-full ring-1 ring-white'
+										src={currentUserF.profilePicture}
+										onError={({ currentTarget }) => {
+											currentTarget.onerror = null; // prevents looping
+											currentTarget.src =
+												'https://doodleipsum.com/500/abstract';
+										}}
+										alt=''
+									/>
+									{currentUserF.firstName}
+								</>
+							) : (
+								<>
+									<i className='text-2xl mr-3 fa-solid fa-circle-user'></i>
+									Sign In
+								</>
+							)}
 						</button>
 						{menuSign && (
 							<>
@@ -240,7 +272,10 @@ export default function Navbar({ userLoggedComplete }) {
 									>
 										Account settings
 									</a>
-									<button className='block px-4 py-2 text-myRed  hover:bg-blue-500 hover:text-pink-300 w-full text-left'>
+									<button
+										onClick={handleSignout}
+										className='block px-4 py-2 text-myRed  hover:bg-blue-500 hover:text-pink-300 w-full text-left'
+									>
 										Sign out
 									</button>
 								</div>
