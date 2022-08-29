@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
 import { loggin } from '../redux/actions';
 import './ShoppingCart.css';
+import { AuthContext } from '../context/AuthContext';
+
 const ShoppingCart = () => {
-	const userId = '58ba8def-27f7-4844-b842-f5549957306a'; // from token information
-	const login = useSelector(state => state.login);
+	// const login = useSelector(state => state.login);
 	const dispatch = useDispatch();
 
 	// const [cart, setCart] = useContext(ShoppingCartContext);
@@ -32,6 +33,8 @@ const ShoppingCart = () => {
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
 	// const [order, setOrder] = useState();
+	const { currentUserF } = useContext(AuthContext);
+	const userId = currentUserF.id; // from token information
 
 	function handleIncrement(e) {
 		const cart2 = [...cart];
@@ -51,7 +54,7 @@ const ShoppingCart = () => {
 	async function handleLoggin(e) {
 		// logout: save in DB in order status cart, order items confirmed false (if order exists replace if not create)
 		// search order status cart where userId. if it exists delete line items and create new ones, if not, create order and add line items.
-		if (login.login) {
+		if (Object.entries(currentUserF).length > 0) {
 			let orderId = '';
 			try {
 				// I look for the id of the order in the cart if it already exists
@@ -133,7 +136,7 @@ const ShoppingCart = () => {
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
-		!login.login && history.push('/signin');
+		Object.entries(currentUserF).length === 0 && history.push('/signin');
 		try {
 			const orderId = (await axios.get(`/purchases/data?userId=${userId}`))
 				.data;
@@ -238,7 +241,9 @@ const ShoppingCart = () => {
 	return (
 		<div className='shopping-wrapper bg-white h-screen'>
 			<button onClick={handleLoggin}>
-				{login.login ? 'Logout(SignedIn)' : 'Loggin (SignedOut)'}
+				{Object.entries(currentUserF).length > 0
+					? 'Logout(SignedIn)'
+					: 'Loggin (SignedOut)'}
 			</button>
 			<h1>Loggin simulation until implemented</h1>
 			<div className='shopping-bag'>

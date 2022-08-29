@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState,  useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignIn } from './components/auth/SignIn';
@@ -18,7 +18,6 @@ import Detail from './pages/Detail';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 
-
 function App() {
 	const { setCurrentUserF } = useContext(AuthContext);
 	useEffect(() => {
@@ -28,7 +27,6 @@ function App() {
 		if (user) {
 			const isRegister = await userExists(user.uid);
 			if (isRegister) {
-
 				const userInfo = await getUserInfo(user.uid);
 				if (userInfo.processCompleted) {
 					// console.log(userInfo);
@@ -45,7 +43,6 @@ function App() {
 	}
 	return (
 		<>
-
 			<Navbar />
 
 			<Switch>
