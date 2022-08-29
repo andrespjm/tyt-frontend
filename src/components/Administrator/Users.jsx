@@ -13,9 +13,13 @@ import {
 
 export const Users = () => (
 	<List>
-		<SortButton fields={['firstName', 'lastName', 'birthDate']} />
-		<Datagrid>
+		<SortButton
+			fields={['lastName', 'firstName', 'birthDate']}
+			sx={{ border: '1px solid red' }}
+		/>
+		<Datagrid rowClick='edit'>
 			<ImageField
+				label='Profile'
 				source='profilePicture'
 				title='picture.title'
 				sx={{
@@ -34,7 +38,7 @@ export const Users = () => (
 				render={record => `${record.lastName}, ${record.firstName}`}
 			/>
 			<TextField source='gender' />
-			<NumberField source='identityCard' />
+			<NumberField label='Identity' source='identityCard' />
 			<EmailField source='email' />
 			<DateField source='birthDate' />
 			<EditButton />
