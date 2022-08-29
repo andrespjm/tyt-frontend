@@ -1,8 +1,22 @@
-import { Datagrid, EditButton, ImageField, List, TextField } from 'react-admin';
+import {
+	Datagrid,
+	EditButton,
+	ImageField,
+	List,
+	RichTextField,
+	SimpleShowLayout,
+	TextField,
+} from 'react-admin';
+
+const PostShow = () => (
+	<SimpleShowLayout>
+		<RichTextField source='description' />
+	</SimpleShowLayout>
+);
 
 export const Products = () => (
 	<List>
-		<Datagrid>
+		<Datagrid expand={<PostShow />}>
 			<ImageField
 				label='image'
 				source='img_detail[0].secure_url'
