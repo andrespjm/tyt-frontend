@@ -1,16 +1,17 @@
+import axios from 'axios';
 import { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
-import './ShoppingCart.css';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { loggin } from '../redux/actions';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
+import { loggin } from '../redux/actions';
+import './ShoppingCart.css';
 const ShoppingCart = () => {
 	const userId = '58ba8def-27f7-4844-b842-f5549957306a'; // from token information
 	const login = useSelector(state => state.login);
 	const dispatch = useDispatch();
 
+	// const [cart, setCart] = useContext(ShoppingCartContext);
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const history = useHistory();
 	const totalPrice = cart?.reduce(
@@ -30,6 +31,7 @@ const ShoppingCart = () => {
 	const [pay, setPay] = useState(false);
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
+	// const [order, setOrder] = useState();
 
 	function handleIncrement(e) {
 		const cart2 = [...cart];
@@ -158,37 +160,6 @@ const ShoppingCart = () => {
 		}));
 	}
 
-	// async function handleOrder(e) {
-	// 	e.preventDefault();
-	// 	let orderId = '';
-	// 	try {
-	// 		// find cart order
-	// 		orderId = (await axios.get(`/purchases/cart?userId=${userId}`)).data;
-	// 		// if it already exists, update contact information (If it has previous orders it brings previous information )
-	// 		if (orderId.length > 0) {
-	// 			orderId = orderId[0].id;
-	// 			await axios.put(`/purchases/user/${orderId}`, {
-	// 				...orderData,
-	// 				shipmentFee: totalShipping,
-	// 				tax: (totalPrice + totalShipping) * 0.2,
-	// 			});
-	// 		} else {
-	// 			// if it doesn't exist, I create the purchase order
-	// 			const orderId = (
-	// 				await axios.post(`/purchases/${userId}`, {
-	// 					...orderData,
-	// 					shipmentFee: totalShipping,
-	// 					tax: (totalPrice + totalShipping) * 0.2,
-	// 				})
-	// 			).data.id;
-	// 			console.log(orderId);
-	// 		}
-	// 	} catch (error) {
-	// 		alert(error.request.response);
-	// 	}
-	// 	setCheckout(false);
-	// 	setPay(true);
-	// }
 	async function handleOrder(e) {
 		e.preventDefault();
 		let items = cart.map(e => {
@@ -225,6 +196,8 @@ const ShoppingCart = () => {
 				// if it already exists, update contact information (If it has previous orders it brings previous information )
 				if (orderId.length > 0) {
 					orderId = orderId[0].id;
+					// setOrder(orderId);
+
 					await axios.put(`/purchases/user/${orderId}`, {
 						...orderData,
 						shipmentFee: totalShipping,
@@ -232,18 +205,17 @@ const ShoppingCart = () => {
 					});
 				} else {
 					// if it doesn't exist, I create the purchase order
-					const orderId = (
+					orderId = (
 						await axios.post(`/purchases/${userId}`, {
 							...orderData,
 							shipmentFee: totalShipping,
 							tax: (totalPrice + totalShipping) * 0.2,
 						})
 					).data.id;
-					console.log(orderId);
+					// setOrder(orderId);
 				}
-				await axios.delete(`/order-items/PurchaseId/${orderId}`);
+				await axios.delete(`/order-items/PurchaseId/${orderId}`); // ok
 				// set order items and decrement stock
-				console.log('creo los nuevos');
 				await Promise.all(
 					cart.map(el =>
 						axios.post('/order-items', {
@@ -255,53 +227,13 @@ const ShoppingCart = () => {
 						})
 					)
 				);
-				console.log('cree los nuevos');
 			} catch (error) {
-				alert(error.request.response);
+				alert(error.message);
 			}
-			setCheckout(false);
+			// setCheckout(false);
 			// setPay(true)
 		}
 	}
-	// async function handlePay(e) {
-	// 	try {
-	// 		// change order status, order setted in handleOrder
-	// 		console.log('cambio estado a reservado');
-	// 		const orderId = (await axios.get(`/purchases/cart?userId=${userId}`))
-	// 			.data;
-	// 		console.log(orderId[0].id);
-	// 		await axios.put(`/purchases/user/${orderId[0].id}`, {
-	// 			status: 'Reserved',
-	// 		});
-	// 		// if line items, delete to update (if there are not, doesn´t throw error)
-	// 		console.log('elimino los existentes si hay');
-	// 		await axios.delete(`/order-items/PurchaseId/${orderId[0].id}`);
-	// 		// set order items and decrement stock
-	// 		console.log('creo los nuevos');
-	// 		await Promise.all(
-	// 			cart.map(el =>
-	// 				axios.post('/order-items/confirmed', {
-	// 					stockId: el.stockId,
-	// 					quantity: el.quantity,
-	// 					purchaseId: orderId[0].id,
-	// 					price: el.price,
-	// 					confirmed: true,
-	// 				})
-	// 			)
-	// 		);
-	// 		console.log('cree los nuevos');
-	// 	} catch (error) {
-	// 		alert(error.request.response);
-	// 	}
-
-	// 	setCart([]);
-	// 	alert('successful purchase');
-	// 	setPay(false);
-	// }
-
-	// pending
-	// succesfull payment=> post.status "Paid"
-	// error payment => delete order and items (decrement stock)
 
 	return (
 		<div className='shopping-wrapper bg-white h-screen'>
@@ -388,7 +320,7 @@ const ShoppingCart = () => {
 					</div>
 				</div>
 			</div>
-			{pay && <button id='page-content' className='page-content'></button>}
+
 			<button
 				className='btn btn-red hover:btn-red mx-auto my-5'
 				onClick={() => history.push('/home')}
@@ -454,13 +386,19 @@ const ShoppingCart = () => {
 							</div>
 						)}
 						<div className='relative flex justify-center'>
-							<button
-								className='btn btn-red hover:btn-red '
-								type='submit'
-								value='CONFIRM'
-							>
-								Confirm
-							</button>
+							{!pay && (
+								<button
+									className='btn btn-red hover:btn-red '
+									id='page-content'
+									type='submit'
+									value='CONFIRM'
+								>
+									Confirm
+								</button>
+							)}
+							{pay && (
+								<button id='page-content' className='page-content'></button>
+							)}
 						</div>
 					</form>
 				</div>

@@ -1,6 +1,6 @@
 // Your web app's Firebase configuration
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import {
 	collection,
 	doc,
@@ -43,7 +43,6 @@ const db = getFirestore(app);
 export const userExists = async id => {
 	const docRef = doc(db, 'users', id);
 	const res = await getDoc(docRef);
-	console.log(res);
 	return res.exists();
 };
 
@@ -80,4 +79,8 @@ export const getUserInfo = async id => {
 		const document = await getDoc(docRef);
 		return document.data();
 	} catch (err) {}
+};
+
+export const signout = async () => {
+	await signOut(auth).then(() => location.reload());
 };
