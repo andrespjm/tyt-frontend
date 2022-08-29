@@ -229,7 +229,7 @@ const ShoppingCart = () => {
 			} catch (error) {
 				alert(error.message);
 			}
-			setCheckout(false);
+			// setCheckout(false);
 			// setPay(true)
 		}
 	}
@@ -319,7 +319,7 @@ const ShoppingCart = () => {
 					</div>
 				</div>
 			</div>
-			{pay && <button id='page-content' className='page-content'></button>}
+
 			<button
 				className='btn btn-red hover:btn-red mx-auto my-5'
 				onClick={() => history.push('/home')}
@@ -385,13 +385,19 @@ const ShoppingCart = () => {
 							</div>
 						)}
 						<div className='relative flex justify-center'>
-							<button
-								className='btn btn-red hover:btn-red '
-								type='submit'
-								value='CONFIRM'
-							>
-								Confirm
-							</button>
+							{!pay && (
+								<button
+									className='btn btn-red hover:btn-red '
+									id='page-content'
+									type='submit'
+									value='CONFIRM'
+								>
+									Confirm
+								</button>
+							)}
+							{pay && (
+								<button id='page-content' className='page-content'></button>
+							)}
 						</div>
 					</form>
 				</div>
