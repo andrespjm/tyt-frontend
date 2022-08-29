@@ -1,16 +1,17 @@
+import axios from 'axios';
 import { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
-import './ShoppingCart.css';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { loggin } from '../redux/actions';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
+import { loggin } from '../redux/actions';
+import './ShoppingCart.css';
 const ShoppingCart = () => {
 	const userId = '58ba8def-27f7-4844-b842-f5549957306a'; // from token information
 	const login = useSelector(state => state.login);
 	const dispatch = useDispatch();
 
+	// const [cart, setCart] = useContext(ShoppingCartContext);
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const history = useHistory();
 	const totalPrice = cart?.reduce(
