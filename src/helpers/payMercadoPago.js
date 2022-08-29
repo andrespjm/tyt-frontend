@@ -2,7 +2,7 @@ export async function payMercadoPago(items) {
 	console.log('estoy aca', items);
 	try {
 		const preference = await (
-			await fetch('http://localhost:3001/Pay', {
+			await fetch('https://tytecommerce.herokuapp.com/Pay', {
 				method: 'post',
 				body: JSON.stringify(items),
 				headers: {
