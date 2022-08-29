@@ -11,7 +11,7 @@ const PayFailure = () => {
 	return (
 		<div className='absolute top-0 w-screen h-[800px] flex items-center justify-center'>
 			<div className='bg-blue-200 p-14 rounded-lg w-[600px] h-[300px] text-center'>
-				There was a problem in the purchase
+				There was a problem in the payment
 				<div className='p-5'>
 					<Link to='/home'>
 						<button
@@ -23,7 +23,7 @@ const PayFailure = () => {
 					</Link>
 					<Link to='/shop/shoppingCart'>
 						<button className='m-3 btn btn-red hover:btn-red '>
-							TRY PURCHASE AGAIN
+							TRY PAYMENT AGAIN
 						</button>
 					</Link>
 				</div>
