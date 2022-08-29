@@ -2,11 +2,11 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
 import { loggin } from '../redux/actions';
 import './ShoppingCart.css';
-import { AuthContext } from '../context/AuthContext';
 
 const ShoppingCart = () => {
 	// const login = useSelector(state => state.login);
@@ -33,7 +33,7 @@ const ShoppingCart = () => {
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
 	// const [order, setOrder] = useState();
-	const { currentUserF } = useContext(AuthContext);
+	const { currentUserF, isLogged } = useContext(AuthContext);
 	const userId = currentUserF.id; // from token information
 
 	function handleIncrement(e) {
@@ -55,7 +55,7 @@ const ShoppingCart = () => {
 		async function handleLoggin() {
 			// logout: save in DB in order status cart, order items confirmed false (if order exists replace if not create)
 			// search order status cart where userId. if it exists delete line items and create new ones, if not, create order and add line items.
-			if (Object.entries(currentUserF).length > 0) {
+			if (isLogged) {
 				let orderId = '';
 				try {
 					// I look for the id of the order in the cart if it already exists
@@ -135,7 +135,7 @@ const ShoppingCart = () => {
 			dispatch(loggin());
 		}
 		handleLoggin();
-	}, []);
+	}, [isLogged]);
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
