@@ -5,6 +5,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import '../components/ProductForm.css';
 import { getColors } from '../redux/actions';
 import { validateProduct } from '../validations/productValidation';
@@ -33,8 +34,8 @@ const ProductForm = () => {
 		// imagesDetail:[],
 		stockCakeTray: 0,
 		stockTurntable: 0,
-		priceCakeTray: "",
-		priceTurntable: "",
+		priceCakeTray: '',
+		priceTurntable: '',
 		color: [],
 		color1: '',
 		color2: '',
@@ -450,6 +451,12 @@ const ProductForm = () => {
 					value='Add product'
 					className='uppercase tracking-wide text-black text-sm font-bold mt-4 mb-2 border-solid border-1 p-2 border-indigo-600/60 rounded-md'
 				/>
+				<Link to='/admin'>
+					<input
+						className='uppercase tracking-wide text-black text-sm font-bold mt-4 mb-2 border-solid border-1 p-2 border-indigo-600/60 rounded-md'
+						value='Back'
+					/>
+				</Link>
 			</form>
 		</div>
 	);
