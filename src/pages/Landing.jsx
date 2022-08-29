@@ -1,15 +1,16 @@
 import './Landing.css';
+import waves from '../assets/waves.svg';
 
 const Landing = () => {
 	return (
-		<div className='w-full h-full snap-y snap-proximity overflow-y-scroll select-none'>
+		<div className='w-full h-full snap-y snap-proximity  overflow-hidden select-none'>
 			<section
 				className='w-screen h-[calc(100vh-8rem)] select-none flex flex-none snap-center scroll-mb-96
 			bg-gradient-to-b from-black to-purple-700'
 			>
 				<div
 					className='h-full flex flex-col justify-center items-center
-					lg:flex-row
+					lg:flex-row mx-auto
 					'
 				>
 					{/* sm:bg-blue-500
@@ -25,7 +26,7 @@ const Landing = () => {
 							'
 					>
 						<img
-							src='https://i.ibb.co/5xRfKDy/img3.png'
+							src='https://i.ibb.co/vc9K164/tinywow-IMG-9476-4930324.png'
 							className='w-full h-full object-contain
 							lg:ml-16
 							2xl:ml-32
@@ -210,13 +211,15 @@ const Landing = () => {
 						className='w-full h-full object-cover absolute'
 						src='https://i.ibb.co/wrh0PzQ/pexels-pixabay-355288.jpg'
 						alt=''
+						background-image: url('../../assets/home-page-img/header-bg.jpg');
 					/>
 				</div> */}
 			</section>
 			{/* SECTION 2 */}
 			<section
-				className='w-screen h-[calc(100vh-6rem)]  bg-neutral-900 text-white bg-[url("./waves.svg")] bg-no-repeat bg-center bg-cover 
-			'
+				style={{ backgroundImage: `url(${waves})` }}
+				className={`w-screen h-[calc(100vh-6rem)]  bg-neutral-900 text-white bg-no-repeat bg-center bg-cover 
+			`}
 			>
 				<div className='relative w-screen p-5 h-64 flex flex-col items-center justify-around bg-gradient-to-br from-neutral-900 to-neutral-500'>
 					<img
