@@ -1,9 +1,6 @@
 import { GET_USER, GET_USERS } from '../actions/types';
 
-const initialState = {
-	user: [],
-	users: [],
-};
+const initialState = [];
 
 export const redUser = (state = initialState, { type, payload }) => {
 	switch (type) {

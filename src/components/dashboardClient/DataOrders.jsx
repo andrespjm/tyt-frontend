@@ -1,7 +1,12 @@
+import { Menu } from './Menu';
+
 export const DataOrders = () => {
   return (
-    <div>
-      Orders
-    </div>
+    <>
+      <Menu />
+      <div className="container mx-auto text-white">
+        Orders
+      </div>
+    </>
   )
 };

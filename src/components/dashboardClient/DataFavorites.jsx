@@ -1,7 +1,12 @@
+import { Menu } from './Menu';
+
 export const DataFavorites = () => {
   return (
-    <div>
-      Favorites
-    </div>
+    <>
+      <Menu />
+      <div className="container mx-auto text-white">
+        Favorites
+      </div>
+    </>
   )
 };
