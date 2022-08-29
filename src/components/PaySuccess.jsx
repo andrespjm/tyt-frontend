@@ -2,15 +2,16 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
 
 const PaySuccess = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
-
+	const { currentUserF } = useContext(AuthContext);
 	// useEffect(() => {
 	async function pay() {
 		try {
 			// CHANGE
-			const userId = '58ba8def-27f7-4844-b842-f5549957306a';
+			const userId = currentUserF.id;
 			const user = (await axios.get(`/users/${userId}`)).data;
 
 			const orderId = (await axios.get(`/purchases/cart?userId=${userId}`))
