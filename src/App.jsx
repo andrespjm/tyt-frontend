@@ -6,6 +6,11 @@ import { SignIn } from './components/auth/SignIn';
 import { SignUp } from './components/auth/SignUp';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
 import { Menu } from './components/dashboardClient/Menu';
+import { HomeUser } from './components/dashboardClient/HomeUser';
+import { DataAccount } from './components/dashboardClient/DataAccount';
+import { DataOrders } from './components/dashboardClient/DataOrders';
+import { DataFavorites } from './components/dashboardClient/DataFavorites';
+import { DataAddress } from './components/dashboardClient/DataAddress';
 import Navbar from './components/Navbar';
 
 import PayFailure from './components/PayFailure';
@@ -62,7 +67,12 @@ function App() {
 				<Route exact path='/user/edit' component={EditUserProfile} />
 				{/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
 				<Route exact path='/signin' component={SignIn} />
-				<Route exact path='/user/main' component={Menu} />
+				<Route exact path='/user/main' component={HomeUser} />
+				<Route exact path='/:id/user/menu' component={Menu} />
+				<Route exact path='/:id/user/menu/account' component={DataAccount} />
+				<Route exact path='/:id/user/menu/orders' component={DataOrders} />
+				<Route exact path='/:id/user/menu/favorites' component={DataFavorites} />
+				<Route exact path='/:id/user/menu/address' component={DataAddress} />
 				<Route exact path='/:id' component={Detail} />
 			</Switch>
 			{/* <Footer /> */}
