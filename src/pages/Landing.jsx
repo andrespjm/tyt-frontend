@@ -2,6 +2,15 @@ import './Landing.css';
 import waves from '../assets/waves.svg';
 
 const Landing = () => {
+	const subscribe = e => {
+		console.log((document.querySelector('#btn-subscribe').value = ''));
+		setTimeout(
+			() => document.querySelector('#tx-submitting').classList.toggle('hidden'),
+			5000
+		);
+		document.querySelector('#tx-submitting').classList.toggle('hidden');
+	};
+
 	return (
 		<div className='w-full h-full snap-y snap-proximity  overflow-hidden select-none'>
 			<section
@@ -378,17 +387,24 @@ const Landing = () => {
 							'
 						>
 							<input
+								id='btn-subscribe'
 								type='text'
 								placeholder='Sign up here'
 								className='w-full p-4 rounded-full mt-4 text-black border
 								lg:p-4
 								'
 							/>
-							<button className='btn btn-purple hover:btn-purple mt-4 z-10 lg:-ml-36'>
+							<button
+								className='btn btn-purple hover:btn-purple mt-4 z-10 lg:-ml-36'
+								onClick={subscribe}
+							>
 								Subscribe
 							</button>
 						</div>
-						<div className='text-center text-sm mt-4'>
+						<div
+							id='tx-submitting'
+							className='hidden text-center text-sm mt-4 text-green-400'
+						>
 							Thanks for submitting!
 						</div>
 					</div>
@@ -403,7 +419,7 @@ const Landing = () => {
 					lg:grid lg:grid-cols-2 lg:p-5
 					'
 					>
-						<div className='flex items-center gap-10 text-center'>
+						<div className='flex items-center gap-10 text-center justify-between'>
 							<span>
 								<i className='bi bi-instagram text-myRed'></i> Instagram
 							</span>
@@ -417,7 +433,7 @@ const Landing = () => {
 								<i className='bi bi-whatsapp text-green-500'></i> Whatsapp
 							</span>
 						</div>
-						<div className='mx-auto flex  text-center items-center gap-10 mt-8 lg:mt-0'>
+						<div className='mx-auto flex  text-center items-center gap-10 mt-8 justify-between lg:mt-0'>
 							<span>Terms & Conditions</span>
 							<span>Shipping & Returns</span>
 							<span>Privacy Policy</span>
