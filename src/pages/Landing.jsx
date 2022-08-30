@@ -82,19 +82,31 @@ const Landing = () => {
 				</div>
 			</section>
 			{/* CREATION PROCESS */}
-			<section className='w-screen h-[calc(100vh-6rem)] bg-neutral-900 text-white flex flex-none snap-center scroll-mb-96'>
-				<div className='container grid grid-cols-2 gap-1'>
+			<section
+				className='w-screen h-[calc(100vh-6rem)] bg-neutral-900 text-white flex flex-none snap-center scroll-mb-96
+			'
+			>
+				<div
+					className='container grid grid-rows-2 gap-1
+				lg:grid-cols-2 lg:grid-rows-1
+				'
+				>
+					{/* CARPENTER */}
 					<div
-						className='relative h-[954px] flex flex-col items-center
+						className='relative h-full flex flex-col items-center
 						bg-gradient-to-bl from-gray-900 to-slate-400
 						'
 					>
-						<img
-							src='https://i.ibb.co/hB1BYgR/pexels-cottonbro-5089159.jpg'
-							alt=''
-							className='w-full h-full object-cover absolute mix-blend-overlay'
-						/>
-						<span className='border-2 bg-gradient-to-b from-black to-purple-500 p-4 rounded-full mt-10'>
+						<div
+							className='absolute w-full h-full bg-[url("https://i.ibb.co/hB1BYgR/pexels-cottonbro-5089159.jpg")] bg-cover bg-center mix-blend-overlay 
+						hover:bg-[url("https://images.pexels.com/photos/175709/pexels-photo-175709.jpeg?cs=srgb&dl=pexels-clem-onojeghuo-175709.jpg&fm=jpg")]
+						'
+						></div>
+						<span
+							className='hidden border-2 bg-gradient-to-b from-black to-purple-500 p-4 rounded-full mt-10
+						md:block
+						'
+						>
 							<svg
 								fill='none'
 								viewBox='0 0 24 24'
@@ -112,22 +124,28 @@ const Landing = () => {
 						<span className='mt-10 text-sm tracking-[5px]'>
 							HOW DO WE DO IT?
 						</span>
-						<span className='text-2xl w-3/4 text-center mt-10'>
+						<span className='text-xl w-3/4 text-center mt-10'>
 							We offer cake trails and turn tables, resin-coated and made of
 							Cedar wood.
 						</span>
 					</div>
+					{/* ARTIST */}
 					<div
-						className='relative h-[954px] flex flex-col items-center
-						bg-gradient-to-br from-gray-900 to-slate-400
+						className='relative h-full flex flex-col items-center
+						bg-gradient-to-tr from-gray-900 to-slate-100
 						'
 					>
-						<img
-							src='https://i.ibb.co/9w9wyZX/pexels-daian-gan-102127.jpg'
-							alt=''
-							className='w-full h-full object-cover absolute mix-blend-overlay'
-						/>
-						<span className='border-2 bg-gradient-to-b from-black to-purple-500 p-4 rounded-full mt-10'>
+						<div
+							className='absolute w-full h-full bg-[url("https://images.pexels.com/photos/262034/pexels-photo-262034.jpeg")] bg-cover bg-center mix-blend-overlay 
+						hover:bg-[url("https://i.ibb.co/9w9wyZX/pexels-daian-gan-102127.jpg")]
+						
+						'
+						></div>
+						<span
+							className=' hidden border-2 bg-gradient-to-b from-black to-purple-500 p-4 rounded-full mt-10
+						md:block
+						'
+						>
 							<svg
 								width='42'
 								height='42'
@@ -140,7 +158,7 @@ const Landing = () => {
 							</svg>
 						</span>
 						<span className='mt-10 text-sm tracking-[5px]'>A PIECE OF ART</span>
-						<span className='text-2xl w-5/4 text-center mt-10'>
+						<span className='text-xl w-5/4 text-center mt-10'>
 							Intervention of several artists involved in this colorful and
 							innovative idea.
 						</span>
@@ -149,20 +167,20 @@ const Landing = () => {
 			</section>
 			{/* OUR HISTORY */}
 			<section
-				className='w-screen h-[calc(100vh-6rem)] bg-neutral-900 text-white bg-no-repeat bg-center bg-cover flex flex-none snap-center scroll-mb-96
+				className='w-screen h-[calc(100vh-6rem)] bg-neutral-900 text-white 
 			'
 			>
-				<div className='flex flex-col'>
-					<div className='relative w-screen h-1/3 flex items-center justify-center bg-gradient-to-br from-neutral-900 to-neutral-500'>
+				<div className='flex flex-col h-full'>
+					<div className='relative w-screen h-1/3 flex items-center justify-center'>
 						<img
 							src='https://i.ibb.co/VpFm0pv/pexels-suzy-hazelwood-1629236.jpg'
 							alt=''
-							className='w-full h-full object-cover absolute mix-blend-overlay'
+							className='w-full h-full object-cover absolute'
 						/>
 
 						<div className='w-4/5 h-4/5 flex flex-col items-center justify-evenly z-10'>
-							<span className='text-5xl'>Our History</span>
-							<p className='text-center w-3/4'>
+							<span className='text-3xl lg:5xl'>Our History</span>
+							<p className='text-center text-xs lg:w-3/4 lg:text-base'>
 								Cakes&Bases was born in September of 2020. The idea was having a
 								place to exhibit my cakes and desserts to post and offer them in
 								social media. The vision was that these pieces were uniques and
@@ -171,49 +189,47 @@ const Landing = () => {
 							</p>
 						</div>
 					</div>
-					<div className='h-1/2 grid grid-cols-2 my-auto w-3/4 m-auto'>
-						<div className='relative  '>
-							<img
-								src='https://i.ibb.co/k639g6H/Whats-App-Image-2022-08-28-at-9-13-57-PM.jpg'
-								alt=''
-								className='absolute w-full h-full object-contain'
-							/>
-						</div>
-						<div className='p-10 flex flex-col h-full justify-between rounded-3xl text-blue-300 my-auto text-center'>
-							<p>
+					<div
+						className='h-2/3 grid grid-rows-2 w-full m-auto p-10
+					lg:grid-cols-3 lg:grid-rows-1 gap-2
+					
+					'
+					>
+						<div
+							className='mx-auto w-1/2
+						bg-[url("https://i.ibb.co/k639g6H/Whats-App-Image-2022-08-28-at-9-13-57-PM.jpg")]
+						bg-contain bg-center bg-no-repeat
+						lg:w-full lg:h-4/5 lg:my-auto lg:bg-[length:410px_410px]
+						'
+						></div>
+						<ul
+							className=' list-disc flex flex-col h-1/2 mx-auto justify-evenly  rounded-3xl  text-white my-auto text-[9px]
+							lg:col-span-2 md:h-1/2 md:text-sm md:w-[90%] lg:p-10 lg:bg-cyan-900
+						'
+						>
+							<li>
 								Our products are hand made cake trails and turn tables,
 								resin-coated and made of Cedar wood.
-							</p>
-							<p>
+							</li>
+							<li>
 								In the first stage, the carpenter intervenes the wood. With his
 								hands, tools,and wood as raw material, gives the basic shape of
 								our pieces.
-							</p>
+							</li>
 
-							<p>
+							<li>
 								After the intervention of the carpenter, an artist who with her
 								magic and creativity transforms the boards into unique and
 								exclusive pieces of art.
-							</p>
-							<p>
+							</li>
+							<li>
 								This is how a piece of wood becomes an exclusive functional work
 								of art, ready to be the base of delicious pastry products and
 								snacks in general.
-							</p>
-						</div>
+							</li>
+						</ul>
 					</div>
 				</div>
-				{/* <div
-					className='relative w-full h-[300px]
-						'
-				>
-					<img
-						className='w-full h-full object-cover absolute'
-						src='https://i.ibb.co/wrh0PzQ/pexels-pixabay-355288.jpg'
-						alt=''
-						background-image: url('../../assets/home-page-img/header-bg.jpg');
-					/>
-				</div> */}
 			</section>
 			{/* SECTION 2 */}
 			<section
@@ -221,59 +237,88 @@ const Landing = () => {
 				className={`w-screen h-[calc(100vh-6rem)]  bg-neutral-900 text-white bg-no-repeat bg-center bg-cover 
 			`}
 			>
-				<div className='relative w-screen p-5 h-64 flex flex-col items-center justify-around bg-gradient-to-br from-neutral-900 to-neutral-500'>
+				{/* Header */}
+				<div className='relative w-screen h-1/4 p-5 flex flex-col items-center justify-around bg-gradient-to-br from-neutral-900 to-neutral-500'>
 					<img
 						src='https://i.ibb.co/1R0yqmW/pexels-paul-blenkhorn-sensoryarthouse-12497329.jpg'
 						alt=''
 						className='w-full h-full object-cover absolute mix-blend-overlay'
 					/>
 					<div>
-						<div>In cakes&Bases we bring art to the table!.</div>
 						<div
-							className='text-2xl mt-3
+							className='text-center text-xs
+						md:text-base
+						'
+						>
+							In cakes&Bases we bring art to the table!.
+						</div>
+						<div
+							className='text-2xl mt-3 font-medium text-center
 					md:text-5xl
 					'
 						>
 							Match Your Style
 						</div>
 					</div>
-					<div>
+					<div className='text-[8px] md:text-base'>
 						Choose between four diferent Collections: Abstract, Flowers,
 						Butterflies and Others.
 					</div>
 				</div>
-				<div className='container h-[80%] text-center flex flex-col items-center justify-between  p-10'>
-					<div className='h-[500px] w-full grid grid-cols-4  text-black'>
-						<div className='relative col-start-2 col-end-3'>
-							<img
-								src='https://i.ibb.co/CtXQJ85/tinywow-JKGF5937-4878074.png'
-								className='absolute w-full h-full object-contain
-								duration-1000 hover:rotate-45 hover:scale-150
+				{/* Body */}
+				<div className='container h-3/4 text-center flex flex-col items-center'>
+					<div className='h-full w-full grid grid-cols-2 grid-rows-2 lg:w-4/5'>
+						<div className='w-full flex flex-col justify-center'>
+							<div className='w-4/5 lg:w-1/2'>
+								<span className='text-slate-300 text-xs lg:text-base'>
+									Abstract
+								</span>
+								<img
+									src='https://i.ibb.co/CtXQJ85/tinywow-JKGF5937-4878074.png'
+									className='object-contain mt-1
+								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-							/>
+								/>
+							</div>
 						</div>
-						<div className='relative col-start-4 col-end-5'>
-							<img
-								src='https://i.ibb.co/YpzN1m0/tinywow-IMG-E2967-4878085.png'
-								className='absolute w-full h-full object-contain
-								duration-1000 hover:rotate-45 hover:scale-150
+						<div className='w-full flex flex-col justify-center items-end '>
+							<div className='w-4/5 lg:w-1/2'>
+								<span className='text-slate-300 text-xs lg:text-base'>
+									Flowers
+								</span>
+								<img
+									src='https://i.ibb.co/YpzN1m0/tinywow-IMG-E2967-4878085.png'
+									className='object-contain mt-1
+								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-							/>
+								/>
+							</div>
 						</div>
-						<div className='relative'>
-							<img
-								src='https://i.ibb.co/fS9Hhct/IMG-E6377.png'
-								className='absolute w-full h-full object-contain
-								duration-1000 hover:rotate-45 hover:scale-150
+						<div className='w-full flex flex-col justify-center items-end'>
+							<div className='w-4/5 lg:w-1/2 mr-10'>
+								<span className='text-slate-300 text-xs lg:text-base'>
+									Butterflies
+								</span>
+								<img
+									src='https://i.ibb.co/fS9Hhct/IMG-E6377.png'
+									className='object-contain mt-1
+								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-							/>
+								/>
+							</div>
 						</div>
-						<div className='relative col-start-3 col-end-4'>
-							<img
-								src='https://i.ibb.co/Zm4NwTb/tinywow-IMG-1367-4878105.png'
-								className='absolute w-full h-full object-contain duration-1000 hover:rotate-45 hover:scale-150
+						<div className='w-full flex flex-col justify-center'>
+							<div className='w-4/5 lg:w-1/2 ml-10'>
+								<span className='text-slate-300 text-xs lg:text-base'>
+									Butterflies
+								</span>
+								<img
+									src='https://i.ibb.co/Zm4NwTb/tinywow-IMG-1367-4878105.png'
+									className='object-contain mt-1
+								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-							/>
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -288,7 +333,7 @@ const Landing = () => {
 					/>
 
 					<div className='w-4/5 h-4/5 flex flex-col items-center justify-evenly z-10'>
-						<div className='mx-auto'>
+						<div className='hidden lg:block mx-auto'>
 							<span className='w-20 h-20 flex items-center justify-center border-2 rounded-full bg-gradient-to-b from-black to-blue-900 '>
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
@@ -311,27 +356,35 @@ const Landing = () => {
 								</svg>
 							</span>
 						</div>
-						<span className='text-5xl'>Let Your Senses Be Your Guide</span>
-						<p>
+						<span className='text-center text-2xl lg:text-5xl'>
+							Let Your Senses Be Your Guide
+						</span>
+						<p className='text-center text-xs lg:text-base'>
 							Colors are mixed togheter to create the most marvlus pieces that
 							you will be able to enjoy every day in your table. This is called
 							Functional Art.
 						</p>
 					</div>
 				</div>
-				<div className='container max-w-5xl pt-20'>
-					<div className='mx-auto w-3/4 text-center text-[50px] font-light'>
+				<div className='container max-w-5xl mt-20'>
+					<div className='mx-auto w-3/4 text-center lg:text-5xl font-light'>
 						Subscribe and Get 15% Off Your First Purchase
 					</div>
-					<div className='h-[200px] px-10'>
-						<span className=''>Email *</span>
-						<div className='flex items-center'>
+					<div className='h-52 lg:px-10'>
+						<span className='text-xs lg:text-base'>Email *</span>
+						<div
+							className='flex flex-col items-center justify-center
+							lg:flex-row lg:justify-start
+							'
+						>
 							<input
 								type='text'
 								placeholder='Sign up here'
-								className='relative w-full p-4 rounded-full mt-4 text-black'
+								className='w-full p-4 rounded-full mt-4 text-black border
+								lg:p-4
+								'
 							/>
-							<button className='btn btn-purple hover:btn-purple -ml-36 mt-4 z-10'>
+							<button className='btn btn-purple hover:btn-purple mt-4 z-10 lg:-ml-36'>
 								Subscribe
 							</button>
 						</div>
@@ -343,10 +396,14 @@ const Landing = () => {
 			</section>
 
 			{/* Footer */}
-			<section className='w-screen bg-neutral-900 text-white text-xs h-[400px] pt-48'>
-				<div className='container '>
-					<div className='grid grid-cols-2 h-[72px] gap-20 p-5'>
-						<div className='mx-auto flex items-center gap-10'>
+			<section className='w-screen bg-neutral-900 text-white text-xs pt-12'>
+				<div className='container'>
+					<div
+						className='h-40 gap-20 
+					lg:grid lg:grid-cols-2 lg:p-5
+					'
+					>
+						<div className='flex items-center gap-10 text-center'>
 							<span>
 								<i className='bi bi-instagram text-myRed'></i> Instagram
 							</span>
@@ -360,18 +417,22 @@ const Landing = () => {
 								<i className='bi bi-whatsapp text-green-500'></i> Whatsapp
 							</span>
 						</div>
-						<div className='mx-auto flex items-center gap-10'>
+						<div className='mx-auto flex  text-center items-center gap-10 mt-8 lg:mt-0'>
 							<span>Terms & Conditions</span>
 							<span>Shipping & Returns</span>
 							<span>Privacy Policy</span>
 						</div>
 					</div>
 					<hr className='w-3/4 mx-auto ' />
-					<div className='grid grid-cols-2 h-[100px] gap-20 p-5'>
-						<span className='mx-auto'>
-							© 2023 Cakes&Bases - @tortas_y_torteras +51 318-409-51-80
+					<div
+						className='h-[100px] flex flex-col
+					lg:flex-row
+					'
+					>
+						<span className='mx-auto my-auto'>
+							© 2023 Cakes&Bases - + 51 318-409-51-80
 						</span>
-						<span className='mx-auto'>
+						<span className='mx-auto my-auto'>
 							<img
 								alt='Credit Card Logos'
 								title='Credit Card Logos'

@@ -184,7 +184,7 @@ const ProductForm = () => {
 				errorAll.current.innerText = 'Some fields are missing';
 			} else {
 				const res = await axios.post(
-					'http://localhost:3001/products',
+					'/products',
 					{
 						name: newProduct.name,
 						description: newProduct.description,
