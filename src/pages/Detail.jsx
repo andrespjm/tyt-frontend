@@ -15,7 +15,6 @@ function Detail() {
 	const { id } = useParams();
 	const [product, setProduct] = useState({});
 	const [open, setOpen] = useState(false);
-	const [quantityNull, setquantityNull] = useState(false);
 	const [quantityAvailable, setquantityAvailable] = useState(false);
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -38,52 +37,45 @@ function Detail() {
 	}, [dispatch, id]);
 
 	const addToCart = () => {
-		if (parseInt(document.querySelector('#quantity').value) > 0) {
-			// agrega en cero!!!!!
-
-			const selection = {
-				name: product.name,
-				designId: product.id,
-				prodImageHome: product.img_home.secure_url,
-				prodType:
-					product.ProductTypes[document.querySelector('.detail-4').id].name,
-				stockId:
-					product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-						.id,
-				price:
-					product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-						.price,
-				quantity: parseInt(document.querySelector('#quantity').value),
-				stockQuantity: parseInt(
-					product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-						.quantity
-				),
-			};
-
-			const stock =
+		const selection = {
+			name: product.name,
+			designId: product.id,
+			prodImageHome: product.img_home.secure_url,
+			prodType:
+				product.ProductTypes[document.querySelector('.detail-4').id].name,
+			stockId:
+				product.ProductTypes[document.querySelector('.detail-4').id].Stocks.id,
+			price:
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-					.quantity;
-			console.log(cart);
+					.price,
+			quantity: parseInt(document.querySelector('#quantity').value),
+			stockQuantity: parseInt(
+				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
+					.quantity
+			),
+		};
 
-			const alreadySelected = cart.find(e => e.stockId === selection.stockId);
+		const stock =
+			product.ProductTypes[document.querySelector('.detail-4').id].Stocks
+				.quantity;
+		console.log(cart);
 
-			if (alreadySelected) {
-				if (alreadySelected.quantity + selection.quantity > stock) {
-					// alert(`Stock available is only  ${stock} units`)
-					setquantityAvailable(true);
-				} else {
-					setOpen(true);
-				}
-				alreadySelected.quantity =
-					alreadySelected.quantity + selection.quantity > stock
-						? stock
-						: alreadySelected.quantity + selection.quantity;
+		const alreadySelected = cart.find(e => e.stockId === selection.stockId);
+
+		if (alreadySelected) {
+			if (alreadySelected.quantity + selection.quantity > stock) {
+				// alert(`Stock available is only  ${stock} units`)
+				setquantityAvailable(true);
 			} else {
-				setCart([...cart, selection]);
 				setOpen(true);
 			}
+			alreadySelected.quantity =
+				alreadySelected.quantity + selection.quantity > stock
+					? stock
+					: alreadySelected.quantity + selection.quantity;
 		} else {
-			setquantityNull(true);
+			setCart([...cart, selection]);
+			setOpen(true);
 		}
 	};
 
@@ -332,13 +324,6 @@ function Detail() {
 			>
 				back
 			</button>
-			<Snackbar
-				open={quantityNull}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				message='Select the number of units'
-				action={action}
-			/>
 			<Snackbar
 				open={open}
 				autoHideDuration={3000}
