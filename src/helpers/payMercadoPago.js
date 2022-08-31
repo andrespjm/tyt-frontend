@@ -1,5 +1,6 @@
 export async function payMercadoPago(items) {
 	console.log('estoy aca', items);
+	// TODO: cambiar por axios
 	try {
 		const preference = await (
 			await fetch('https://tytecommerce.herokuapp.com/Pay', {
