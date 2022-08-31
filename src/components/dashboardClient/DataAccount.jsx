@@ -1,25 +1,34 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
-import { useContext } from 'react';
-import { useSelector} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector} from 'react-redux';
+import { useParams, Link } from 'react-router-dom';
+import { getUser, getData } from '../../redux/actions';
 import { Menu } from './Menu';
 import { AuthContext } from '../../context/AuthContext';
 
 export const DataAccount = (props) => {
-  // const dispatch = useDispatch();
-	const { currentUserF } = useContext(AuthContext);
-	const userId = currentUserF.id;
+  const {id} = useParams();
+  const dispatch = useDispatch();
+  const {redUser} = useSelector(state => state);
+  console.log(redUser)
+
+  const { currentUserF } = useContext(AuthContext);
+	// const userId = currentUserF.id;
 
   // const { redUser } = useSelector(state => state);
   const { redData } = useSelector(state => state);
 
+  useEffect(() => {
+    dispatch(getUser(id));
+    dispatch(getData());
+  }, [id])
   return (
     <>
       <Menu />
       <div className="container mx-auto h-auto text-white flex">
         <div className="flex justify center items center w-1/4 mt-16 ml-8">
-          <img src={redData[0].img_home.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg"/>
+          <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg"/>
         </div>
         <div className="text-white w-2/4">
           <h3>Account information</h3>
@@ -33,21 +42,21 @@ export const DataAccount = (props) => {
             <span className="flex">Birthdate: </span>
           </div>
           <div className="inline-block pl-4">
-            <span className="flex">{currentUserF.displayName}</span>
-            <span className="flex">{currentUserF.email}</span>
-            <span className="flex">{currentUserF.gender}</span>
-            <span className="flex">{currentUserF.identityCard}</span>
-            <span className="flex">{currentUserF.birthDate.substring(0, 10)}</span>
+            <span className="flex">{redUser?.displayName}</span>
+            <span className="flex">{redUser?.email}</span>
+            <span className="flex">{redUser?.gender}</span>
+            <span className="flex">{redUser?.identityCard}</span>
+            <span className="flex">{redUser?.birthDate?.substring(0, 10)}</span>
           </div>
           <div className="inline-block float-right">
             <div className='inline-block text-center border-r-[1px]  pr-1'>
-              <Link to={`/${userId}/user/menu/account/changepass`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
+              <Link to={`/${id}/user/menu/account/changepass`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
                 Change password
               </Link>
             </div>
             {/* <hr className='h-[55vh] w-[.5vw] border-0' /> */}
             <div className='inline-block text-center pl-1'>
-              <Link to={`/${userId}/user/menu/account/edit`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
+              <Link to={`/${id}/user/menu/account/edit`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
                 Edit
               </Link>
             </div>
