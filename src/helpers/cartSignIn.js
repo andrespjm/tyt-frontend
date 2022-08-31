@@ -5,6 +5,7 @@ export const cartSignIn = async (userId, cart, setCart) => {
 	try {
 		const data = await axios.get(`/purchases/cart?userId=${userId}`);
 		orderId = data.data;
+		console.log('entre en login, orderId: ', orderId);
 		if (orderId.length > 0) {
 			const orderItems = (
 				await axios.get(`/order-items?PurchaseId=${orderId[0].id}`)
@@ -38,6 +39,7 @@ export const cartSignIn = async (userId, cart, setCart) => {
 			agreg.forEach(el =>
 				el.quantity > el.stockQuantity ? (el.quantity = el.stockQuantity) : el
 			);
+			console.log('arme el cart', agreg);
 
 			setCart(agreg);
 		}

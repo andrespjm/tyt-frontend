@@ -4,8 +4,7 @@ export const cartLogout = async (userId, cart, setCart) => {
 	let orderId = '';
 	try {
 		// I look for the id of the order in the cart if it already exists
-		console.log('entre al logout, este es el userId');
-		console.log(userId);
+		console.log('entre al logout, userId: ', userId);
 		orderId = (await axios.get(`/purchases/cart?userId=${userId}`)).data;
 		// if it already exists, I delete the items, to leave only the current ones loaded
 		if (orderId.length > 0) {
@@ -27,6 +26,7 @@ export const cartLogout = async (userId, cart, setCart) => {
 				})
 			)
 		);
+		console.log('cree los items');
 		setCart([]);
 	} catch (error) {
 		alert(error.request.response);

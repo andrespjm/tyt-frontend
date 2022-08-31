@@ -22,6 +22,7 @@ export const SignIn = () => {
 			} catch (err) {
 				console.error(err);
 			}
+			console.log('sign in, userdid', userId);
 			await cartSignIn(userId, cart, setCart);
 		}
 	};
