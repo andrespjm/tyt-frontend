@@ -1,16 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useParams, Link, useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { signout } from '../firebase/firebase';
+import { getUser } from '../redux/actions';
+
 // import TemporaryDrawer from '../components/Drawer';
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar() {
 	const [cart, setCart] = useContext(ShoppingCartContext); // eslint-disable-line no-unused-vars
 	const [menuSign, setMenuSign] = useState(false);
+  const dispatch = useDispatch();
 	const location = useLocation();
 	const navigate = useHistory();
+  const { id } = useParams();
 	const { currentUserF, setIsLogged } = useContext(AuthContext);
 	const userId = currentUserF.id;
 
@@ -43,6 +48,10 @@ export default function Navbar() {
 	// y si da click setMenuSign(true)
 
 	// }
+
+	useEffect(() => {
+    dispatch(getUser(id));
+  }, [id]);
 
 	return (
 		<nav
@@ -271,10 +280,28 @@ export default function Navbar() {
 
 								<div className='absolute right-0 mt-2 py-2 w-48 bg-black rounded-lg text-sm text-left text-white '>
 									<a
-										href='#'
+										href={`/${id}/user/menu/account`}
 										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
 									>
-										Account settings
+										My account
+									</a>
+									<a
+										href={`/${id}/user/menu/orders`}
+										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
+									>
+										My orders
+									</a>
+									<a
+										href={`/${id}/user/menu/favorites`}
+										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
+									>
+										My favorites
+									</a>
+									<a
+										href={`/${id}/user/menu/address`}
+										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
+									>
+										My address book
 									</a>
 									<button
 										onClick={() => {
