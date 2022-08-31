@@ -103,9 +103,11 @@ const Sidebar = () => {
 		});
 		localStorage.removeItem('Filter');
 		localStorage.removeItem('Colors');
+		document.querySelectorAll('.mycolors').forEach(element => {
+			if (element.disabled) element.disabled = false;
+		});
 		dispatch(setErrorFilter(false));
 	};
-
 	const queryString = () =>
 		`?
 	${queryColors[0] ? `color1=${queryColors[0]}&` : ''}
