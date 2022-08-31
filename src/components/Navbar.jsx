@@ -14,6 +14,8 @@ export default function Navbar() {
 	const navigate = useHistory();
 	const { currentUserF, setIsLogged } = useContext(AuthContext);
 	const userId = currentUserF.id;
+	console.log({currentUserF});
+	console.log("ID USUARIO", userId);
 
 	useEffect(() => {
 		document.getElementById('shp-num').innerHTML = cart.length;
