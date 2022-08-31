@@ -4,11 +4,11 @@
 import { Link } from 'react-router-dom';
 
 export default function UserCard(props){
-  const { id, name } = props;
+  const { id, firstName } = props;
   return (
-    <div className="w-8 h-6 mx-auto">
-      <Link to={`/user/main/${id}`}>
-        <h3>{id}{name}</h3>
+    <div className="w-auto h-auto mx-auto">
+      <Link to={`/${id}/user/menu`}>
+        <h3 className="text-white">{id} {firstName}</h3>
       </Link>
     </div>
   );
