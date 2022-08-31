@@ -43,6 +43,7 @@ function Detail() {
 
 			const selection = {
 				name: product.name,
+				designId: product.id,
 				prodImageHome: product.img_home.secure_url,
 				prodType:
 					product.ProductTypes[document.querySelector('.detail-4').id].name,
@@ -67,16 +68,16 @@ function Detail() {
 			const alreadySelected = cart.find(e => e.stockId === selection.stockId);
 
 			if (alreadySelected) {
-				if ((alreadySelected.quantity + selection.quantity) > stock) {
+				if (alreadySelected.quantity + selection.quantity > stock) {
 					// alert(`Stock available is only  ${stock} units`)
 					setquantityAvailable(true);
 				} else {
 					setOpen(true);
 				}
 				alreadySelected.quantity =
-					(alreadySelected.quantity + selection.quantity) > stock
+					alreadySelected.quantity + selection.quantity > stock
 						? stock
-						: (alreadySelected.quantity + selection.quantity);
+						: alreadySelected.quantity + selection.quantity;
 			} else {
 				setCart([...cart, selection]);
 				setOpen(true);
@@ -281,10 +282,8 @@ function Detail() {
 						{`Stock: ${product.ProductTypes[0].Stocks.quantity} un`}
 					</div>
 					<div className='mt-4 w-full flex'>
-						<span>
-							Select quantity:
-						</span>
-							<div className='detail-7'>
+						<span>Select quantity:</span>
+						<div className='detail-7'>
 							<input
 								className='text-white ml-4 bg-transparent'
 								type='number'
@@ -293,7 +292,7 @@ function Detail() {
 								placeholder='0'
 								min='0'
 							/>
-					</div>						
+						</div>
 					</div>
 					<div className='detail-6'>
 						<div onClick={addToCart} className='dt6-1'>
