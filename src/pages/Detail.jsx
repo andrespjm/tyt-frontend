@@ -84,7 +84,6 @@ function Detail() {
 			return;
 		}
 		setOpen(false);
-		setquantityNull(false);
 		setquantityAvailable(false);
 	};
 
