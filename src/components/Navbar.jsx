@@ -1,10 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams, Link, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { signout } from '../firebase/firebase';
-import { getUser } from '../redux/actions';
 
 // import TemporaryDrawer from '../components/Drawer';
 
@@ -12,10 +10,8 @@ import { getUser } from '../redux/actions';
 export default function Navbar() {
 	const [cart, setCart] = useContext(ShoppingCartContext); // eslint-disable-line no-unused-vars
 	const [menuSign, setMenuSign] = useState(false);
-  const dispatch = useDispatch();
 	const location = useLocation();
 	const navigate = useHistory();
-  const { id } = useParams();
 	const { currentUserF, setIsLogged } = useContext(AuthContext);
 	const userId = currentUserF.id;
 
@@ -49,10 +45,6 @@ export default function Navbar() {
 
 	// }
 
-	useEffect(() => {
-    dispatch(getUser(id));
-  }, [id]);
-
 	return (
 		<nav
 			className='sticky top-0 mx-auto p-4 bg-black select-none  text-white drop-shadow-2xl	z-50
@@ -61,7 +53,7 @@ export default function Navbar() {
 			<div className='container mx-auto flex items-center justify-between'>
 				<Link
 					to='/'
-					className='z-50 hover:text-purple-300	duration-1000				
+					className='z-50 hover:text-purple-300	duration-1000
 					lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-9
 				'
 				>
@@ -89,11 +81,10 @@ export default function Navbar() {
 					id='menu'
 					onClick={handleOnClick}
 					className='
- lg:hidden
- text-purple-100
- hover:text-myPurple-100
-				duration-1000
- '
+						lg:hidden
+						text-purple-100
+						hover:text-myPurple-100
+						duration-1000'
 				>
 					<svg
 						className='h-8 w-8'
@@ -207,13 +198,12 @@ export default function Navbar() {
 					<Link
 						role='menuitem'
 						className='
- flex
-						gap-2
-						py-1
-						px-6
-						hover:text-purple-400
-						duration-1000
- 	'
+							flex
+							gap-2
+							py-1
+							px-6
+							hover:text-purple-400
+							duration-1000'
 						to='/shop/shoppingCart'
 					>
 						<div className='flex justify-center items-center'>
@@ -279,30 +269,30 @@ export default function Navbar() {
 								></div>
 
 								<div className='absolute right-0 mt-2 py-2 w-48 bg-black rounded-lg text-sm text-left text-white '>
-									<a
-										href={`/${id}/user/menu/account`}
+									<Link
+										to={`/${userId}/user/menu/account`}
 										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
 									>
 										My account
-									</a>
-									<a
-										href={`/${id}/user/menu/orders`}
+									</Link>
+									<Link
+										to={`/${userId}/user/menu/orders`}
 										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
 									>
 										My orders
-									</a>
-									<a
-										href={`/${id}/user/menu/favorites`}
+									</Link>
+									<Link
+										to={`/${userId}/user/menu/favorites`}
 										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
 									>
 										My favorites
-									</a>
-									<a
-										href={`/${id}/user/menu/address`}
+									</Link>
+									<Link
+										to={`/${userId}/user/menu/address`}
 										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
 									>
 										My address book
-									</a>
+									</Link>
 									<button
 										onClick={() => {
 											handleSignout(userId, cart, setCart);
