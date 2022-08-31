@@ -12,6 +12,7 @@ export default function Navbar() {
 	const location = useLocation();
 	const navigate = useHistory();
 	const { currentUserF, setIsLogged } = useContext(AuthContext);
+	const userId = currentUserF.id;
 
 	useEffect(() => {
 		document.getElementById('shp-num').innerHTML = cart.length;
@@ -30,8 +31,11 @@ export default function Navbar() {
 		}
 	};
 
-	const handleSignout = () => {
-		signout().then(() => setIsLogged(true));
+	const handleSignout = (userId, cart, setCart) => {
+		console.log('navbar handleSignout, user id', userId);
+		console.log('navbar handleSignout, cart', cart);
+		signout(userId, cart, setCart).then(() => setIsLogged(true));
+		navigate.push('/home');
 	};
 	// const handleonclicksignin = () {
 	// si no esta logueado se va a la ruta de logueo
@@ -273,7 +277,9 @@ export default function Navbar() {
 										Account settings
 									</a>
 									<button
-										onClick={handleSignout}
+										onClick={() => {
+											handleSignout(userId, cart, setCart);
+										}}
 										className='block px-4 py-2 text-myRed  hover:bg-blue-500 hover:text-pink-300 w-full text-left'
 									>
 										Sign out

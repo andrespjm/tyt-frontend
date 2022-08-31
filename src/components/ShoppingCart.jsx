@@ -1,18 +1,12 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
 import './ShoppingCart.css';
 
-
 const ShoppingCart = () => {
-	// const login = useSelector(state => state.login);
-	const dispatch = useDispatch();
-
-	// const [cart, setCart] = useContext(ShoppingCartContext);
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const history = useHistory();
 	const totalPrice = cart?.reduce(
@@ -32,8 +26,7 @@ const ShoppingCart = () => {
 	const [pay, setPay] = useState(false);
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
-	// const [order, setOrder] = useState();
-	const { currentUserF, isLogged } = useContext(AuthContext);
+	const { currentUserF } = useContext(AuthContext);
 	const userId = currentUserF.id; // from token information
 
 	function handleIncrement(e) {
@@ -50,92 +43,6 @@ const ShoppingCart = () => {
 		item.quantity = item.quantity > 0 ? item.quantity - 1 : item.quantity;
 		setCart(cart2);
 	}
-
-	useEffect(() => {
-		async function handleLoggin() {
-			// logout: save in DB in order status cart, order items confirmed false (if order exists replace if not create)
-			// search order status cart where userId. if it exists delete line items and create new ones, if not, create order and add line items.
-			if (isLogged) {
-				let orderId = '';
-				try {
-					// I look for the id of the order in the cart if it already exists
-					orderId = (await axios.get(`/purchases/cart?userId=${userId}`)).data;
-					// if it already exists, I delete the items, to leave only the current ones loaded
-					if (orderId.length > 0) {
-						orderId = orderId[0].id;
-						await axios.delete(`/order-items/PurchaseId/${orderId}`);
-					} else {
-						// if it doesn't exist, I create the purchase order
-						orderId = (await axios.post(`/purchases/${userId}`, {})).data.id;
-					}
-					// in both cases I create the items of the cart without confirming and clean the state when leaving
-					await Promise.all(
-						cart.map(el =>
-							axios.post('/order-items', {
-								stockId: el.stockId,
-								quantity: el.quantity,
-								purchaseId: orderId,
-								price: el.price,
-								confirmed: false,
-							})
-						)
-					);
-					setCart([]);
-				} catch (error) {
-					alert(error.request.response);
-				}
-			} else {
-				// loggin: raise DB and merge with local storage (if duplicates add quantities) and validate maximum stock
-				let orderId = '';
-				try {
-					const data = await axios.get(`/purchases/cart?userId=${userId}`);
-					orderId = data.data;
-					if (orderId.length > 0) {
-						const orderItems = (
-							await axios.get(`/order-items?PurchaseId=${orderId[0].id}`)
-						).data;
-
-						const ordersDB = orderItems.map(el => ({
-							name: el.Stock.Product.name,
-							prodImageHome: el.Stock.Product.img_home.secure_url,
-							prodType: el.Stock.ProductTypeName,
-							stockId: el.StockId,
-							price: el.price,
-							quantity: el.quantity,
-							stockQuantity: el.Stock.quantity,
-						}));
-
-						// eslint-disable-next-line no-return-assign
-						cart.forEach(el =>
-							ordersDB.find(lc => el.stockId === lc.stockId)
-								? (el.quantity =
-										el.quantity +
-										ordersDB.find(lc => el.stockId === lc.stockId).quantity)
-								: el
-						);
-
-						const added = ordersDB.filter(
-							el => !cart.find(d => d.stockId === el.stockId)
-						);
-
-						const agreg = [...cart, ...added];
-						// eslint-disable-next-line no-return-assign
-						agreg.forEach(el =>
-							el.quantity > el.stockQuantity
-								? (el.quantity = el.stockQuantity)
-								: el
-						);
-
-						setCart(agreg);
-					}
-				} catch (error) {
-					alert(error.request.response);
-				}
-			}
-			dispatch(loggin());
-		}
-		handleLoggin();
-	}, [isLogged]);
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
@@ -243,12 +150,6 @@ const ShoppingCart = () => {
 
 	return (
 		<div className='shopping-wrapper bg-white h-screen'>
-			{/* <button onClick={handleLoggin}>
-				{Object.entries(currentUserF).length > 0
-					? 'Logout(SignedIn)'
-					: 'Loggin (SignedOut)'}
-			</button> */}
-			{/* <h1>Loggin simulation until implemented</h1> */}
 			<div className='shopping-bag'>
 				<div className='shopping-header'>
 					<h2>Bag</h2>

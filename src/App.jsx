@@ -25,6 +25,8 @@ import Detail from './pages/Detail';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 
+import Reviews from './components/Reviews';
+
 function App() {
 	const { setCurrentUserF } = useContext(AuthContext);
 
@@ -63,6 +65,7 @@ function App() {
 				<Route exact path='/signup' component={SignUp} />
 				<Route exact path={'/paysuccess'} component={PaySuccess} />
 				<Route exact path={'/payfailure'} component={PayFailure} />
+				<Route exact path={'/reviews'} component={Reviews} />
 
 				<Route exact path='/user/edit' component={EditUserProfile} />
 				{/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
@@ -71,7 +74,11 @@ function App() {
 				<Route exact path='/:id/user/menu' component={Menu} />
 				<Route exact path='/:id/user/menu/account' component={DataAccount} />
 				<Route exact path='/:id/user/menu/orders' component={DataOrders} />
-				<Route exact path='/:id/user/menu/favorites' component={DataFavorites} />
+				<Route
+					exact
+					path='/:id/user/menu/favorites'
+					component={DataFavorites}
+				/>
 				<Route exact path='/:id/user/menu/address' component={DataAddress} />
 				<Route exact path='/:id' component={Detail} />
 			</Switch>
