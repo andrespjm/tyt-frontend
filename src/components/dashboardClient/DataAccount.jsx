@@ -1,18 +1,17 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
-import { useContext, useEffect } from 'react'; // eslint-disable-line no-unused-vars
+import { useContext } from 'react';
 import { useSelector} from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu } from './Menu';
 import { AuthContext } from '../../context/AuthContext';
 
 export const DataAccount = (props) => {
   // const dispatch = useDispatch();
-  const { id } = useParams();
-	const { currentUserF, setIsLogged } = useContext(AuthContext); // eslint-disable-line no-unused-vars
+	const { currentUserF } = useContext(AuthContext);
+	const userId = currentUserF.id;
 
-
-  const { redUser } = useSelector(state => state);
+  // const { redUser } = useSelector(state => state);
   const { redData } = useSelector(state => state);
 
   return (
@@ -34,21 +33,21 @@ export const DataAccount = (props) => {
             <span className="flex">Birthdate: </span>
           </div>
           <div className="inline-block pl-4">
-            <span className="flex">{redUser.displayName}</span>
-            <span className="flex">{redUser.email}</span>
-            <span className="flex">{redUser.gender}</span>
-            <span className="flex">{redUser.identityCard}</span>
-            <span className="flex">{redUser.birthDate.substring(0, 10)}</span>
+            <span className="flex">{currentUserF.displayName}</span>
+            <span className="flex">{currentUserF.email}</span>
+            <span className="flex">{currentUserF.gender}</span>
+            <span className="flex">{currentUserF.identityCard}</span>
+            <span className="flex">{currentUserF.birthDate.substring(0, 10)}</span>
           </div>
           <div className="inline-block float-right">
             <div className='inline-block text-center border-r-[1px]  pr-1'>
-              <Link to={`/${id}/user/menu/account/changepass`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
+              <Link to={`/${userId}/user/menu/account/changepass`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
                 Change password
               </Link>
             </div>
             {/* <hr className='h-[55vh] w-[.5vw] border-0' /> */}
             <div className='inline-block text-center pl-1'>
-              <Link to={`/${id}/user/menu/account/edit`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
+              <Link to={`/${userId}/user/menu/account/edit`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
                 Edit
               </Link>
             </div>
