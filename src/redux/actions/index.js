@@ -10,6 +10,7 @@ import {
 	SET_LOGIN,
 	SET_PAGE,
 	ERROR_FILTERING_DATA,
+	GET_USER_ORDER
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -94,6 +95,16 @@ export const getUser = id => {
 		return dispatch({
 			type: GET_USER,
 			payload: json.data,
+		});
+	};
+};
+
+export const getUserOrder = (id) => {
+	return async (dispatch) => {
+		const userOrder = (await axios.get(`/users/purchases/${id}`)).data
+		return dispatch({
+			type: GET_USER_ORDER,
+			payload: userOrder
 		});
 	};
 };
