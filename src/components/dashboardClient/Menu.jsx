@@ -1,16 +1,19 @@
-import { useEffect} from 'react';
+import { useContext, useEffect} from 'react'; // eslint-disable-line no-unused-vars
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { getUser,getData } from '../../redux/actions';
+import { useParams, Link } from 'react-router-dom';
+// import { AuthContext } from '../../context/AuthContext';
+import { getUsers } from '../../redux/actions';
 
 export const Menu = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  // const { currentUserF } = useContext(AuthContext);
+	// const userId = currentUserF.id;
+  // const data = useState({})
 
   useEffect(() => {
-    dispatch(getUser(id));
-    dispatch(getData());
-  }, [id]);
+    dispatch(getUsers());
+  }, []);
 
   return (
     <>
