@@ -1,4 +1,5 @@
 import {
+	BooleanField,
 	Datagrid,
 	DateField,
 	EditButton,
@@ -7,17 +8,12 @@ import {
 	ImageField,
 	List,
 	NumberField,
-	SortButton,
 	TextField,
 } from 'react-admin';
 
-export const Users = () => (
-	<List>
-		<SortButton
-			fields={['lastName', 'firstName', 'birthDate']}
-			sx={{ border: '1px solid red' }}
-		/>
-		<Datagrid rowClick='edit'>
+export const Users = props => (
+	<List {...props}>
+		<Datagrid>
 			<ImageField
 				label='Profile'
 				source='profilePicture'
@@ -41,7 +37,8 @@ export const Users = () => (
 			<NumberField label='Identity' source='identityCard' />
 			<EmailField source='email' />
 			<DateField source='birthDate' />
-			<EditButton />
+			<EditButton label='Edit' />
+			<BooleanField source='disabled' />
 		</Datagrid>
 	</List>
 );

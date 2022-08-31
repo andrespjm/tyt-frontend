@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import './ProductsCreate.css';
 
 export const Create = () => (
-	<div>
-		<Link to='/addproduct'>
-			<button>Go to Form</button>
-		</Link>
+	<div className='create-container'>
+		<NavLink to='/addproduct'>To create a new Product, click here!</NavLink>
 	</div>
 );
