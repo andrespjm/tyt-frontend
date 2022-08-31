@@ -1,17 +1,13 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
+import { loggin } from '../redux/actions';
 import './ShoppingCart.css';
 
 const ShoppingCart = () => {
-	// const login = useSelector(state => state.login);
-	const dispatch = useDispatch();
-
-	// const [cart, setCart] = useContext(ShoppingCartContext);
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const history = useHistory();
 	const totalPrice = cart?.reduce(
@@ -31,8 +27,7 @@ const ShoppingCart = () => {
 	const [pay, setPay] = useState(false);
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
-	// const [order, setOrder] = useState();
-	const { currentUserF, isLogged } = useContext(AuthContext);
+	const { currentUserF } = useContext(AuthContext);
 	const userId = currentUserF.id; // from token information
 
 	function handleIncrement(e) {
@@ -46,7 +41,7 @@ const ShoppingCart = () => {
 	function handleDecrement(e) {
 		const cart2 = [...cart];
 		const item = cart2.find(el => el.stockId === parseInt(e.target.id));
-		item.quantity = item.quantity > 0 ? item.quantity - 1 : item.quantity;
+		item.quantity = item.quantity > 1 ? item.quantity - 1 : item.quantity;
 		setCart(cart2);
 	}
 
@@ -58,7 +53,6 @@ const ShoppingCart = () => {
 				let orderId = '';
 				try {
 					// I look for the id of the order in the cart if it already exists
-					console.log('estoy en el logout');
 					orderId = (await axios.get(`/purchases/cart?userId=${userId}`)).data;
 					// if it already exists, I delete the items, to leave only the current ones loaded
 					if (orderId.length > 0) {
@@ -88,7 +82,6 @@ const ShoppingCart = () => {
 				// loggin: raise DB and merge with local storage (if duplicates add quantities) and validate maximum stock
 				let orderId = '';
 				try {
-					console.log('estoy en el check-in');
 					const data = await axios.get(`/purchases/cart?userId=${userId}`);
 					orderId = data.data;
 					if (orderId.length > 0) {
@@ -244,12 +237,6 @@ const ShoppingCart = () => {
 
 	return (
 		<div className='shopping-wrapper bg-white h-screen'>
-			{/* <button onClick={handleLoggin}>
-				{Object.entries(currentUserF).length > 0
-					? 'Logout(SignedIn)'
-					: 'Loggin (SignedOut)'}
-			</button> */}
-			{/* <h1>Loggin simulation until implemented</h1> */}
 			<div className='shopping-bag'>
 				<div className='shopping-header'>
 					<h2>Bag</h2>
@@ -263,12 +250,14 @@ const ShoppingCart = () => {
 							cart.map(e => (
 								<div key={e.stockId}>
 									<div className='shopping-product'>
-										<div
-											className='shp-img'
-											style={{
-												backgroundImage: `url('${e.prodImageHome}')`,
-											}}
-										></div>
+										<Link to={`/${e.designId}`}>
+											<div
+												className='shp-img'
+												style={{
+													backgroundImage: `url('${e.prodImageHome}')`,
+												}}
+											></div>
+										</Link>
 										<div className='shp-details'>
 											<p className='shp-ref'>Stock-RF {e.stockId}</p>
 											<h3>{e.name}</h3>
