@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { validationSignInSchema } from '../../../helpers/validations.helper';
 // eslint-disable-next-line react/prop-types
-export const FormLogin = ({ handleOnClick }) => {
+export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
 	return (
 		<div className='container mx-auto'>
 			<div className='flex justify-center px-6 my-12'>
@@ -86,7 +86,7 @@ export const FormLogin = ({ handleOnClick }) => {
 										{/* https://www.facebook.com/images/fb_icon_325x325.png */}
 										<button
 											type='button'
-											onClick={handleOnClick}
+											onClick={() => handleOnClick(userId, cart, setCart)}
 											className='flex flex-wrap justify-center w-full my-2 border border-gray-300 hover:bg-gray-200 px-2 py-1.5 rounded-full'
 										>
 											<img
