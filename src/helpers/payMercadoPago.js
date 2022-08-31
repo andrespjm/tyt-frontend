@@ -1,16 +1,15 @@
+import axios from 'axios';
 export async function payMercadoPago(items) {
 	console.log('estoy aca', items);
 	// TODO: cambiar por axios
 	try {
 		const preference = await (
-			await fetch('https://tytecommerce.herokuapp.com/Pay', {
-				method: 'post',
-				body: JSON.stringify(items),
+			await axios.post('/Pay', items, {
 				headers: {
 					'Content-Type': 'application/json',
 				},
 			})
-		).json();
+		).data;
 		const script = document.createElement('script');
 
 		// The source domain must be completed according to the site for which you are integrating.
@@ -21,7 +20,8 @@ export async function payMercadoPago(items) {
 		script.dataset.preferenceId = preference.preferenceId;
 		document.getElementById('page-content').innerHTML = '';
 		document.querySelector('#page-content').appendChild(script);
-	} catch {
+	} catch (error) {
+		console.log(error.request.response);
 		window.alert('arreglar');
 	}
 }

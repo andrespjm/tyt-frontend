@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { validationSignInSchema } from '../../../helpers/validations.helper';
 // eslint-disable-next-line react/prop-types
 export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
+	console.log('formlogin, userid', userId);
 	return (
 		<div className='container mx-auto'>
 			<div className='flex justify-center px-6 my-12'>
