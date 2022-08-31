@@ -1,4 +1,10 @@
+import axios from 'axios';
+import { useEffect } from 'react';
+
 const Reviews = () => {
-	return <div>soy el reviews</div>;
+	useEffect(() => {
+		// const reviews = axios(`/`)
+	}, []);
+	return <div></div>;
 };
 export default Reviews;

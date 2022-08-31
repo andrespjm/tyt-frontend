@@ -244,7 +244,7 @@ function Detail() {
 					<div className='detail-2'>
 						{rating !== 'NaN' && <span>{rating}</span>}
 						<Rating rating={rating} />
-						<Link to='/reviews'>
+						<Link to={`/rating/:${id}`}>
 							<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
 						</Link>
 					</div>
