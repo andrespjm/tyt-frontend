@@ -20,8 +20,17 @@ export const DataOrders = () => {
         Orders for {id}
         <table>
           <tr>
-            <th></th>
+            <th>Order Id</th>
+            <th>Status</th>
           </tr>
+            {redUser.Purchases.length > 0 && redUser.Purchases.map((e, k) => {
+              return (
+                <tr key={k}>
+                <td >{e.id}</td>
+                <td >{e.status}</td>
+          </tr>
+              )
+            }) }
         </table>
       </div>
     </>
