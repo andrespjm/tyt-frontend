@@ -15,7 +15,6 @@ function Detail() {
 	const { id } = useParams();
 	const [product, setProduct] = useState({});
 	const [open, setOpen] = useState(false);
-	const [quantityNull, setquantityNull] = useState(false);
 	const [quantityAvailable, setquantityAvailable] = useState(false);
 	const [rating, setRating] = useState('');
 	const [reviews, setReviews] = useState('');
@@ -46,52 +45,45 @@ function Detail() {
 	}, [dispatch, id]);
 
 	const addToCart = () => {
-		if (parseInt(document.querySelector('#quantity').value) > 0) {
-			// agrega en cero!!!!!
-
-			const selection = {
-				name: product.name,
-				designId: product.id,
-				prodImageHome: product.img_home.secure_url,
-				prodType:
-					product.ProductTypes[document.querySelector('.detail-4').id].name,
-				stockId:
-					product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-						.id,
-				price:
-					product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-						.price,
-				quantity: parseInt(document.querySelector('#quantity').value),
-				stockQuantity: parseInt(
-					product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-						.quantity
-				),
-			};
-
-			const stock =
+		const selection = {
+			name: product.name,
+			designId: product.id,
+			prodImageHome: product.img_home.secure_url,
+			prodType:
+				product.ProductTypes[document.querySelector('.detail-4').id].name,
+			stockId:
+				product.ProductTypes[document.querySelector('.detail-4').id].Stocks.id,
+			price:
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-					.quantity;
-			console.log(cart);
+					.price,
+			quantity: parseInt(document.querySelector('#quantity').value),
+			stockQuantity: parseInt(
+				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
+					.quantity
+			),
+		};
 
-			const alreadySelected = cart.find(e => e.stockId === selection.stockId);
+		const stock =
+			product.ProductTypes[document.querySelector('.detail-4').id].Stocks
+				.quantity;
+		console.log(cart);
 
-			if (alreadySelected) {
-				if (alreadySelected.quantity + selection.quantity > stock) {
-					// alert(`Stock available is only  ${stock} units`)
-					setquantityAvailable(true);
-				} else {
-					setOpen(true);
-				}
-				alreadySelected.quantity =
-					alreadySelected.quantity + selection.quantity > stock
-						? stock
-						: alreadySelected.quantity + selection.quantity;
+		const alreadySelected = cart.find(e => e.stockId === selection.stockId);
+
+		if (alreadySelected) {
+			if (alreadySelected.quantity + selection.quantity > stock) {
+				// alert(`Stock available is only  ${stock} units`)
+				setquantityAvailable(true);
 			} else {
-				setCart([...cart, selection]);
 				setOpen(true);
 			}
+			alreadySelected.quantity =
+				alreadySelected.quantity + selection.quantity > stock
+					? stock
+					: alreadySelected.quantity + selection.quantity;
 		} else {
-			setquantityNull(true);
+			setCart([...cart, selection]);
+			setOpen(true);
 		}
 	};
 
@@ -100,7 +92,6 @@ function Detail() {
 			return;
 		}
 		setOpen(false);
-		setquantityNull(false);
 		setquantityAvailable(false);
 	};
 
@@ -130,34 +121,32 @@ function Detail() {
 			document.querySelector(
 				'.dt1-price'
 			).innerHTML = ` Price: $ ${product.ProductTypes[0].Stocks.price}`;
+			document.querySelector('#detail-5').innerHTML =
+				product.ProductTypes[0].Stocks.quantity;
 			document.querySelector(
-				'.detail-5'
-			).innerHTML = `Stock: ${product.ProductTypes[0].Stocks.quantity} un`;
-			document.querySelector(
-				'.detail-7'
+				'#detail-7'
 			).value = `${product.ProductTypes[0].Stocks.quantity}`;
 			document.querySelector('.detail-4').id = 0;
 			document.querySelector(
 				'#quantity'
 			).max = `${product.ProductTypes[0].Stocks.quantity}`;
-			document.querySelector('#quantity').value = 0;
+			document.querySelector('#quantity').value = 1;
 		} else {
 			document.querySelector('.dt4-1').className = 'dt4-1';
 			document.querySelector('.dt4-2').className = 'dt4-2 selected';
 			document.querySelector(
 				'.dt1-price'
 			).innerHTML = ` Price: $ ${product.ProductTypes[1].Stocks.price}`;
+			document.querySelector('#detail-5').innerHTML =
+				product.ProductTypes[1].Stocks.quantity;
 			document.querySelector(
-				'.detail-5'
-			).innerHTML = `Stock: ${product.ProductTypes[1].Stocks.quantity} un`;
-			document.querySelector(
-				'.detail-7'
+				'#detail-7'
 			).value = `${product.ProductTypes[1].Stocks.quantity}`;
 			document.querySelector('.detail-4').id = 1;
 			document.querySelector(
 				'#quantity'
 			).max = `${product.ProductTypes[1].Stocks.quantity}`;
-			document.querySelector('#quantity').value = 0;
+			document.querySelector('#quantity').value = 1;
 		}
 
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
@@ -288,22 +277,48 @@ function Detail() {
 							</div>
 						</div>
 					</div>
-					<div className='detail-5'>
-						{`Stock: ${product.ProductTypes[0].Stocks.quantity} un`}
+					<div className='mt-10'>
+						<span>Stock: </span>
+						<span id='detail-5' className='ml-2'>
+							{product.ProductTypes[0].Stocks.quantity}
+						</span>
+						<span> un</span>
 					</div>
-					<div className='mt-4 w-full flex'>
+
+					<div className='mt-4 w-full flex items-center'>
 						<span>Select quantity:</span>
-						<div className='detail-7'>
-							<input
-								className='text-white ml-4 bg-transparent'
-								type='number'
-								id='quantity'
-								max={product.ProductTypes[0].Stocks.quantity}
-								placeholder='0'
-								min='0'
-							/>
+						<div className='flex'>
+							<i
+								className='fa-solid  items-center fa-minus ml-4 mt-1 h-fit cursor-pointer'
+								onClick={() =>
+									document.querySelector('#quantity').value > 1 &&
+									document.querySelector('#quantity').value--
+								}
+							></i>
+							<div id='detail-7'>
+								<input
+									className='text-white text-center bg-transparent w-10 caret-transparent after
+								'
+									min='1'
+									max={product.ProductTypes[0].Stocks.quantity}
+									readOnly
+									type='number'
+									id='quantity'
+									value='1'
+								/>
+							</div>
+							<i
+								className='fa-solid fa-plus mt-1 h-fit cursor-pointer'
+								onClick={() => {
+									console.log(document.querySelector('#quantity').max);
+									const max = Number(document.querySelector('#quantity').max);
+									document.querySelector('#quantity').value < max &&
+										document.querySelector('#quantity').value++;
+								}}
+							></i>
 						</div>
 					</div>
+
 					<div className='detail-6'>
 						<div onClick={addToCart} className='dt6-1'>
 							Add to bag
@@ -318,13 +333,6 @@ function Detail() {
 			>
 				back
 			</button>
-			<Snackbar
-				open={quantityNull}
-				autoHideDuration={2000}
-				onClose={handleClose}
-				message='Select the number of units'
-				action={action}
-			/>
 			<Snackbar
 				open={open}
 				autoHideDuration={3000}
