@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
@@ -163,12 +163,14 @@ const ShoppingCart = () => {
 							cart.map(e => (
 								<div key={e.stockId}>
 									<div className='shopping-product'>
-										<div
-											className='shp-img'
-											style={{
-												backgroundImage: `url('${e.prodImageHome}')`,
-											}}
-										></div>
+										<Link to={`/${e.designId}`}>
+											<div
+												className='shp-img'
+												style={{
+													backgroundImage: `url('${e.prodImageHome}')`,
+												}}
+											></div>
+										</Link>
 										<div className='shp-details'>
 											<p className='shp-ref'>Stock-RF {e.stockId}</p>
 											<h3>{e.name}</h3>

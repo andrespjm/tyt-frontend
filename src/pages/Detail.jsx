@@ -51,6 +51,7 @@ function Detail() {
 
 			const selection = {
 				name: product.name,
+				designId: product.id,
 				prodImageHome: product.img_home.secure_url,
 				prodType:
 					product.ProductTypes[document.querySelector('.detail-4').id].name,
