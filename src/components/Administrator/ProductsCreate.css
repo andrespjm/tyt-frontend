@@ -1,0 +1,16 @@
+.create-container {
+    border: 1px solid black;
+    height: fit-content;
+    width: 30vw;
+    margin: 100px auto;
+    font-size: 50px;
+    text-align: center;
+    padding: 50px;
+    border-radius: 30px;
+    background-color: blueviolet;
+}
+
+.create-container:hover {
+    background-color: rgba(137, 43, 226, 0.732);
+    color: black;
+}
