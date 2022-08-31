@@ -122,34 +122,32 @@ function Detail() {
 			document.querySelector(
 				'.dt1-price'
 			).innerHTML = ` Price: $ ${product.ProductTypes[0].Stocks.price}`;
+			document.querySelector('#detail-5').innerHTML =
+				product.ProductTypes[0].Stocks.quantity;
 			document.querySelector(
-				'.detail-5'
-			).innerHTML = `Stock: ${product.ProductTypes[0].Stocks.quantity} un`;
-			document.querySelector(
-				'.detail-7'
+				'#detail-7'
 			).value = `${product.ProductTypes[0].Stocks.quantity}`;
 			document.querySelector('.detail-4').id = 0;
 			document.querySelector(
 				'#quantity'
 			).max = `${product.ProductTypes[0].Stocks.quantity}`;
-			document.querySelector('#quantity').value = 0;
+			document.querySelector('#quantity').value = 1;
 		} else {
 			document.querySelector('.dt4-1').className = 'dt4-1';
 			document.querySelector('.dt4-2').className = 'dt4-2 selected';
 			document.querySelector(
 				'.dt1-price'
 			).innerHTML = ` Price: $ ${product.ProductTypes[1].Stocks.price}`;
+			document.querySelector('#detail-5').innerHTML =
+				product.ProductTypes[1].Stocks.quantity;
 			document.querySelector(
-				'.detail-5'
-			).innerHTML = `Stock: ${product.ProductTypes[1].Stocks.quantity} un`;
-			document.querySelector(
-				'.detail-7'
+				'#detail-7'
 			).value = `${product.ProductTypes[1].Stocks.quantity}`;
 			document.querySelector('.detail-4').id = 1;
 			document.querySelector(
 				'#quantity'
 			).max = `${product.ProductTypes[1].Stocks.quantity}`;
-			document.querySelector('#quantity').value = 0;
+			document.querySelector('#quantity').value = 1;
 		}
 
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
@@ -278,22 +276,48 @@ function Detail() {
 							</div>
 						</div>
 					</div>
-					<div className='detail-5'>
-						{`Stock: ${product.ProductTypes[0].Stocks.quantity} un`}
+					<div className='mt-10'>
+						<span>Stock: </span>
+						<span id='detail-5' className='ml-2'>
+							{product.ProductTypes[0].Stocks.quantity}
+						</span>
+						<span> un</span>
 					</div>
-					<div className='mt-4 w-full flex'>
+
+					<div className='mt-4 w-full flex items-center'>
 						<span>Select quantity:</span>
-						<div className='detail-7'>
-							<input
-								className='text-white ml-4 bg-transparent'
-								type='number'
-								id='quantity'
-								max={product.ProductTypes[0].Stocks.quantity}
-								placeholder='0'
-								min='0'
-							/>
+						<div className='flex'>
+							<i
+								className='fa-solid  items-center fa-minus ml-4 mt-1 h-fit cursor-pointer'
+								onClick={() =>
+									document.querySelector('#quantity').value > 1 &&
+									document.querySelector('#quantity').value--
+								}
+							></i>
+							<div id='detail-7'>
+								<input
+									className='text-white text-center bg-transparent w-10 caret-transparent after
+								'
+									min='1'
+									max={product.ProductTypes[0].Stocks.quantity}
+									readOnly
+									type='number'
+									id='quantity'
+									value='1'
+								/>
+							</div>
+							<i
+								className='fa-solid fa-plus mt-1 h-fit cursor-pointer'
+								onClick={() => {
+									console.log(document.querySelector('#quantity').max);
+									const max = Number(document.querySelector('#quantity').max);
+									document.querySelector('#quantity').value < max &&
+										document.querySelector('#quantity').value++;
+								}}
+							></i>
 						</div>
 					</div>
+
 					<div className='detail-6'>
 						<div onClick={addToCart} className='dt6-1'>
 							Add to bag
