@@ -7,7 +7,6 @@ import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
 import './ShoppingCart.css';
 
-
 const ShoppingCart = () => {
 	// const login = useSelector(state => state.login);
 	const dispatch = useDispatch();
@@ -59,6 +58,7 @@ const ShoppingCart = () => {
 				let orderId = '';
 				try {
 					// I look for the id of the order in the cart if it already exists
+					console.log('estoy en el logout');
 					orderId = (await axios.get(`/purchases/cart?userId=${userId}`)).data;
 					// if it already exists, I delete the items, to leave only the current ones loaded
 					if (orderId.length > 0) {
@@ -88,6 +88,7 @@ const ShoppingCart = () => {
 				// loggin: raise DB and merge with local storage (if duplicates add quantities) and validate maximum stock
 				let orderId = '';
 				try {
+					console.log('estoy en el check-in');
 					const data = await axios.get(`/purchases/cart?userId=${userId}`);
 					orderId = data.data;
 					if (orderId.length > 0) {

@@ -12,7 +12,7 @@ const Landing = () => {
 	};
 
 	return (
-		<div className='w-full h-full snap-y snap-proximity  overflow-hidden select-none'>
+		<div className='snap-y snap-proximity  overflow-hidden select-none'>
 			<section
 				className='w-screen h-[calc(100vh-8rem)] select-none flex flex-none snap-center scroll-mb-96
 			bg-gradient-to-b from-black to-purple-700'
@@ -109,6 +109,7 @@ const Landing = () => {
 						<div
 							className='absolute w-full h-full bg-[url("https://i.ibb.co/hB1BYgR/pexels-cottonbro-5089159.jpg")] bg-cover bg-center mix-blend-overlay 
 						hover:bg-[url("https://images.pexels.com/photos/175709/pexels-photo-175709.jpeg?cs=srgb&dl=pexels-clem-onojeghuo-175709.jpg&fm=jpg")]
+						duration-1000 transform
 						'
 						></div>
 						<span
@@ -147,7 +148,7 @@ const Landing = () => {
 						<div
 							className='absolute w-full h-full bg-[url("https://images.pexels.com/photos/262034/pexels-photo-262034.jpeg")] bg-cover bg-center mix-blend-overlay 
 						hover:bg-[url("https://i.ibb.co/9w9wyZX/pexels-daian-gan-102127.jpg")]
-						
+						duration-1000 transform
 						'
 						></div>
 						<span
@@ -180,12 +181,16 @@ const Landing = () => {
 			'
 			>
 				<div className='flex flex-col h-full'>
-					<div className='relative w-screen h-1/3 flex items-center justify-center'>
-						<img
+					<div
+						className='relative w-screen h-1/3 flex items-center justify-center
+					bg-[url("https://i.ibb.co/VpFm0pv/pexels-suzy-hazelwood-1629236.jpg")] bg-cover bg-center bg-no-repeat bg-fixed
+					'
+					>
+						{/* <img
 							src='https://i.ibb.co/VpFm0pv/pexels-suzy-hazelwood-1629236.jpg'
 							alt=''
 							className='w-full h-full object-cover absolute'
-						/>
+						/> */}
 
 						<div className='w-4/5 h-4/5 flex flex-col items-center justify-evenly z-10'>
 							<span className='text-3xl lg:5xl'>Our History</span>
@@ -207,13 +212,16 @@ const Landing = () => {
 						<div
 							className='mx-auto w-1/2
 						bg-[url("https://i.ibb.co/k639g6H/Whats-App-Image-2022-08-28-at-9-13-57-PM.jpg")]
-						bg-contain bg-center bg-no-repeat
-						lg:w-full lg:h-4/5 lg:my-auto lg:bg-[length:410px_410px]
+						bg-cover bg-center
+						lg:w-full lg:h-4/5 lg:my-auto 
+						border-2 rounded-xl 
 						'
 						></div>
 						<ul
-							className=' list-disc flex flex-col h-1/2 mx-auto justify-evenly  rounded-3xl  text-white my-auto text-[9px]
-							lg:col-span-2 md:h-1/2 md:text-sm md:w-[90%] lg:p-10 lg:bg-cyan-900
+							className=' list-disc flex flex-col h-1/2 mx-auto justify-evenly  rounded-3xl  text-black font-bold my-auto text-[9px]
+							lg:col-span-2 md:h-1/2 md:text-sm md:w-[90%] lg:p-10
+							bg-[url("https://i.ibb.co/SBzcNCH/pawel-czerwinski-ru-Jm3d-BXCqw-unsplash.jpg")]
+							bg-cover
 						'
 						>
 							<li>
@@ -247,12 +255,17 @@ const Landing = () => {
 			`}
 			>
 				{/* Header */}
-				<div className='relative w-screen h-1/4 p-5 flex flex-col items-center justify-around bg-gradient-to-br from-neutral-900 to-neutral-500'>
-					<img
+				<div
+					className='relative w-screen h-1/4 p-5 flex flex-col items-center justify-around 
+				bg-[url("https://i.ibb.co/1R0yqmW/pexels-paul-blenkhorn-sensoryarthouse-12497329.jpg")]
+				bg-cover bg-center bg-no-repeat bg-fixed
+				'
+				>
+					{/* <img
 						src='https://i.ibb.co/1R0yqmW/pexels-paul-blenkhorn-sensoryarthouse-12497329.jpg'
 						alt=''
 						className='w-full h-full object-cover absolute mix-blend-overlay'
-					/>
+					/> */}
 					<div>
 						<div
 							className='text-center text-xs
@@ -290,7 +303,7 @@ const Landing = () => {
 								/>
 							</div>
 						</div>
-						<div className='w-full flex flex-col justify-center items-end '>
+						<div className='w-full flex flex-col justify-center'>
 							<div className='w-4/5 lg:w-1/2'>
 								<span className='text-slate-300 text-xs lg:text-base'>
 									Flowers
@@ -304,7 +317,7 @@ const Landing = () => {
 							</div>
 						</div>
 						<div className='w-full flex flex-col justify-center items-end'>
-							<div className='w-4/5 lg:w-1/2 mr-10'>
+							<div className='w-4/5 lg:w-1/2'>
 								<span className='text-slate-300 text-xs lg:text-base'>
 									Butterflies
 								</span>
@@ -316,10 +329,10 @@ const Landing = () => {
 								/>
 							</div>
 						</div>
-						<div className='w-full flex flex-col justify-center'>
-							<div className='w-4/5 lg:w-1/2 ml-10'>
+						<div className='w-full flex flex-col justify-center items-end '>
+							<div className='w-4/5 lg:w-1/2'>
 								<span className='text-slate-300 text-xs lg:text-base'>
-									Butterflies
+									Other
 								</span>
 								<img
 									src='https://i.ibb.co/Zm4NwTb/tinywow-IMG-1367-4878105.png'
@@ -333,14 +346,16 @@ const Landing = () => {
 				</div>
 			</section>
 			{/* SECTION 4 */}
-			<section className='w-screen h-[calc(100vh-6rem)]  bg-neutral-900 text-white '>
-				<div className='relative w-screen h-1/3 flex items-center justify-center bg-gradient-to-br from-neutral-900 to-neutral-500'>
-					<img
-						src='https://i.ibb.co/T0K0TPt/lucas-kapla-w-QLAGv4-OYs-unsplash.jpg'
-						alt=''
-						className='w-full h-full object-cover absolute mix-blend-overlay'
-					/>
-
+			<section
+				className='w-screen h-[calc(100vh-6rem)]  bg-neutral-900 text-white 
+			
+			'
+			>
+				<div
+					className='w-screen h-1/3 flex items-center justify-center 
+				bg-[url("https://i.ibb.co/T0K0TPt/lucas-kapla-w-QLAGv4-OYs-unsplash.jpg")]
+				bg-center bg-no-repeat bg-cover	bg-fixed			'
+				>
 					<div className='w-4/5 h-4/5 flex flex-col items-center justify-evenly z-10'>
 						<div className='hidden lg:block mx-auto'>
 							<span className='w-20 h-20 flex items-center justify-center border-2 rounded-full bg-gradient-to-b from-black to-blue-900 '>
