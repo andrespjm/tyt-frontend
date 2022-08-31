@@ -40,7 +40,7 @@ const ShoppingCart = () => {
 	function handleDecrement(e) {
 		const cart2 = [...cart];
 		const item = cart2.find(el => el.stockId === parseInt(e.target.id));
-		item.quantity = item.quantity > 0 ? item.quantity - 1 : item.quantity;
+		item.quantity = item.quantity > 1 ? item.quantity - 1 : item.quantity;
 		setCart(cart2);
 	}
 
