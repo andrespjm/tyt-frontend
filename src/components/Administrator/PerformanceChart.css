@@ -1,0 +1,15 @@
+.performanceContainer {
+    width: 100%;
+    height: 300px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.performanceDiv {
+    border: 1px solid grey;
+    border-radius: 10px;
+    width: 24%;
+    height: 300px;
+
+}
