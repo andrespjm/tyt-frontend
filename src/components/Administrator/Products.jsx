@@ -3,20 +3,27 @@ import {
 	EditButton,
 	ImageField,
 	List,
+	ReferenceInput,
 	RichTextField,
 	SimpleShowLayout,
 	TextField,
+	TextInput,
 } from 'react-admin';
 
-const PostShow = () => (
+const Description = () => (
 	<SimpleShowLayout>
 		<RichTextField source='description' />
 	</SimpleShowLayout>
 );
 
+const productFilter = [
+	<TextInput source='q' label='Search' alwaysOn />,
+	<ReferenceInput source='name' label='name' reference='name' />,
+];
+
 export const Products = () => (
-	<List>
-		<Datagrid expand={<PostShow />}>
+	<List filters={productFilter}>
+		<Datagrid expand={<Description />}>
 			<ImageField
 				label='image'
 				source='img_detail[0].secure_url'
@@ -24,8 +31,8 @@ export const Products = () => (
 				title='name'
 				sx={{
 					'& img': {
-						maxWidth: 60,
-						maxHeight: 60,
+						maxWidth: 50,
+						maxHeight: 50,
 						objectFit: 'contain',
 						borderRadius: 50,
 					},

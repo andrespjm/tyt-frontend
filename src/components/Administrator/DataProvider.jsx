@@ -3,8 +3,6 @@ import { stringify } from 'query-string';
 
 const httpClient = fetchUtils.fetchJson;
 
-// const apiUrl = 'http://localhost:3001';
-// const apiUrl = 'https://tytecommerce.herokuapp.com';
 const apiUrl = import.meta.env.VITE_API || 'https://tytecommerce.herokuapp.com';
 
 export const dataProvider = {
@@ -26,7 +24,7 @@ export const dataProvider = {
 
 	getOne: (resource, params) =>
 		httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-			data: { ...json, id: json._id },
+			data: { ...json, id: json.id },
 		})),
 
 	getMany: (resource, params) => {
