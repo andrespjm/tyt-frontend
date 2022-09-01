@@ -2,8 +2,6 @@ import { fetchUtils } from 'react-admin';
 import { stringify } from 'query-string';
 
 const httpClient = fetchUtils.fetchJson;
-
-// const apiUrl = 'http://localhost:3001';
 const apiUrl = import.meta.env.VITE_API || 'https://tytecommerce.herokuapp.com';
 
 export const dataProvider = {
