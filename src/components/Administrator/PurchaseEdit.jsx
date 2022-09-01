@@ -10,10 +10,10 @@ export const PurchaseEdit = () => {
 					source='status'
 					resettable
 					choices={[
-						{ id: 'Pay', name: 'Pay' },
-						{ id: 'Recibed', name: 'Recibed' },
+						{ id: 'Cart', name: 'Cart' },
+						{ id: 'Paid', name: 'Paid' },
+						{ id: 'Received', name: 'Received' },
 						{ id: 'Delivering', name: 'Delivering' },
-						{ id: 'Pending', name: 'Pending' },
 					]}
 				/>
 				<TextInput source='shipmentCompany' />
