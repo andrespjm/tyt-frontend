@@ -24,7 +24,7 @@ const Home = () => {
 			<Sidebar />
 			<div
 				className={` container grid grid-cols-2 gap-1
-				lg:grid-cols-4
+				lg:grid-cols-3 2xl:grid-cols-4
 				`}
 			>
 				{/* lg:grid-cols-3
