@@ -1,9 +1,14 @@
 import './Landing.css';
 import waves from '../assets/waves.svg';
+import { useDispatch } from 'react-redux';
+import { getFilteredData } from '../redux/actions';
+import { Link } from 'react-router-dom';
 
 const Landing = () => {
+	const dispatch = useDispatch();
+
 	const subscribe = e => {
-		console.log((document.querySelector('#btn-subscribe').value = ''));
+		document.querySelector('#btn-subscribe').value = '';
 		setTimeout(
 			() => document.querySelector('#tx-submitting').classList.toggle('hidden'),
 			5000
@@ -186,12 +191,6 @@ const Landing = () => {
 					bg-[url("https://i.ibb.co/VpFm0pv/pexels-suzy-hazelwood-1629236.jpg")] bg-cover bg-center bg-no-repeat bg-fixed
 					'
 					>
-						{/* <img
-							src='https://i.ibb.co/VpFm0pv/pexels-suzy-hazelwood-1629236.jpg'
-							alt=''
-							className='w-full h-full object-cover absolute'
-						/> */}
-
 						<div className='w-4/5 h-4/5 flex flex-col items-center justify-evenly z-10'>
 							<span className='text-3xl lg:5xl'>Our History</span>
 							<p className='text-center text-xs lg:w-3/4 lg:text-base'>
@@ -261,11 +260,6 @@ const Landing = () => {
 				bg-cover bg-center bg-no-repeat bg-fixed
 				'
 				>
-					{/* <img
-						src='https://i.ibb.co/1R0yqmW/pexels-paul-blenkhorn-sensoryarthouse-12497329.jpg'
-						alt=''
-						className='w-full h-full object-cover absolute mix-blend-overlay'
-					/> */}
 					<div>
 						<div
 							className='text-center text-xs
@@ -295,12 +289,31 @@ const Landing = () => {
 								<span className='text-slate-300 text-xs lg:text-base'>
 									Abstract
 								</span>
-								<img
-									src='https://i.ibb.co/CtXQJ85/tinywow-JKGF5937-4878074.png'
-									className='object-contain mt-1
+								<Link to='/home'>
+									<img
+										onClick={() => {
+											const query = '?collection1=Abstract&stock=true';
+											dispatch(getFilteredData(query));
+											localStorage.setItem(
+												'Filter',
+												JSON.stringify({
+													usedFilter: false,
+													onStock: true,
+													coll1: true,
+													coll2: false,
+													coll3: false,
+													coll4: false,
+												})
+											);
+											localStorage.setItem('Colors', JSON.stringify([]));
+											localStorage.setItem('Query', JSON.stringify(query));
+										}}
+										src='https://i.ibb.co/CtXQJ85/tinywow-JKGF5937-4878074.png'
+										className='object-contain mt-1
 								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-								/>
+									/>
+								</Link>
 							</div>
 						</div>
 						<div className='w-full flex flex-col justify-center'>
@@ -308,12 +321,31 @@ const Landing = () => {
 								<span className='text-slate-300 text-xs lg:text-base'>
 									Flowers
 								</span>
-								<img
-									src='https://i.ibb.co/YpzN1m0/tinywow-IMG-E2967-4878085.png'
-									className='object-contain mt-1
+								<Link to='/home'>
+									<img
+										onClick={() => {
+											const query = '?collection2=Flowers&stock=true';
+											dispatch(getFilteredData(query));
+											localStorage.setItem(
+												'Filter',
+												JSON.stringify({
+													usedFilter: false,
+													onStock: true,
+													coll1: false,
+													coll2: true,
+													coll3: false,
+													coll4: false,
+												})
+											);
+											localStorage.setItem('Colors', JSON.stringify([]));
+											localStorage.setItem('Query', JSON.stringify(query));
+										}}
+										src='https://i.ibb.co/YpzN1m0/tinywow-IMG-E2967-4878085.png'
+										className='object-contain mt-1
 								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-								/>
+									/>
+								</Link>
 							</div>
 						</div>
 						<div className='w-full flex flex-col justify-center items-end'>
@@ -321,12 +353,31 @@ const Landing = () => {
 								<span className='text-slate-300 text-xs lg:text-base'>
 									Butterflies
 								</span>
-								<img
-									src='https://i.ibb.co/fS9Hhct/IMG-E6377.png'
-									className='object-contain mt-1
+								<Link to='/home'>
+									<img
+										onClick={() => {
+											const query = '?collection3=Butterflies&stock=true';
+											dispatch(getFilteredData(query));
+											localStorage.setItem(
+												'Filter',
+												JSON.stringify({
+													usedFilter: false,
+													onStock: true,
+													coll1: false,
+													coll2: false,
+													coll3: true,
+													coll4: false,
+												})
+											);
+											localStorage.setItem('Colors', JSON.stringify([]));
+											localStorage.setItem('Query', JSON.stringify(query));
+										}}
+										src='https://i.ibb.co/fS9Hhct/IMG-E6377.png'
+										className='object-contain mt-1
 								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-								/>
+									/>
+								</Link>
 							</div>
 						</div>
 						<div className='w-full flex flex-col justify-center items-end '>
@@ -334,12 +385,31 @@ const Landing = () => {
 								<span className='text-slate-300 text-xs lg:text-base'>
 									Other
 								</span>
-								<img
-									src='https://i.ibb.co/Zm4NwTb/tinywow-IMG-1367-4878105.png'
-									className='object-contain mt-1
+								<Link to='/home'>
+									<img
+										onClick={() => {
+											const query = '?collection4=Other&stock=true';
+											dispatch(getFilteredData(query));
+											localStorage.setItem(
+												'Filter',
+												JSON.stringify({
+													usedFilter: false,
+													onStock: true,
+													coll1: false,
+													coll2: false,
+													coll3: false,
+													coll4: true,
+												})
+											);
+											localStorage.setItem('Colors', JSON.stringify([]));
+											localStorage.setItem('Query', JSON.stringify(query));
+										}}
+										src='https://i.ibb.co/Zm4NwTb/tinywow-IMG-1367-4878105.png'
+										className='object-contain mt-1
 								duration-1000 hover:rotate-45 hover:scale-150 
 							'
-								/>
+									/>
+								</Link>
 							</div>
 						</div>
 					</div>

@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { getData, getFilteredData } from '../redux/actions';
 import './Home.css';
+import waves from '../assets/waves.svg';
 
 const Home = () => {
 	const dispatch = useDispatch();
 	const { redData } = useSelector(state => state);
-	const [slider, setSlider] = useState('grid-cols-4');
 
 	useEffect(() => {
 		if (localStorage.getItem('Filter')) {
@@ -16,28 +16,15 @@ const Home = () => {
 		} else dispatch(getData());
 	}, [dispatch]); //
 
-	const onChangeSlider = e => setSlider(`grid-cols-${e.target.value}`);
-
 	return (
 		<div
-			className='w-screen min-h-screen select-none
-		'
+			style={{ backgroundImage: `url(${waves})` }}
+			className='w-screen h-screen bg-neutral-900 text-white  bg-center bg-cover '
 		>
 			<Sidebar />
-			<div className='text-white p-4 text-center flex justify-center '>
-				<input
-					onChange={onChangeSlider}
-					type='range'
-					id='volume'
-					name='volume'
-					min='1'
-					max='12'
-				/>
-				<label forHtml='volume'>Grid Columns</label>
-			</div>
 			<div
-				className={`container grid ${slider}
-
+				className={` container grid grid-cols-2 gap-1
+				lg:grid-cols-4
 				`}
 			>
 				{/* lg:grid-cols-3
@@ -46,15 +33,15 @@ const Home = () => {
 					lg:bg-red-500
 					xl:bg-green-500
 					2xl:bg-gray-500 */}
-				{redData?.map(prod => (
-					<Link key={prod.id} to={`/${prod.id}`}>
+				{redData?.map((prod, i) => (
+					<Link key={i} to={`/${prod.id}`}>
 						<div
-							className='parent w-full aspect-square
+							className='parent relative w-full aspect-square border
 						'
 						>
 							<div
 								style={{ backgroundImage: `url(${prod.img_home.secure_url})` }}
-								className='child text-white font-bold w-full h-full
+								className='child text-white w-full h-full
 								'
 							>
 								<div className='mytext w-full h-full '>
