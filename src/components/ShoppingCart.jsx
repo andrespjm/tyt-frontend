@@ -4,7 +4,6 @@ import { useHistory, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
-import { loggin } from '../redux/actions';
 import './ShoppingCart.css';
 
 const ShoppingCart = () => {
