@@ -1,4 +1,4 @@
-import { GET_USER, GET_USERS } from '../actions/types';
+import { GET_USER, GET_USERS, GET_USER_ORDER } from '../actions/types';
 
 const initialState = [];
 
@@ -7,6 +7,8 @@ export const redUser = (state = initialState, { type, payload }) => {
 		case GET_USERS:
 			return payload;
 		case GET_USER:
+			return payload;
+		case GET_USER_ORDER:
 			return payload;
 		default:
 			return state;

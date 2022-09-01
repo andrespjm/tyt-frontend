@@ -2,7 +2,7 @@ import './Detail.css';
 import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { setLoading } from '../redux/actions';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
@@ -16,6 +16,8 @@ function Detail() {
 	const [product, setProduct] = useState({});
 	const [open, setOpen] = useState(false);
 	const [quantityAvailable, setquantityAvailable] = useState(false);
+	const [rating, setRating] = useState('');
+	const [reviews, setReviews] = useState('');
 	const history = useHistory();
 	const dispatch = useDispatch();
 	// const { redLoading } = useSelector(state => state);
@@ -29,6 +31,12 @@ function Detail() {
 				const response = await axios.get(`/products/${id}`);
 				setProduct(response.data);
 				dispatch(setLoading(false));
+				console.log(id);
+				const rating = await axios(`/review/score/${id}`).then(res => res.data);
+				console.log('rating', rating.numberRevisions);
+				// const averageScore = rating.averageScore;
+				setRating(rating.averageScore);
+				setReviews(rating.numberRevisions);
 			} catch (error) {
 				alert(error);
 			}
@@ -224,9 +232,11 @@ function Detail() {
 						</div>
 					</div>
 					<div className='detail-2'>
-						{/* <span>{product.score}/5</span> */}
-						<Rating />
-						<span className='dt2-3'>See all xx reviews</span>
+						{rating !== 'NaN' && <span>{rating}</span>}
+						<Rating rating={rating} />
+						<Link to={`/rating/:${id}`}>
+							<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
+						</Link>
 					</div>
 					<div className='detail-3'>
 						<span>Colours</span>
