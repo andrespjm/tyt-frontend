@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { Alert } from '@mui/material';
 
 function Detail() {
 	const { id } = useParams();
@@ -22,7 +23,12 @@ function Detail() {
 	const dispatch = useDispatch();
 	// const { redLoading } = useSelector(state => state);
 	const [cart, setCart] = useContext(ShoppingCartContext);
-	// const [amount, setAmount] = useState(1);
+	const [state] = useState({
+		vertical: 'top',
+		horizontal: 'center',
+	});
+
+	const { vertical, horizontal } = state;
 
 	useEffect(() => {
 		async function fetchData() {
@@ -334,12 +340,24 @@ function Detail() {
 				back
 			</button>
 			<Snackbar
+				anchorOrigin={{ vertical, horizontal }}
+				open={open}
+				autoHideDuration={6000}
+				key={vertical + horizontal}
+				message='Product added to Bag'
+				action={action}
+			>
+				<Alert onClose={handleClose} severity='success' sx={{ width: '100%' }}>
+					Product added to Bag 🥰 !!
+				</Alert>
+			</Snackbar>
+			{/* <Snackbar
 				open={open}
 				autoHideDuration={3000}
 				onClose={handleClose}
 				message='Product added to Bag'
 				action={action}
-			/>
+			/> */}
 			<Snackbar
 				open={quantityAvailable}
 				autoHideDuration={3000}
