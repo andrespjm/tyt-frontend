@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
 import './ShoppingCart.css';
+// hope
 
 const ShoppingCart = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
