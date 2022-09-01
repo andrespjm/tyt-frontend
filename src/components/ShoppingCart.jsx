@@ -45,12 +45,6 @@ const ShoppingCart = () => {
 		setCart(cart2);
 	}
 
-	// .
-	// .
-	// .
-	// .
-
-	// .
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
 		console.log(currentUserF);
