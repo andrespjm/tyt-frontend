@@ -120,6 +120,8 @@ const Sidebar = () => {
 	stock=${filter.onStock}
 	`.replace(/\s/g, '');
 
+	console.log(queryString());
+
 	const makeQuery = () => {
 		dispatch(getFilteredData(queryString()));
 		localStorage.setItem('Filter', JSON.stringify(filter));
