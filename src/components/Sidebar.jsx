@@ -133,7 +133,7 @@ const Sidebar = () => {
 		<div>
 			<div
 				id='sidebar'
-				className='hidden z-50 fixed top-0 bottom-0 p-2 w-[300px] overflow-y-auto text-center bg-[rgba(0,0,0,0.9)] 
+				className='hidden z-50 fixed top-0 bottom-0 p-2 w-[300px] overflow-y-auto text-center bg-[rgba(0,0,0,0.9)]
 				'
 			>
 				{/* FILTER HEADER */}
