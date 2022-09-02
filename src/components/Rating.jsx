@@ -2,8 +2,7 @@
 import { useEffect } from 'react';
 import './Rating.css';
 
-const Rating = ({ rating, ratings }) => {
-	console.log('Aca2', ratings);
+const Rating = ({ rating }) => {
 	const nroStart = () => {
 		if (rating === 0 || null || isNaN(rating)) {
 			return '';
@@ -17,14 +16,6 @@ const Rating = ({ rating, ratings }) => {
 	useEffect(() => {
 		nroStart();
 	}, [rating]);
-
-	if (ratings) {
-		console.log('aca', ratings);
-		const input = document.getElementById(`star${ratings}`);
-		console.log(input);
-		// input.setAttribute('checked', '');
-		console.log(input);
-	}
 
 	return (
 		<div className='product-review-stars'>
@@ -83,7 +74,6 @@ const Rating = ({ rating, ratings }) => {
 			<label htmlFor='star1' title='Sucks big time'>
 				★
 			</label>
-			<div>{ratings}</div>
 		</div>
 	);
 };

@@ -11,7 +11,8 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert } from '@mui/material';
-
+import { Rating as Favorite } from 'react-simple-star-rating';
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 function Detail() {
 	const { id } = useParams();
 	const [product, setProduct] = useState({});
@@ -96,6 +97,20 @@ function Detail() {
 		}
 		setOpen(false);
 		setquantityAvailable(false);
+	};
+	const handleFavourite = async e => {
+		const information = {
+			userId: '2e36407e-f111-434b-a0ba-82284c102e7c', // pedir este a edwin
+			productId: id,
+		};
+		console.log(e.target.checked);
+		if (e.target.checked) {
+			await axios.put(`/favorites`, {
+				method: 'POST',
+				body: JSON.stringify(information),
+				headers: { 'Content-type': 'application/json; charset=UTF-8' },
+			});
+		}
 	};
 
 	const action = (
@@ -229,7 +244,21 @@ function Detail() {
 				<div className='detail-content-right'>
 					<div className='detail-1'>
 						<div className='dt1-ref'>Ref-{product.id}</div>
-						<div className='dt1-name'>{product.name}</div>
+						<div className='dt1-name'>
+							{product.name}
+							<Favorite
+								iconsCount='1'
+								fullIcon={<MdFavorite size={50} />}
+								emptyIcon={
+									<MdFavoriteBorder size={50} style={{ color: ' #ff0000' }} />
+								}
+							/>
+							<input type='checkbox' onClick={e => handleFavourite(e)} />
+							{/* <label htmlFor='star5' title='Rocks!'>
+								❤
+							</label> */}
+						</div>
+
 						<div className='dt1-price'>
 							Price: $ {product.ProductTypes[0].Stocks.priceST}
 						</div>
