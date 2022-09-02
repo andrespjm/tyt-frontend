@@ -14,6 +14,7 @@ import {
 export const Users = props => (
 	<List {...props}>
 		<Datagrid>
+			<BooleanField source='enabled' />
 			<ImageField
 				label='Profile'
 				source='profilePicture'
@@ -37,8 +38,7 @@ export const Users = props => (
 			<NumberField label='Identity' source='identityCard' />
 			<EmailField source='email' />
 			<DateField source='birthDate' />
-			<EditButton label='Edit' />
-			<BooleanField source='disabled' />
+			<EditButton label='Disable User' />
 		</Datagrid>
 	</List>
 );
