@@ -15,7 +15,7 @@ import Navbar from './components/Navbar';
 
 import PayFailure from './components/PayFailure';
 import PaySuccess from './components/PaySuccess';
-import ProductForm from './components/ProductForm';
+import ProductForm from './components/ProductForm2';
 import ShoppingCart from './components/ShoppingCart';
 
 import { AuthContext } from './context/AuthContext';
