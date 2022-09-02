@@ -4,9 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
-// import { loggin } from '../redux/actions';
 import './ShoppingCart.css';
-// hope
 
 const ShoppingCart = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
@@ -28,8 +26,8 @@ const ShoppingCart = () => {
 	const [pay, setPay] = useState(false);
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
-	const { currentUserF } = useAuth();
-	const userId = currentUserF.id; // from token information
+	const { user } = useAuth();
+	const userId = user.uid;
 
 	function handleIncrement(e) {
 		const cart2 = [...cart];
@@ -48,8 +46,8 @@ const ShoppingCart = () => {
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
-		console.log(currentUserF);
-		Object.entries(currentUserF).length === 0 && history.push('/signin');
+		console.log(user);
+		Object.entries(user).length === 0 && history.push('/signin');
 		try {
 			const orderId = (await axios.get(`/purchases/data?userId=${userId}`))
 				.data;

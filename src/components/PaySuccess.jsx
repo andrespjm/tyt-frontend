@@ -6,16 +6,14 @@ import { ShoppingCartContext } from '../context/ShoppingCartContext';
 
 const PaySuccess = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
-	const { currentUserF } = useAuth();
-	// useEffect(() => {
+	const { user } = useAuth();
 	async function pay() {
 		try {
-			// CHANGE
-			const userId = currentUserF.id;
+			const userId = user.uid;
 			console.log(userId);
-			const user = (await axios.get(`/users/${userId}`)).data;
+			const userLoged = (await axios.get(`/users/${userId}`)).data;
 
-			console.log(user);
+			console.log(userLoged);
 			const orderId = (await axios.get(`/purchases/cart?userId=${userId}`))
 				.data;
 			console.log(orderId);
@@ -37,8 +35,8 @@ const PaySuccess = () => {
 			});
 			console.log('voy a mandar el mail');
 			await axios.post(`/mails/succ`, {
-				purchaseMail: user.email,
-				name: user.firstName,
+				purchaseMail: userLoged.email,
+				name: userLoged.firstName,
 				orderId: orderId[0].id,
 			});
 
@@ -48,7 +46,6 @@ const PaySuccess = () => {
 			alert('error');
 		}
 	}
-	// }, []);
 
 	return (
 		<div className='absolute top-0 w-screen h-[800px] flex items-center justify-center'>
