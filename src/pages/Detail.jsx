@@ -17,8 +17,8 @@ function Detail() {
 	const [product, setProduct] = useState({});
 	const [open, setOpen] = useState(false);
 	const [quantityAvailable, setquantityAvailable] = useState(false);
-	const [rating, setRating] = useState('');
-	const [reviews, setReviews] = useState('');
+	const [rating, setRating] = useState(0);
+	const [reviews, setReviews] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	// const { redLoading } = useSelector(state => state);
@@ -37,10 +37,7 @@ function Detail() {
 				const response = await axios.get(`/products/${id}`);
 				setProduct(response.data);
 				dispatch(setLoading(false));
-				console.log(id);
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
-				console.log('rating', rating.numberRevisions);
-				// const averageScore = rating.averageScore;
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
 			} catch (error) {
@@ -48,7 +45,7 @@ function Detail() {
 			}
 		}
 		fetchData();
-	}, [dispatch, id]);
+	}, [dispatch, id, rating]);
 
 	const addToCart = () => {
 		const selection = {
@@ -240,7 +237,7 @@ function Detail() {
 					<div className='detail-2'>
 						{rating !== 'NaN' && <span>{rating}</span>}
 						<Rating rating={rating} />
-						<Link to={`/rating/:${id}`}>
+						<Link to={`/reviews/${id}`}>
 							<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
 						</Link>
 					</div>

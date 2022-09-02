@@ -10,7 +10,8 @@ import {
 	SET_LOGIN,
 	SET_PAGE,
 	ERROR_FILTERING_DATA,
-	GET_USER_ORDER
+	GET_USER_ORDER,
+	GET_REVIEW,
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -99,12 +100,22 @@ export const getUser = id => {
 	};
 };
 
-export const getUserOrder = (id) => {
-	return async (dispatch) => {
-		const userOrder = (await axios.get(`/users/purchases/${id}`)).data
+export const getUserOrder = id => {
+	return async dispatch => {
+		const userOrder = (await axios.get(`/users/purchases/${id}`)).data;
 		return dispatch({
 			type: GET_USER_ORDER,
-			payload: userOrder
+			payload: userOrder,
+		});
+	};
+};
+
+export const getRerview = id => {
+	return async dispatch => {
+		const json = await axios(`/review?productId=${id}`);
+		return dispatch({
+			type: GET_REVIEW,
+			payload: json.data,
 		});
 	};
 };
