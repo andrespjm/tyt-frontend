@@ -65,7 +65,7 @@ function App() {
 				<Route exact path='/signup' component={SignUp} />
 				<Route exact path={'/paysuccess'} component={PaySuccess} />
 				<Route exact path={'/payfailure'} component={PayFailure} />
-				<Route exact path={'/reviews'} component={Reviews} />
+				<Route exact path={'/reviews/:id'} component={Reviews} />
 
 				<Route exact path='/user/edit' component={EditUserProfile} />
 				{/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
