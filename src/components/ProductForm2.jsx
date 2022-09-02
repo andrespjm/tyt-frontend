@@ -204,26 +204,24 @@ const ProductForm = () => {
 					<div className=''>
 						{/* MAIN IMAGE */}
 						<div className='mt-4 border-b-2 border-blue-300 pb-4'>
-							<form>
-								<div>
-									<label
-										htmlFor='image_uploads'
-										className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
-									>
-										Choose your cover image (PNG, JPG)
-									</label>
-									<input
-										className='hidden'
-										type='file'
-										id='image_uploads'
-										name='image_uploads'
-										accept='.jpg, .jpeg, .png'
-									/>
-								</div>
-								<div className='preview mt-4'>
-									No files currently selected for upload...
-								</div>
-							</form>
+							<div>
+								<label
+									htmlFor='image_uploads'
+									className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
+								>
+									Choose your cover image (PNG, JPG)
+								</label>
+								<input
+									className='hidden'
+									type='file'
+									id='image_uploads'
+									name='image_uploads'
+									accept='.jpg, .jpeg, .png'
+								/>
+							</div>
+							<div className='preview mt-4'>
+								No files currently selected for upload...
+							</div>
 						</div>
 
 						{/* NAME */}
@@ -375,27 +373,25 @@ const ProductForm = () => {
 						</div>
 						{/* DETAILS IMAGE */}
 						<div className='mt-4 mb-4 border-y-2 border-blue-300 py-4'>
-							<form>
-								<div>
-									<h1 className='mb-4'>Image Details</h1>
-									<label
-										htmlFor='image_uploads'
-										className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
-									>
-										Choose images to upload (PNG, JPG)
-									</label>
-									<input
-										className='hidden'
-										type='file'
-										id='image_uploads'
-										name='image_uploads'
-										accept='.jpg, .jpeg, .png'
-									/>
-								</div>
-								<div className='preview mt-4'>
-									No files currently selected for upload...
-								</div>
-							</form>
+							<div>
+								<h1 className='mb-4'>Image Details</h1>
+								<label
+									htmlFor='image_uploads'
+									className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
+								>
+									Choose images to upload (PNG, JPG)
+								</label>
+								<input
+									className='hidden'
+									type='file'
+									id='image_uploads'
+									name='image_uploads'
+									accept='.jpg, .jpeg, .png'
+								/>
+							</div>
+							<div className='preview mt-4'>
+								No files currently selected for upload...
+							</div>
 						</div>
 					</div>
 					{/* RIGHT COLUMN */}
