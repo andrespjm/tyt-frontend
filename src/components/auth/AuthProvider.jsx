@@ -35,7 +35,6 @@ export const AuthProvider = ({
 					displayName: user.displayName,
 					email: user.email,
 					profilePicture: user.profileImageURL || user.photoURL,
-					username: '',
 					processCompleted: false,
 				});
 				onUserNotRegister(user);

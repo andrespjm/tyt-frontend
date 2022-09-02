@@ -12,7 +12,6 @@ import {
 	where,
 } from 'firebase/firestore';
 import { addUser, updateUserP } from '../redux/actions';
-import { cartLogout } from '../helpers/carLogout.js';
 // import { getStorage } from 'firebase/storage';
 
 const {
@@ -82,10 +81,10 @@ export const getUserInfo = async id => {
 	} catch (err) {}
 };
 
-export const signout = async (userId, cart, setCart) => {
-	console.log('ejecuto signout');
-	console.log('ejecuto signout', userId);
-	console.log('ejecuto signout', cart);
-	await cartLogout(userId, cart, setCart);
-	await signOut(auth).then(() => location.reload());
+export const signout = async () => {
+	// console.log('ejecuto signout');
+	// console.log('ejecuto signout', userId);
+	// console.log('ejecuto signout', cart);
+	// await cartLogout(userId, cart, setCart);
+	await signOut(auth);
 };

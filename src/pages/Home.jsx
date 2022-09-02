@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import waves from '../assets/waves.svg';
 import Sidebar from '../components/Sidebar';
 import { getData, getFilteredData } from '../redux/actions';
 import './Home.css';
-import waves from '../assets/waves.svg';
 
 const Home = () => {
 	const dispatch = useDispatch();

@@ -98,20 +98,20 @@ function Detail() {
 		setOpen(false);
 		setquantityAvailable(false);
 	};
-	const handleFavourite = async e => {
-		const information = {
-			userId: '2e36407e-f111-434b-a0ba-82284c102e7c', // pedir este a edwin
-			productId: id,
-		};
-		console.log(e.target.checked);
-		if (e.target.checked) {
-			await axios.put(`/favorites`, {
-				method: 'POST',
-				body: JSON.stringify(information),
-				headers: { 'Content-type': 'application/json; charset=UTF-8' },
-			});
-		}
-	};
+	// const handleFavourite = async e => {
+	// 	const information = {
+	// 		userId: '2e36407e-f111-434b-a0ba-82284c102e7c', // pedir este a edwin
+	// 		productId: id,
+	// 	};
+	// 	console.log(e.target.checked);
+	// 	if (e.target.checked) {
+	// 		await axios.put(`/favorites`, {
+	// 			method: 'POST',
+	// 			body: JSON.stringify(information),
+	// 			headers: { 'Content-type': 'application/json; charset=UTF-8' },
+	// 		});
+	// 	}
+	// };
 
 	const action = (
 		<>
