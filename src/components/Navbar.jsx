@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
+
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { signout } from '../firebase/firebase';
+import { cartLogout } from '../helpers/carLogout';
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar() {
@@ -11,7 +13,7 @@ export default function Navbar() {
 	const [menuSign, setMenuSign] = useState(false);
 	const location = useLocation();
 	const navigate = useHistory();
-	const { currentUserF, setIsLogged } = useContext(AuthContext);
+	const { currentUserF, setIsLogged } = useAuth();
 	const userId = currentUserF.id;
 	console.log({ currentUserF });
 	console.log('ID USUARIO', currentUserF.id);
@@ -36,7 +38,11 @@ export default function Navbar() {
 	const handleSignout = (userId, cart, setCart) => {
 		console.log('navbar handleSignout, user id', userId);
 		console.log('navbar handleSignout, cart', cart);
-		signout(userId, cart, setCart).then(() => setIsLogged(true));
+		signout().then(() => {
+			window.location.reload();
+			cartLogout(userId, cart, setCart);
+			setIsLogged(true);
+		});
 		navigate.push('/home');
 	};
 	// const handleonclicksignin = () {

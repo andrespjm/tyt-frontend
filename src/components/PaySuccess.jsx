@@ -1,12 +1,12 @@
+import axios from 'axios';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
 
 const PaySuccess = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
-	const { currentUserF } = useContext(AuthContext);
+	const { currentUserF } = useAuth();
 	// useEffect(() => {
 	async function pay() {
 		try {
