@@ -11,8 +11,8 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert } from '@mui/material';
-import { Rating as Favorite } from 'react-simple-star-rating';
-import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
+import { useAuth } from '../context/AuthContext';
+
 function Detail() {
 	const { id } = useParams();
 	const [product, setProduct] = useState({});
@@ -20,8 +20,10 @@ function Detail() {
 	const [quantityAvailable, setquantityAvailable] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [reviews, setReviews] = useState(0);
+	const [favorites, setFavorites] = useState('');
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const { user } = useAuth();
 	// const { redLoading } = useSelector(state => state);
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const [state] = useState({
@@ -41,6 +43,14 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
+				const information = {
+					userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+					productid: id,
+				};
+				const statusFavorite = await axios
+					.put(`/favorites/status`, information)
+					.then(res => res.data);
+				setFavorites(statusFavorite);
 			} catch (error) {
 				alert(error);
 			}
@@ -98,20 +108,23 @@ function Detail() {
 		setOpen(false);
 		setquantityAvailable(false);
 	};
-	// const handleFavourite = async e => {
-	// 	const information = {
-	// 		userId: '2e36407e-f111-434b-a0ba-82284c102e7c', // pedir este a edwin
-	// 		productId: id,
-	// 	};
-	// 	console.log(e.target.checked);
-	// 	if (e.target.checked) {
-	// 		await axios.put(`/favorites`, {
-	// 			method: 'POST',
-	// 			body: JSON.stringify(information),
-	// 			headers: { 'Content-type': 'application/json; charset=UTF-8' },
-	// 		});
-	// 	}
-	// };
+	const handleFavourite = async e => {
+		if (!user) {
+			history.push('/signin');
+		} else {
+			const information = {
+				userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+				productid: id,
+			};
+			console.log(information);
+			const resp = await axios.put(`/favorites`, information);
+			console.log(resp.data);
+			const statusFavorite = await axios
+				.put(`/favorites/status`, information)
+				.then(res => res.data);
+			setFavorites(statusFavorite);
+		}
+	};
 
 	const action = (
 		<>
@@ -244,20 +257,7 @@ function Detail() {
 				<div className='detail-content-right'>
 					<div className='detail-1'>
 						<div className='dt1-ref'>Ref-{product.id}</div>
-						<div className='dt1-name'>
-							{product.name}
-							<Favorite
-								iconsCount='1'
-								fullIcon={<MdFavorite size={50} />}
-								emptyIcon={
-									<MdFavoriteBorder size={50} style={{ color: ' #ff0000' }} />
-								}
-							/>
-							<input type='checkbox' onClick={e => handleFavourite(e)} />
-							{/* <label htmlFor='star5' title='Rocks!'>
-								❤
-							</label> */}
-						</div>
+						<div className='dt1-name'>{product.name}</div>
 
 						<div className='dt1-price'>
 							Price: $ {product.ProductTypes[0].Stocks.priceST}
@@ -355,7 +355,9 @@ function Detail() {
 						<div onClick={addToCart} className='dt6-1'>
 							Add to bag
 						</div>
-						<div className='dt6-2'>Add to wishlist</div>
+						<div className='dt6-2' onClick={handleFavourite}>
+							{favorites}
+						</div>
 					</div>
 				</div>
 			</div>
