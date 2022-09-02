@@ -211,16 +211,14 @@ const Landing = () => {
 						<div
 							className='mx-auto w-1/2
 						bg-[url("https://i.ibb.co/k639g6H/Whats-App-Image-2022-08-28-at-9-13-57-PM.jpg")]
-						bg-cover bg-center
+						bg-contain bg-no-repeat bg-center
 						lg:w-full lg:h-4/5 lg:my-auto 
-						border-2 rounded-xl 
+						
 						'
 						></div>
 						<ul
-							className=' list-disc flex flex-col h-1/2 mx-auto justify-evenly  rounded-3xl  text-black font-bold my-auto text-[9px]
+							className=' list-disc flex flex-col h-1/2 mx-auto justify-evenly  rounded-3xl font-bold my-auto text-[9px]
 							lg:col-span-2 md:h-1/2 md:text-sm md:w-[90%] lg:p-10
-							bg-[url("https://i.ibb.co/SBzcNCH/pawel-czerwinski-ru-Jm3d-BXCqw-unsplash.jpg")]
-							bg-cover
 						'
 						>
 							<li>
@@ -497,7 +495,7 @@ const Landing = () => {
 			</section>
 
 			{/* Footer */}
-			<section className='w-screen bg-neutral-900 text-white text-xs pt-12'>
+			<section className='w-screen bg-neutral-900 text-white text-sm pt-12'>
 				<div className='container'>
 					<div
 						className='h-40 gap-20 
