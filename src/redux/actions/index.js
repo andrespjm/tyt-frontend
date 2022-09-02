@@ -12,6 +12,7 @@ import {
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
+	GET_USER_FAVOURITES
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -117,5 +118,15 @@ export const getRerview = id => {
 			type: GET_REVIEW,
 			payload: json.data,
 		});
+	};
+};
+
+export const getUserFavourites = (id) => {
+	return async dispatch => {
+		const userFavourites = (await axios.get(`/favorites?userid=${id}`)).data;
+		return dispatch({
+			type: GET_USER_FAVOURITES,
+			payload: userFavourites
+		})
 	};
 };
