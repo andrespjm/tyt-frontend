@@ -1,29 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getUserOrder, getData } from '../../redux/actions';
-
+import { getUser, getUserOrder, getData } from '../../redux/actions';
 import { Menu } from './Menu';
-// import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 
 export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const {redUser} = useSelector(state => state);
-
-
-	// const { currentUserF } = useContext(AuthContext);
-	// const userId = currentUserF.id;
-
-	// const { redUser } = useSelector(state => state);
+  const { user } = useAuth();
 	const { redData } = useSelector(state => state);
 
-
   useEffect(() => {
+    dispatch(getUser(id));
     dispatch(getUserOrder(id));
     dispatch(getData());
   }, [id])
@@ -93,11 +87,11 @@ export const DataAccount = (props) => {
         </div>
         <div className="text-white w-1/4 flex">
           <div className="mx-auto my-auto justify center">
-            {Object.entries(currentUserF).length !== 0 ? (
+            {Object.entries(user).length !== 0 ? (
               <>
                 <img
                   className='inline-block h-7 w-7 mr-2 rounded-full ring-1 ring-white'
-                  src={currentUserF.profilePicture}
+                  src={user.profilePicture}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null; // prevents looping
                     currentTarget.src =
@@ -105,7 +99,7 @@ export const DataAccount = (props) => {
                   }}
                   alt=''
                 />
-                {currentUserF.firstName}
+                {user.firstName}
               </>
             ) : (
               <>
