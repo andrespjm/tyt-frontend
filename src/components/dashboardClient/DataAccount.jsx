@@ -3,7 +3,7 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getUser, getData } from '../../redux/actions';
+import { getUserOrder, getData } from '../../redux/actions';
 import { Menu } from './Menu';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -11,7 +11,6 @@ export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const {redUser} = useSelector(state => state);
-  console.log(redUser)
 
   const { currentUserF } = useContext(AuthContext);
 	// const userId = currentUserF.id;
@@ -20,7 +19,7 @@ export const DataAccount = (props) => {
   const { redData } = useSelector(state => state);
 
   useEffect(() => {
-    dispatch(getUser(id));
+    dispatch(getUserOrder(id));
     dispatch(getData());
   }, [id])
   return (
@@ -31,7 +30,7 @@ export const DataAccount = (props) => {
           <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg"/>
         </div>
         <div className="text-white w-2/4">
-          <h3>Account information</h3>
+          <h2 className='font-bold'>Account information</h2>
           <hr />
           <br />
           <div className="inline-block">
@@ -61,9 +60,34 @@ export const DataAccount = (props) => {
               </Link>
             </div>
           </div>
+          <br />
+          <br />
+          <h2 className='font-bold'>Shipping address</h2>
+          <hr />
+          <br />
+          {redUser?.Purchases?.length > 0 ? (
+            <>
+              <span className="flex font-medium">Last purchase address</span>
+              <br />
+              <div className="inline-block">
+                <span className="flex">Address: </span>
+                <span className="flex">Postal code: </span>
+                <span className="flex">Phone Number: </span>
+              </div>
+              <div className="inline-block pl-4">
+                  <span className="flex">{redUser?.Purchases[0]?.shippingAddressStreet} #{redUser?.Purchases[0]?.shippingAddressNumber}</span>
+                  <span className="flex">{redUser?.Purchases[0]?.postalCode}</span>
+                  <span className="flex">{redUser?.Purchases[0]?.phoneNumber}</span>
+              </div>
+            </>
+          ):(
+            <div>
+              No hay dirección de envio
+            </div>
+          )}
         </div>
         <div className="text-white w-1/4 flex">
-          <div className="mx-auto justify center">
+          <div className="mx-auto my-auto justify center">
             {Object.entries(currentUserF).length !== 0 ? (
               <>
                 <img

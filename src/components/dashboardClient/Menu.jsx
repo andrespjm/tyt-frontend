@@ -21,28 +21,28 @@ export const Menu = () => {
         <ul className='flex justify-center'>
           <li>
             <Link to={`/${id}/user/menu/account`}>
-              <button id='account' type='button' className='flex justify-center px-6 py-6 my-8 border-solid border-1 text-white hover:bg-gray-400 duration-1000'>
+              <button id='account' className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400'>
                 My Account
               </button>
             </Link>
           </li>
           <li>
             <Link to={`/${id}/user/menu/orders`}>
-              <button id='orders' className='flex justify-center px-6 py-6 my-8 border-solid border-1 text-white hover:bg-gray-400 duration-1000'>
+              <button id='orders' className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400 duration-1000'>
                 My Orders
               </button>
             </Link>
           </li>
           <li>
             <Link to={`/${id}/user/menu/favorites`}>
-              <button id='favorites' className='flex justify-center px-6 py-6 my-8 border-solid border-1 text-white hover:bg-gray-400 duration-1000'>
+              <button id='favorites' className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400 duration-1000'>
                 My Favorites
               </button>
             </Link>
           </li>
           <li>
             <Link to={`/${id}/user/menu/address`}>
-              <button id='address' className='flex justify-center px-6 py-6 my-8 border-solid border-1 text-white hover:bg-gray-400 duration-1000'>
+              <button id='address' className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400 duration-1000'>
                 Address Book
               </button>
             </Link>
