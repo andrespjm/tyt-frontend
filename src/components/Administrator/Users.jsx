@@ -22,6 +22,7 @@ const userFilter = props => {
 export const Users = props => (
 	<List {...props} filters={userFilter} textAlign='center'>
 		<Datagrid textAlign='center'>
+			<BooleanField source='enabled' />
 			<ImageField
 				label='Profile'
 				source='profilePicture'
@@ -47,8 +48,7 @@ export const Users = props => (
 			<NumberField label='Identity' source='identityCard' textAlign='center' />
 			<EmailField source='email' textAlign='center' />
 			<DateField source='birthDate' textAlign='center' />
-			<EditButton label='Edit' textAlign='center' />
-			<BooleanField source='disabled' textAlign='center' />
+			<EditButton label='Disable User' textAlign='center' />
 		</Datagrid>
 	</List>
 );

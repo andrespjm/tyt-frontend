@@ -2,16 +2,14 @@
 import { useEffect } from 'react';
 import './Rating.css';
 
-const Rating = ({ rating }) => {
+const Rating = ({ rating, ratings }) => {
+	console.log('Aca2', ratings);
 	const nroStart = () => {
-		if (rating === 'NaN' || null) {
-			return console.log('sin punutacion');
+		if (rating === 0 || null || isNaN(rating)) {
+			return '';
 		} else {
-			console.log('antes de truncar ', rating);
 			const nro = Math.trunc(rating);
-			console.log('despues de truncar ', nro);
-			const input = document.getElementById(`${nro}`);
-			console.log('Aca', input);
+			const input = document.getElementById(`star${nro}`);
 			input.setAttribute('checked', '');
 		}
 	};
@@ -20,64 +18,72 @@ const Rating = ({ rating }) => {
 		nroStart();
 	}, [rating]);
 
+	if (ratings) {
+		console.log('aca', ratings);
+		const input = document.getElementById(`star${ratings}`);
+		console.log(input);
+		// input.setAttribute('checked', '');
+		console.log(input);
+	}
+
 	return (
 		<div className='product-review-stars'>
 			<input
 				type='radio'
-				id='5'
+				id='star5'
 				name='rating'
 				value='5'
 				className='visuallyhidden'
 				disabled='disabled'
 			/>
-			<label htmlFor='5' title='Rocks!'>
+			<label htmlFor='star5' title='Rocks!'>
 				★
 			</label>
 			<input
 				type='radio'
-				id='4'
+				id='star4'
 				name='rating'
 				value='4'
 				className='visuallyhidden'
 				disabled='disabled'
 			/>
-			<label htmlFor='4' title='Pretty good'>
+			<label htmlFor='star4' title='Pretty good'>
 				★
 			</label>
 			<input
 				type='radio'
-				id='3'
+				id='star3'
 				name='rating'
 				value='3'
 				className='visuallyhidden'
 				disabled='disabled'
 			/>
-			<label htmlFor='3' title='Meh'>
+			<label htmlFor='star3' title='Meh'>
 				★
 			</label>
 			<input
 				type='radio'
-				id='2'
+				id='star2'
 				name='rating'
 				value='2'
 				className='visuallyhidden'
 				disabled='disabled'
 			/>
-			<label htmlFor='2' title='Kinda bad'>
+			<label htmlFor='star2' title='Kinda bad'>
 				★
 			</label>
 			<input
 				type='radio'
-				id='1'
+				id='star1'
 				name='rating'
 				value='1'
 				className='visuallyhidden'
 				disabled='disabled'
 			/>
-			<label htmlFor='1' title='Sucks big time'>
+			<label htmlFor='star1' title='Sucks big time'>
 				★
 			</label>
-			<div></div>
+			<div>{ratings}</div>
 		</div>
 	);
 };

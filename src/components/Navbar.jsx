@@ -14,8 +14,8 @@ export default function Navbar() {
 	const navigate = useHistory();
 	const { currentUserF, setIsLogged } = useContext(AuthContext);
 	const userId = currentUserF.id;
-	console.log({currentUserF});
-	console.log("ID USUARIO", currentUserF.id);
+	console.log({ currentUserF });
+	console.log('ID USUARIO', currentUserF.id);
 
 	useEffect(() => {
 		document.getElementById('shp-num').innerHTML = cart.length;
@@ -63,7 +63,7 @@ export default function Navbar() {
 						className={`
 					fa-solid fa-palette
 					text-2xl
-					${location.pathname === '/home' ? 'text-blue-500' : 'text-myPurple-100'}
+					text-myPurple-100
 					mr-4
 					`}
 					></i>
@@ -71,7 +71,7 @@ export default function Navbar() {
 						Cakes
 						<span
 							className={`text-2xl font-bold
-					${location.pathname === '/home' ? 'text-blue-500' : 'text-myPurple-100'}
+					text-myPurple-100
 						`}
 						>
 							&
