@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
+// import { loggin } from '../redux/actions';
 import './ShoppingCart.css';
 // hope
 
@@ -27,8 +28,8 @@ const ShoppingCart = () => {
 	const [pay, setPay] = useState(false);
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
-	const { currentUserF } = useContext(AuthContext);
-	const userId = currentUserF.id;
+	const { currentUserF } = useAuth();
+	const userId = currentUserF.id; // from token information
 
 	function handleIncrement(e) {
 		const cart2 = [...cart];
