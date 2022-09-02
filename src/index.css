@@ -14,21 +14,23 @@ body {
 .btn {
 	@apply py-3 px-5 rounded-full duration-1000;
 }
-
 .btn-red {
 	@apply bg-myRed text-white;
 }
-
 .btn-purple {
 	@apply bg-myPurple-100 text-white;
 }
-
+.btn-blue {
+	@apply bg-blue-300 text-white;
+}
 .btn-red:hover {
 	@apply bg-transparent border border-myRed text-myRed;
 }
-
 .btn-purple:hover {
 	@apply bg-transparent border border-myPurple-100 text-myPurple-100;
+}
+.btn-blue:hover {
+	@apply bg-transparent border border-blue-300 text-blue-300;
 }
 
 @layer utilities {
