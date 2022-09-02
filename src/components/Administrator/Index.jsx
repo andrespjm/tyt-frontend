@@ -10,10 +10,13 @@ import { Create } from './ProductsCreate';
 import UserIcon from '@mui/icons-material/Group';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import FactoryIcon from '@mui/icons-material/Factory';
+import { Charts } from './Charts';
 
 export default function DashBoard() {
 	return (
 		<Admin dataProvider={dataProvider}>
+			<Resource name='chart' list={Charts} />
+
 			<Resource name='users' list={Users} edit={UserEdit} icon={UserIcon} />
 			<Resource
 				name='products'

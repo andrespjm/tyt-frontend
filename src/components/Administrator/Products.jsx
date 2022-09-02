@@ -22,12 +22,13 @@ const postFilters = [
 
 export const Products = props => (
 	<List {...props} filters={postFilters}>
-		<Datagrid expand={<Description />}>
+		<Datagrid textAlign='center' expand={<Description />}>
 			<ImageField
 				label='image'
 				source='img_detail[0].secure_url'
 				src='img_detail[0].secure_url'
 				title='name'
+				textAlign='center'
 				sx={{
 					'& img': {
 						maxWidth: 50,
@@ -37,10 +38,10 @@ export const Products = props => (
 					},
 				}}
 			/>
-			<TextField source='name' />
-			<TextField source='collection' />
-			<TextField source='artist' />
-			<TextField source='Colors.name' />
+			<TextField source='name' textAlign='center' />
+			<TextField source='collection' textAlign='center' />
+			<TextField source='artist' textAlign='center' />
+			<TextField source='Colors.name' textAlign='center' />
 		</Datagrid>
 	</List>
 );

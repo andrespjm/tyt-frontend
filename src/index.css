@@ -12,7 +12,7 @@ body {
 @tailwind utilities;
 
 .btn {
-	@apply py-3 px-5 rounded-full duration-1000 w-32;
+	@apply py-3 px-5 rounded-full duration-1000;
 }
 
 .btn-red {
@@ -24,17 +24,17 @@ body {
 }
 
 .btn-red:hover {
-	@apply bg-transparent border-myRed text-myRed;
+	@apply bg-transparent border border-myRed text-myRed;
 }
 
 .btn-purple:hover {
-	@apply bg-transparent border-myPurple-100 text-myPurple-100;
+	@apply bg-transparent border border-myPurple-100 text-myPurple-100;
 }
 
 @layer utilities {
-	input[type="number"]::-webkit-inner-spin-button,
-	input[type="number"]::-webkit-outer-spin-button {
-	  -webkit-appearance: none;
-	  margin: 0;
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number']::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
 	}
-  }
+}
