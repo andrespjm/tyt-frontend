@@ -12,4 +12,4 @@ export const GET_USER = 'GET_USER';
 export const GET_USER_ORDER = 'GET_USER_ORDER';
 export const GET_REVIEW = 'GET_REVIEW';
 export const GET_USER_FAVOURITES = 'GET_USER_FAVOURITES';
-
+export const DELETE_FAVOURITE = 'DELETE_FAVOURITE';

@@ -12,7 +12,8 @@ import {
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
-	GET_USER_FAVOURITES
+	GET_USER_FAVOURITES,
+	DELETE_FAVOURITE
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -130,3 +131,14 @@ export const getUserFavourites = (id) => {
 		})
 	};
 };
+
+export const deleteFavourite = (userid, productid) => {
+	return async dispatch => {
+		try {
+			await axios.delete('/favorites', {userid, productid})
+			return dispatch({type: DELETE_FAVOURITE})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+}
