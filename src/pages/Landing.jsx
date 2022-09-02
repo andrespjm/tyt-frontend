@@ -20,7 +20,7 @@ const Landing = () => {
 		<div className='snap-y snap-proximity  overflow-hidden select-none'>
 			<section
 				className='w-screen h-[calc(100vh-8rem)] select-none flex flex-none snap-center scroll-mb-96
-			bg-gradient-to-b from-black to-purple-700'
+			bg-gradient-to-b from-black via-purple-700 to-base-900'
 			>
 				<div
 					className='h-full flex flex-col justify-center items-center
@@ -219,6 +219,7 @@ const Landing = () => {
 						<ul
 							className=' list-disc flex flex-col h-1/2 mx-auto justify-evenly  rounded-3xl font-bold my-auto text-[9px]
 							lg:col-span-2 md:h-1/2 md:text-sm md:w-[90%] lg:p-10
+							leading-loose
 						'
 						>
 							<li>
@@ -528,9 +529,7 @@ const Landing = () => {
 					lg:flex-row
 					'
 					>
-						<span className='mx-auto my-auto'>
-							© 2023 Cakes&Bases - + 51 318-409-51-80
-						</span>
+						<span className='mx-auto my-auto'>© 2023 Cakes&Bases TM</span>
 						<span className='mx-auto my-auto'>
 							<img
 								alt='Credit Card Logos'

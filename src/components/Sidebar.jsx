@@ -39,7 +39,7 @@ const Sidebar = () => {
 	}, []);
 
 	const toogleSidebar = () =>
-		document.querySelector('#sidebar').classList.toggle('hidden');
+		document.querySelector('#sidebar').classList.toggle('translate-x-full');
 
 	const updateSwitchColors = () => {
 		if (!queryColors.length) return;
@@ -133,7 +133,7 @@ const Sidebar = () => {
 		<div>
 			<div
 				id='sidebar'
-				className='hidden z-50 fixed top-0 bottom-0 p-2 w-[300px] overflow-y-auto text-center bg-[rgba(0,0,0,0.9)] 
+				className='-left-[300px] z-50 fixed top-0 bottom-0 p-2 w-[300px] overflow-y-auto text-center bg-[rgba(0,0,0,0.9)] duration-1000 select-none
 				'
 			>
 				{/* FILTER HEADER */}
@@ -186,7 +186,7 @@ const Sidebar = () => {
 						document.querySelector('#arr-sock').classList.toggle('rotate-180');
 					}}
 				>
-					<i className='bi bi-chat-left-text-fill'></i>
+					<i className='bi bi-clipboard-check text-teal-300'></i>
 					<div className='flex justify-between w-full items-center'>
 						<span className='text-md ml-4 text-gray-200'>Avaibility</span>
 						<span className='text-sm rotate-180' id='arr-sock'>
@@ -225,7 +225,7 @@ const Sidebar = () => {
 						document.querySelector('#arr-coll').classList.toggle('rotate-180');
 					}}
 				>
-					<i className='bi bi-chat-left-text-fill'></i>
+					<i className='bi bi-brush text-green-400'></i>
 					<div className='flex justify-between w-full items-center'>
 						<span className='text-md ml-4 text-gray-200'>Collection</span>
 						<span className='text-sm rotate-180' id='arr-coll'>
@@ -312,7 +312,7 @@ const Sidebar = () => {
 					className='p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white'
 					onClick={handleGetColors}
 				>
-					<i className='bi bi-chat-left-text-fill'></i>
+					<i className='bi bi-droplet text-blue-300'></i>
 					<div className='flex justify-between w-full items-center'>
 						<span className='text-md ml-4 text-gray-200'>Colors</span>
 						<span className='text-sm' id='arr-clr'>

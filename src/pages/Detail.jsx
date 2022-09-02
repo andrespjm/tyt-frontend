@@ -11,16 +11,19 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
 
 function Detail() {
 	const { id } = useParams();
 	const [product, setProduct] = useState({});
 	const [open, setOpen] = useState(false);
 	const [quantityAvailable, setquantityAvailable] = useState(false);
-	const [rating, setRating] = useState('');
-	const [reviews, setReviews] = useState('');
+	const [rating, setRating] = useState(0);
+	const [reviews, setReviews] = useState(0);
+	const [favorites, setFavorites] = useState('');
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const { user } = useAuth();
 	// const { redLoading } = useSelector(state => state);
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const [state] = useState({
@@ -37,18 +40,23 @@ function Detail() {
 				const response = await axios.get(`/products/${id}`);
 				setProduct(response.data);
 				dispatch(setLoading(false));
-				console.log(id);
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
-				console.log('rating', rating.numberRevisions);
-				// const averageScore = rating.averageScore;
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
+				const information = {
+					userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+					productid: id,
+				};
+				const statusFavorite = await axios
+					.put(`/favorites/status`, information)
+					.then(res => res.data);
+				setFavorites(statusFavorite);
 			} catch (error) {
 				alert(error);
 			}
 		}
 		fetchData();
-	}, [dispatch, id]);
+	}, [dispatch, id, rating]);
 
 	const addToCart = () => {
 		const selection = {
@@ -61,17 +69,17 @@ function Detail() {
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks.id,
 			price:
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-					.price,
+					.priceST,
 			quantity: parseInt(document.querySelector('#quantity').value),
 			stockQuantity: parseInt(
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-					.quantity
+					.quantityST
 			),
 		};
 
 		const stock =
 			product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-				.quantity;
+				.quantityST;
 		console.log(cart);
 
 		const alreadySelected = cart.find(e => e.stockId === selection.stockId);
@@ -100,6 +108,23 @@ function Detail() {
 		setOpen(false);
 		setquantityAvailable(false);
 	};
+	const handleFavourite = async e => {
+		if (!user) {
+			history.push('/signin');
+		} else {
+			const information = {
+				userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+				productid: id,
+			};
+			console.log(information);
+			const resp = await axios.put(`/favorites`, information);
+			console.log(resp.data);
+			const statusFavorite = await axios
+				.put(`/favorites/status`, information)
+				.then(res => res.data);
+			setFavorites(statusFavorite);
+		}
+	};
 
 	const action = (
 		<>
@@ -126,32 +151,32 @@ function Detail() {
 			document.querySelector('.dt4-2').className = 'dt4-2';
 			document.querySelector(
 				'.dt1-price'
-			).innerHTML = ` Price: $ ${product.ProductTypes[0].Stocks.price}`;
+			).innerHTML = ` Price: $ ${product.ProductTypes[0].Stocks.priceST}`;
 			document.querySelector('#detail-5').innerHTML =
-				product.ProductTypes[0].Stocks.quantity;
+				product.ProductTypes[0].Stocks.quantityST;
 			document.querySelector(
 				'#detail-7'
-			).value = `${product.ProductTypes[0].Stocks.quantity}`;
+			).value = `${product.ProductTypes[0].Stocks.quantityST}`;
 			document.querySelector('.detail-4').id = 0;
 			document.querySelector(
 				'#quantity'
-			).max = `${product.ProductTypes[0].Stocks.quantity}`;
+			).max = `${product.ProductTypes[0].Stocks.quantityST}`;
 			document.querySelector('#quantity').value = 1;
 		} else {
 			document.querySelector('.dt4-1').className = 'dt4-1';
 			document.querySelector('.dt4-2').className = 'dt4-2 selected';
 			document.querySelector(
 				'.dt1-price'
-			).innerHTML = ` Price: $ ${product.ProductTypes[1].Stocks.price}`;
+			).innerHTML = ` Price: $ ${product.ProductTypes[1].Stocks.priceST}`;
 			document.querySelector('#detail-5').innerHTML =
-				product.ProductTypes[1].Stocks.quantity;
+				product.ProductTypes[1].Stocks.quantityST;
 			document.querySelector(
 				'#detail-7'
-			).value = `${product.ProductTypes[1].Stocks.quantity}`;
+			).value = `${product.ProductTypes[1].Stocks.quantityST}`;
 			document.querySelector('.detail-4').id = 1;
 			document.querySelector(
 				'#quantity'
-			).max = `${product.ProductTypes[1].Stocks.quantity}`;
+			).max = `${product.ProductTypes[1].Stocks.quantityST}`;
 			document.querySelector('#quantity').value = 1;
 		}
 
@@ -233,14 +258,15 @@ function Detail() {
 					<div className='detail-1'>
 						<div className='dt1-ref'>Ref-{product.id}</div>
 						<div className='dt1-name'>{product.name}</div>
+
 						<div className='dt1-price'>
-							Price: $ {product.ProductTypes[0].Stocks.price}
+							Price: $ {product.ProductTypes[0].Stocks.priceST}
 						</div>
 					</div>
 					<div className='detail-2'>
 						{rating !== 'NaN' && <span>{rating}</span>}
 						<Rating rating={rating} />
-						<Link to={`/rating/:${id}`}>
+						<Link to={`/reviews/${id}`}>
 							<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
 						</Link>
 					</div>
@@ -286,7 +312,7 @@ function Detail() {
 					<div className='mt-10'>
 						<span>Stock: </span>
 						<span id='detail-5' className='ml-2'>
-							{product.ProductTypes[0].Stocks.quantity}
+							{product.ProductTypes[0].Stocks.quantityST}
 						</span>
 						<span> un</span>
 					</div>
@@ -306,7 +332,7 @@ function Detail() {
 									className='text-white text-center bg-transparent w-10 caret-transparent after
 								'
 									min='1'
-									max={product.ProductTypes[0].Stocks.quantity}
+									max={product.ProductTypes[0].Stocks.quantityST}
 									readOnly
 									type='number'
 									id='quantity'
@@ -329,7 +355,9 @@ function Detail() {
 						<div onClick={addToCart} className='dt6-1'>
 							Add to bag
 						</div>
-						<div className='dt6-2'>Add to wishlist</div>
+						<div className='dt6-2' onClick={handleFavourite}>
+							{favorites}
+						</div>
 					</div>
 				</div>
 			</div>

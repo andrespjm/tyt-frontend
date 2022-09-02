@@ -1,22 +1,27 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
+
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getUserOrder, getData } from '../../redux/actions';
+
 import { Menu } from './Menu';
-import { AuthContext } from '../../context/AuthContext';
+// import { AuthContext } from '../../context/AuthContext';
+
 
 export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const {redUser} = useSelector(state => state);
 
-  const { currentUserF } = useContext(AuthContext);
+
+	// const { currentUserF } = useContext(AuthContext);
 	// const userId = currentUserF.id;
 
-  // const { redUser } = useSelector(state => state);
-  const { redData } = useSelector(state => state);
+	// const { redUser } = useSelector(state => state);
+	const { redData } = useSelector(state => state);
+
 
   useEffect(() => {
     dispatch(getUserOrder(id));
@@ -114,3 +119,4 @@ export const DataAccount = (props) => {
     </>
   )
 };
+

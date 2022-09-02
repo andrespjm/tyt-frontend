@@ -22,8 +22,8 @@ export const validateUser = yup.object({
 		.string()
 		.required('Please enter your identity card')
 		.matches(/^[0-9]+$/, 'Must be only digits')
-		.min(8, 'Must be exactly 8 digits')
-		.max(10, 'Must be exactly 10 digits'),
+		.min(6, 'Please min 6 digits')
+		.max(10, 'Please max 10 digits'),
 	// typeId: yup.mixed().oneOf(['cc', 'ce', 'passport']).defined(),
 	// birthDate: yup
 	// 	.date()

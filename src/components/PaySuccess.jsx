@@ -1,24 +1,28 @@
+import axios from 'axios';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
 
 const PaySuccess = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
-	const { currentUserF } = useContext(AuthContext);
+	const { currentUserF } = useAuth();
 	// useEffect(() => {
 	async function pay() {
 		try {
 			// CHANGE
 			const userId = currentUserF.id;
+			console.log(userId);
 			const user = (await axios.get(`/users/${userId}`)).data;
 
+			console.log(user);
 			const orderId = (await axios.get(`/purchases/cart?userId=${userId}`))
 				.data;
+			console.log(orderId);
 			await axios.put(`/purchases/user/${orderId[0].id}`, {
 				status: 'Paid',
 			});
+			console.log('voy a aplicar');
 			await Promise.all(
 				cart.map(el =>
 					axios.put('/stocks/apply', {
@@ -27,15 +31,18 @@ const PaySuccess = () => {
 					})
 				)
 			);
+			console.log('voy a confirmar');
 			await axios.put(`/order-items/confirmed`, {
 				orderId: orderId[0].id,
 			});
+			console.log('voy a mandar el mail');
 			await axios.post(`/mails/succ`, {
 				purchaseMail: user.email,
 				name: user.firstName,
 				orderId: orderId[0].id,
 			});
 
+			console.log('voy a limppiar el carrito');
 			setCart([]);
 		} catch (error) {
 			alert('error');
