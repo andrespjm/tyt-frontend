@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Rating from './Rating';
-
+import ReactStarsRating from 'react-awesome-stars-rating';
 const Reviews = () => {
 	const { id } = useParams();
 
@@ -16,21 +15,22 @@ const Reviews = () => {
 		}
 		fetchData();
 	}, []);
+
 	return (
 		<div>
-			{data
-				? data.map(e => (
-						<div key={e.id}>
-							<p>{e.user.displayName}</p>
-							<p key={e.comments}>comments: {e.comments}</p>
-							<p key={e.score}>score: {e.score}</p>
-							<Rating id={e.id} ratings={e.score} rating={e.score} />
-							<br />
-							<br />
-							<br />
-						</div>
-				  ))
-				: 'no exite'}
+			{data &&
+				data.map(e => (
+					<div key={e.id}>
+						<p>{e.user.displayName}</p>
+						<p key={e.comments}>comments: {e.comments}</p>
+						<p key={e.score}>score: {e.score}</p>
+						<ReactStarsRating
+							value={e.score}
+							className='flex'
+							isSelectable={false}
+						/>
+					</div>
+				))}
 		</div>
 	);
 };
