@@ -61,17 +61,17 @@ function Detail() {
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks.id,
 			price:
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-					.price,
+					.priceST,
 			quantity: parseInt(document.querySelector('#quantity').value),
 			stockQuantity: parseInt(
 				product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-					.quantity
+					.quantityST
 			),
 		};
 
 		const stock =
 			product.ProductTypes[document.querySelector('.detail-4').id].Stocks
-				.quantity;
+				.quantityST;
 		console.log(cart);
 
 		const alreadySelected = cart.find(e => e.stockId === selection.stockId);
@@ -126,32 +126,32 @@ function Detail() {
 			document.querySelector('.dt4-2').className = 'dt4-2';
 			document.querySelector(
 				'.dt1-price'
-			).innerHTML = ` Price: $ ${product.ProductTypes[0].Stocks.price}`;
+			).innerHTML = ` Price: $ ${product.ProductTypes[0].Stocks.priceST}`;
 			document.querySelector('#detail-5').innerHTML =
-				product.ProductTypes[0].Stocks.quantity;
+				product.ProductTypes[0].Stocks.quantityST;
 			document.querySelector(
 				'#detail-7'
-			).value = `${product.ProductTypes[0].Stocks.quantity}`;
+			).value = `${product.ProductTypes[0].Stocks.quantityST}`;
 			document.querySelector('.detail-4').id = 0;
 			document.querySelector(
 				'#quantity'
-			).max = `${product.ProductTypes[0].Stocks.quantity}`;
+			).max = `${product.ProductTypes[0].Stocks.quantityST}`;
 			document.querySelector('#quantity').value = 1;
 		} else {
 			document.querySelector('.dt4-1').className = 'dt4-1';
 			document.querySelector('.dt4-2').className = 'dt4-2 selected';
 			document.querySelector(
 				'.dt1-price'
-			).innerHTML = ` Price: $ ${product.ProductTypes[1].Stocks.price}`;
+			).innerHTML = ` Price: $ ${product.ProductTypes[1].Stocks.priceST}`;
 			document.querySelector('#detail-5').innerHTML =
-				product.ProductTypes[1].Stocks.quantity;
+				product.ProductTypes[1].Stocks.quantityST;
 			document.querySelector(
 				'#detail-7'
-			).value = `${product.ProductTypes[1].Stocks.quantity}`;
+			).value = `${product.ProductTypes[1].Stocks.quantityST}`;
 			document.querySelector('.detail-4').id = 1;
 			document.querySelector(
 				'#quantity'
-			).max = `${product.ProductTypes[1].Stocks.quantity}`;
+			).max = `${product.ProductTypes[1].Stocks.quantityST}`;
 			document.querySelector('#quantity').value = 1;
 		}
 
@@ -234,7 +234,7 @@ function Detail() {
 						<div className='dt1-ref'>Ref-{product.id}</div>
 						<div className='dt1-name'>{product.name}</div>
 						<div className='dt1-price'>
-							Price: $ {product.ProductTypes[0].Stocks.price}
+							Price: $ {product.ProductTypes[0].Stocks.priceST}
 						</div>
 					</div>
 					<div className='detail-2'>
@@ -286,7 +286,7 @@ function Detail() {
 					<div className='mt-10'>
 						<span>Stock: </span>
 						<span id='detail-5' className='ml-2'>
-							{product.ProductTypes[0].Stocks.quantity}
+							{product.ProductTypes[0].Stocks.quantityST}
 						</span>
 						<span> un</span>
 					</div>
@@ -306,7 +306,7 @@ function Detail() {
 									className='text-white text-center bg-transparent w-10 caret-transparent after
 								'
 									min='1'
-									max={product.ProductTypes[0].Stocks.quantity}
+									max={product.ProductTypes[0].Stocks.quantityST}
 									readOnly
 									type='number'
 									id='quantity'

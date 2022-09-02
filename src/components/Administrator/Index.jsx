@@ -11,6 +11,7 @@ import UserIcon from '@mui/icons-material/Group';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import FactoryIcon from '@mui/icons-material/Factory';
 import { Charts } from './Charts';
+import './Index.css';
 
 export default function DashBoard() {
 	return (
