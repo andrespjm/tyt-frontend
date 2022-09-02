@@ -236,86 +236,104 @@ const ShoppingCart = () => {
 			</div>
 
 			<button
-				className='btn btn-red hover:btn-red mx-auto my-5'
+				className='btn btn-red hover:btn-red mx-auto my-5 w-32'
 				onClick={() => history.push('/home')}
 			>
 				back
 			</button>
 			{checkout && (
-				<div className='absolute top-0 w-screen h-[900px] flex items-center justify-center'>
+				<div className='absolute top-0 w-screen h-screen flex items-center justify-center'>
 					<form
 						onSubmit={handleOrder}
-						className='bg-blue-200 p-14 rounded-lg w-[800px] h-[480px]'
+						className='bg-gray-800 border-2 border-blue-300 text-white p-14 w-2/3 rounded-lg
+						'
 					>
-						<div className='text-end text-lg'>
-							<button
-								className='text-center text-lg'
-								onClick={() => setCheckout(false)}
-							>
-								X
-							</button>
-						</div>
-						<h2 className='text-center text-lg'>
-							Update your shipping information:
+						<div className='text-end text-lg'></div>
+						<h2 className='text-center text-xl border-b-2 border-blue-200 py-4'>
+							Please update your shipping information!
 						</h2>
-						<div className='grid grid-cols-2 mt-6'>
-							<div className='flex flex-col h-[260px]'>
-								<label htmlFor='phoneNumber'>Phone Number: </label>
-								<label className='mt-[15px]' htmlFor='postalCode'>
-									Postal Code:{' '}
+						<div className='mt-6'>
+							<div>
+								<label className='w-1/3' htmlFor='phoneNumber'>
+									Phone Number:
 								</label>
-								<label className='mt-[15px]' htmlFor='shippingAddressStreet'>
-									Street Adress:{' '}
-								</label>
-								<label className='mt-[15px]' htmlFor='shippingAddressNumber'>
-									House Number:{' '}
-								</label>
-							</div>
-							<div className='flex flex-col'>
 								<input
-									className='border rounded-md text-[14px] p-1'
+									className='w-2/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-2
+									focus:outline-1 focus:outline-blue-500
+									'
 									type='text'
 									onChange={handleOrderData}
 									name='phoneNumber'
 									value={orderData.phoneNumber}
-								></input>
+								/>
+							</div>
+							<div>
+								<label className='w-1/3' htmlFor='postalCode'>
+									Postal Code:
+								</label>
 								<input
-									className='border rounded-md mt-2 text-[14px] p-1'
+									className='w-2/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-2
+									focus:outline-1 focus:outline-blue-500
+									'
 									type='text'
 									onChange={handleOrderData}
 									name='postalCode'
 									value={orderData.postalCode}
-								></input>
+								/>
+							</div>
+							<div>
+								<label className='w-1/3' htmlFor='shippingAddressStreet'>
+									Street Adress:
+								</label>
 								<input
-									className='border rounded-md mt-2 text-[14px] p-1'
+									className='w-2/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-2
+									focus:outline-1 focus:outline-blue-500
+									'
 									type='text'
 									onChange={handleOrderData}
 									name='shippingAddressStreet'
 									value={orderData.shippingAddressStreet}
-								></input>
+								/>
+							</div>
+							<div>
+								<label className='w-1/3' htmlFor='shippingAddressNumber'>
+									House Number:
+								</label>
 								<input
-									className='border rounded-md mt-2 text-[14px] p-1'
+									className='w-2/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-2
+									focus:outline-1 focus:outline-blue-500
+									'
 									type='text'
 									onChange={handleOrderData}
 									name='shippingAddressNumber'
 									value={orderData.shippingAddressNumber}
-								></input>
+								/>
 							</div>
 						</div>
-						{errorOrder && (
-							<div className=' p-1 text-center '>
-								Please complete all the information fields
-							</div>
-						)}
-						<div className='relative flex justify-center'>
+
+						<div
+							className={`py-1 text-center text-myRed text-xs
+							${errorOrder ? 'visible' : 'invisible'}
+							`}
+						>
+							Please complete all the information fields
+						</div>
+
+						<div className='relative flex justify-around mt-4'>
+							<button
+								className='w-32 btn btn-red hover:btn-red'
+								onClick={() => setCheckout(false)}
+							>
+								close
+							</button>
 							{!pay && (
 								<button
-									className='btn btn-red hover:btn-red '
+									className='w-32 btn btn-blue hover:btn-blue '
 									id='page-content'
 									type='submit'
 									value='CONFIRM'
 								>
-									Confirm
+									confirm
 								</button>
 							)}
 							{pay && (
