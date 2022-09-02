@@ -7,6 +7,7 @@ import { validationSignUpSchema } from '../../../helpers/validations.helper';
 // eslint-disable-next-line react/prop-types
 export const FormSignUp = ({ handleSubmit, error }) => {
 	const [spinner, setSpinner] = useState(true);
+	const [message, setMessage] = useState(true);
 	return (
 		<div className='container mx-auto'>
 			<div className='flex justify-center px-6 my-12'>
@@ -40,7 +41,9 @@ export const FormSignUp = ({ handleSubmit, error }) => {
 								setSpinner(false);
 								setTimeout(() => {
 									handleSubmit(values);
+									resetForm();
 									setSpinner(true);
+									setMessage(false);
 								}, 1000);
 							}}
 						>
@@ -175,7 +178,10 @@ export const FormSignUp = ({ handleSubmit, error }) => {
 										>
 											Register Account
 										</button>
-										<p className='text-sm italic mt-2 p-2 text-lime-700'>
+										<p
+											className='text-md italic mt-2 p-2 text-lime-700'
+											hidden={message}
+										>
 											User created successfully
 										</p>
 									</div>

@@ -1,9 +1,7 @@
 import {
 	Datagrid,
-	EditButton,
 	ImageField,
 	List,
-	ReferenceInput,
 	RichTextField,
 	SimpleShowLayout,
 	TextField,
@@ -16,13 +14,14 @@ const Description = () => (
 	</SimpleShowLayout>
 );
 
-const productFilter = [
-	<TextInput source='q' label='Search' alwaysOn />,
-	<ReferenceInput source='name' label='name' reference='name' />,
+const postFilters = [
+	<TextInput label='Search' source='q' alwaysOn />,
+	<TextInput label='name' source='name' />,
+	<TextInput label='collection' source='collection' />,
 ];
 
-export const Products = () => (
-	<List filters={productFilter}>
+export const Products = props => (
+	<List {...props} filters={postFilters}>
 		<Datagrid expand={<Description />}>
 			<ImageField
 				label='image'
@@ -41,7 +40,7 @@ export const Products = () => (
 			<TextField source='name' />
 			<TextField source='collection' />
 			<TextField source='artist' />
-			<EditButton />
+			<TextField source='Colors.name' />
 		</Datagrid>
 	</List>
 );

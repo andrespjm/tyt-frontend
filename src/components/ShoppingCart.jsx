@@ -6,6 +6,7 @@ import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { payMercadoPago } from '../helpers/payMercadoPago.js';
 // import { loggin } from '../redux/actions';
 import './ShoppingCart.css';
+// hope
 
 const ShoppingCart = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
@@ -47,6 +48,7 @@ const ShoppingCart = () => {
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
+		console.log(currentUserF);
 		Object.entries(currentUserF).length === 0 && history.push('/signin');
 		try {
 			const orderId = (await axios.get(`/purchases/data?userId=${userId}`))
@@ -60,6 +62,7 @@ const ShoppingCart = () => {
 					shippingAddressNumber: orderId[0].shippingAddressNumber,
 				});
 			}
+			// localStorage.setItem('payment', 'true');
 		} catch (error) {
 			alert(error.request.response);
 		}
@@ -243,8 +246,16 @@ const ShoppingCart = () => {
 				<div className='absolute top-0 w-screen h-[900px] flex items-center justify-center'>
 					<form
 						onSubmit={handleOrder}
-						className='bg-blue-200 p-14 rounded-lg w-[800px] h-[460px]'
+						className='bg-blue-200 p-14 rounded-lg w-[800px] h-[480px]'
 					>
+						<div className='text-end text-lg'>
+							<button
+								className='text-center text-lg'
+								onClick={() => setCheckout(false)}
+							>
+								X
+							</button>
+						</div>
 						<h2 className='text-center text-lg'>
 							Update your shipping information:
 						</h2>

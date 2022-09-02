@@ -5,13 +5,15 @@ import {
 	List,
 	TextField,
 	NumberField,
-	DeleteButton,
+	// DeleteButton,
 } from 'react-admin';
 
 export const PurchaseList = () => (
 	<List>
 		<Datagrid>
 			<NumberField source='id' />
+			{/* <NumberField source='User.id' /> */}
+			<NumberField source='User.displayName' />
 			<TextField source='status' />
 			<NumberField source='phoneNumber' />
 			<NumberField source='postalCode' label='Zip Code' />
@@ -21,7 +23,7 @@ export const PurchaseList = () => (
 			<TextField source='shipmentTracking' />
 			<DateField source='createdAt' />
 			<EditButton label='Edit' />
-			<DeleteButton label='Del' />
+			{/* <DeleteButton label='Del' /> */}
 		</Datagrid>
 	</List>
 );

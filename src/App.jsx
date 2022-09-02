@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -28,11 +29,11 @@ import Reviews from './components/Reviews';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 
 function App() {
-	const { setCurrentUserF } = useAuth();
+	const { setCurrentUserF, user } = useAuth();
 
 	useEffect(() => {
 		onAuthStateChanged(auth, handleUserStateChanged);
-	}, []);
+	}, [user]);
 	async function handleUserStateChanged(user) {
 		if (user) {
 			const isRegister = await userExists(user.uid);
@@ -54,6 +55,15 @@ function App() {
 	return (
 		<>
 			<Navbar />
+
+			{user &&
+				Object.entries(user).length !== 0 &&
+				user.hasOwnProperty('emailVerified') &&
+				!user.emailVerified && (
+					<div className='text-center bg-yellow-400 text-md py-3 w-full'>
+						<b>Please activate your account</b>
+					</div>
+				)}
 
 			<Switch>
 				<Route exact path='/' component={Landing} />

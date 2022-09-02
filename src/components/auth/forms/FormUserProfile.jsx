@@ -39,7 +39,6 @@ export const FormUserProfile = ({ currentUser, handleContinue }) => {
 						handleContinue(values);
 						setTimeout(() => {
 							setSpinner(true);
-							window.location.reload();
 						}, 1000);
 					}}
 				>
