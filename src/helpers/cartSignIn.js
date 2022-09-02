@@ -18,7 +18,7 @@ export const cartSignIn = async (userId, cart, setCart) => {
 				stockId: el.StockId,
 				price: el.price,
 				quantity: el.quantity,
-				stockQuantity: el.Stock.quantity,
+				stockQuantity: el.Stock.quantityST,
 			}));
 
 			// eslint-disable-next-line no-return-assign
