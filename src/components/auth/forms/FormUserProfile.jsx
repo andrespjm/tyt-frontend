@@ -1,13 +1,25 @@
 /* eslint-disable react/prop-types */
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
+import { signout } from '../../../firebase/firebase';
 import { validateUser } from '../../../validations/editProfileValidate';
 // eslint-disable-next-line react/prop-types
 export const FormUserProfile = ({ currentUser, handleContinue }) => {
 	// eslint-disable-next-line react/prop-types
+	// console.log('hoooola', currentUser);
+	// const firstName = arr[0];
 	const arr = currentUser.displayName.split(' ');
 	const firstName = arr[0];
 	const lastName = arr[1];
+	const [spinner, setSpinner] = useState(true);
+	// console.log('firstName:', firstName);
+	// const lastName = arr[1];
+	// const navigate = useHistory();
+
+	const handelCancel = () => {
+		signout();
+	};
 
 	return (
 		<div className='container mx auto'>
@@ -22,13 +34,20 @@ export const FormUserProfile = ({ currentUser, handleContinue }) => {
 					}}
 					validationSchema={validateUser}
 					onSubmit={(values, { resetForm }) => {
-						console.log(values);
-						handleContinue(values);
 						resetForm();
+						setSpinner(false);
+						handleContinue(values);
+						setTimeout(() => {
+							setSpinner(true);
+							window.location.reload();
+						}, 1000);
 					}}
 				>
 					{({ errors }) => (
 						<Form className='px-8 pt-6 pb-6 mb-4 bg-gray-100 rounded'>
+							<div className='flex justify-center mb-2' hidden={spinner}>
+								<BeatLoader />
+							</div>
 							<div className='mb-2 md:flex md:justify-between'>
 								<div className='mb-4 md:mr-2 md:mb-0'>
 									<label
@@ -187,7 +206,7 @@ export const FormUserProfile = ({ currentUser, handleContinue }) => {
 								/>
 							</div>
 							{/* </div> */}
-							<div className='mb-6 text-center w-full px-3 py-3'>
+							<div className='mb-1 text-center w-full px-3 py-2'>
 								<button
 									className='w-full px-4 py-2 font-bold text-white rounded-full bg-violet-400 hover:bg-violet-500 focus:outline-none focus:shadow-outline'
 									type='submit'
@@ -195,13 +214,14 @@ export const FormUserProfile = ({ currentUser, handleContinue }) => {
 									Save
 								</button>
 							</div>
-							<div className='text-center'>
-								<Link
-									className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'
-									to='/user/changepassword'
+							<div className='mb-1 text-center w-full px-3 py-2'>
+								<button
+									className='w-full px-4 py-2 font-bold text-white rounded-full bg-red-400 hover:bg-red-500 focus:outline-none focus:shadow-outline'
+									type='button'
+									onClick={handelCancel}
 								>
-									Change Password?
-								</Link>
+									Cancel
+								</button>
 							</div>
 						</Form>
 					)}
