@@ -25,6 +25,7 @@ import Detail from './pages/Detail';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 
+import { SignIn } from './components/auth/SignIn';
 import Reviews from './components/Reviews';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 
@@ -72,18 +73,17 @@ function App() {
 				<Route exact path='/addproduct' component={ProductForm} />
 				<Route exact path='/shop/shoppingCart' component={ShoppingCart} />
 
-				<Route exact path='/signup' component={SignUp} />
+				<Route exact path='/signup'>
+					<ProtectedRoute>
+						<SignUp />
+					</ProtectedRoute>
+				</Route>
 				<Route exact path={'/paysuccess'} component={PaySuccess} />
 				<Route exact path={'/payfailure'} component={PayFailure} />
 				<Route exact path={'/reviews'} component={Reviews} />
-				<Route path='/user/edit'>
-					<ProtectedRoute>
-						<EditUserProfile />
-					</ProtectedRoute>
-				</Route>
-
+				<Route exact path='/user/edit' component={EditUserProfile} />
 				{/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
-				{/* <Route exact path='/signin' component={SignIn} /> */}
+				<Route exact path='/signin' component={SignIn} />
 				<Route exact path='/user/main' component={HomeUser} />
 				<Route exact path='/:id/user/menu' component={Menu} />
 				<Route exact path='/:id/user/menu/account' component={DataAccount} />
