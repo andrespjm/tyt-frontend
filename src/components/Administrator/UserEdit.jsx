@@ -4,7 +4,7 @@ export const UserEdit = props => (
 	<Edit title={'Edit Users'} {...props}>
 		<SimpleForm>
 			<TextInput disabled source='id' />
-			<BooleanInput source='disabled' />
+			<BooleanInput source='enabled' />
 		</SimpleForm>
 	</Edit>
 );

@@ -3,7 +3,7 @@ import { Edit, SelectInput, SimpleForm, TextInput } from 'react-admin';
 export const PurchaseEdit = () => {
 	return (
 		<Edit title='Edit shipping status purchase'>
-			<SimpleForm>
+			<SimpleForm textAlign='center'>
 				<TextInput disabled source='id' />
 				{/* <TextInput source='status' /> */}
 				<SelectInput
