@@ -13,14 +13,15 @@ import {
 	SearchInput,
 } from 'react-admin';
 
-const userFilter = props => {
-	<Filter {...props}>
-		<SearchInput source='firstName' resettable alwaysOn />
-	</Filter>;
-};
+// const userFilter = props => {
+// 	<Filter {...props}>
+// 		<SearchInput source='firstName' resettable alwaysOn />
+// 	</Filter>;
+// };
 
+// filters={userFilter}
 export const Users = props => (
-	<List {...props} filters={userFilter} textAlign='center'>
+	<List {...props} textAlign='center'>
 		<Datagrid textAlign='center'>
 			<BooleanField source='enabled' />
 			<ImageField
