@@ -14,10 +14,10 @@ export default function Navbar() {
 	const [menuSign, setMenuSign] = useState(false);
 	const location = useLocation();
 	const navigate = useHistory();
-	const { currentUserF, setIsLogged } = useAuth();
-	const userId = currentUserF.id;
-	console.log({ currentUserF });
-	console.log('ID USUARIO', currentUserF.id);
+	const { user, setIsLogged } = useAuth();
+	const userId = user.uid;
+	console.log({ user });
+	console.log('ID USUARIO', user.uid);
 
 	useEffect(() => {
 		document.getElementById('shp-num').innerHTML = cart.length;
@@ -29,7 +29,7 @@ export default function Navbar() {
 	};
 
 	const handleOnClickAuth = () => {
-		if (Object.entries(currentUserF).length === 0) {
+		if (Object.entries(user).length === 0) {
 			navigate.push('/signin');
 		} else {
 			setMenuSign(!menuSign);
@@ -247,11 +247,11 @@ export default function Navbar() {
 					`}
 							// href='/signin'
 						>
-							{Object.entries(currentUserF).length !== 0 ? (
+							{Object.entries(user).length !== 0 ? (
 								<>
 									<img
 										className='inline-block h-7 w-7 mr-2 rounded-full ring-1 ring-white'
-										src={currentUserF.profilePicture}
+										// src={currentUserF.profilePicture}
 										onError={({ currentTarget }) => {
 											currentTarget.onerror = null; // prevents looping
 											currentTarget.src =
@@ -259,7 +259,7 @@ export default function Navbar() {
 										}}
 										alt=''
 									/>
-									{currentUserF.firstName}
+									{/* {currentUserF.firstName} */}
 								</>
 							) : (
 								<>
