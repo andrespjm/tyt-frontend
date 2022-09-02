@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../components/ProductForm2.css';
@@ -56,6 +56,7 @@ const ProductForm = () => {
 	};
 
 	const handleOnClickColors = e => {
+		setInput({ ...input, color: [...input.color, e.target.name] });
 		if (e.target.checked) {
 			if (queryColors.length === 3) return;
 			if (queryColors.length === 2)
@@ -94,33 +95,18 @@ const ProductForm = () => {
 		);
 	};
 
-	// const handleImage = e => {
-	// 	setImageMain(e.target.files[0]);
-	// 	/* setError(
-	// 		validateProduct({
-	// 			...input,
-	// 			[e.target.name]: e.target.value,
-	// 		})
-	// 	) */
-	// };
+	const handleImage = e => {
+		setImageMain(e.target.files[0]);
+	};
 
-	// const handleChangeImages = e => {
-	// 	setimagesDatail(e.target.files);
-	// 	/* setError(
-	// 			validateProduct({
-	// 				...input,
-	// 				[e.target.name]: e.target.value,
-	// 			})
-	// 		) */
-	// 	// }
-	// };
+	const handleChangeImages = e => {
+		setimagesDatail(e.target.files);
+	};
 
 	const handleChangeStock = e => {
 		if (e.target.value < 0) return alert('negative quantity not allowed');
 		setStock({ ...stock, [e.target.name]: Number(e.target.value) });
 	};
-
-	console.log(imageMain);
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -155,6 +141,7 @@ const ProductForm = () => {
 			if (!newProduct.name || Object.entries(newProduct).length === 0) {
 				errorAll.current.innerText = 'Some fields are missing';
 			} else {
+				console.log('AQUII')
 				const res = await axios.post(
 					'/products',
 					{
@@ -188,7 +175,7 @@ const ProductForm = () => {
 			// });
 		} catch (error) {
 			errorAll.current.innerText = error.response.data;
-			// console.log(error.response.data);
+			console.log(error.response.data);
 		}
 	};
 	return (
@@ -206,7 +193,7 @@ const ProductForm = () => {
 						<div className='mt-4 border-b-2 border-blue-300 pb-4'>
 							<div>
 								<label
-									htmlFor='image_uploads'
+									htmlFor='imageMain'
 									className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
 								>
 									Choose your cover image (PNG, JPG)
@@ -214,11 +201,19 @@ const ProductForm = () => {
 								<input
 									className='hidden'
 									type='file'
-									id='image_uploads'
-									name='image_uploads'
+									id='imageMain'
+									name='imageMain'
 									accept='.jpg, .jpeg, .png'
+									value={input.imageMain}
+									onChange={handleImage}
 								/>
 							</div>
+							<span
+								className={`text-red-400 text-xs mt-1${
+								errorSelectImage.imageMain ? 'visible' : 'invisible'}`}
+							>
+								{errorSelectImage.imageMain}
+							</span>
 							<div className='preview mt-4'>
 								No files currently selected for upload...
 							</div>
@@ -240,7 +235,7 @@ const ProductForm = () => {
 
 							<span
 								className={`text-red-400 text-xs mt-1${
-									error.name ? 'block' : 'hidden'
+									error.name ? 'visible' : 'invisible'
 								}`}
 							>
 								{error.name}
@@ -258,16 +253,17 @@ const ProductForm = () => {
 								value={input.artist}
 								onChange={handleChange}
 							/>
-							{error.artist && (
-								<span className='text-red-500 text-xs'>{error.artist}</span>
-							)}
+							<span
+								className={`text-red-400 text-xs mt-1${
+									error.artist ? 'visible' : 'invisible'
+								}`}
+							>
+								{error.artist}
+							</span>
 						</div>
 
 						{/* COLLECTION */}
-						<div
-							className='
-             mt-4 border-y-2 border-blue-300 py-4'
-						>
+						<div className='mt-4 border-y-2 border-blue-300 py-4'>
 							<fieldset className='select-none'>
 								<span className='text-lg '>Select collection</span>
 								<div className='flex gap-4 m-4'>
@@ -280,6 +276,7 @@ const ProductForm = () => {
 											name='collection'
 											value='Abstract'
 											defaultChecked
+											onChange={handleChange}
 										/>
 										<label htmlFor='Abstract'>Abstract</label>
 									</div>
@@ -292,6 +289,7 @@ const ProductForm = () => {
 											id='Flowers'
 											name='collection'
 											value='Flowers'
+											onChange={handleChange}
 										/>
 										<label htmlFor='Flowers'>Flowers</label>
 									</div>
@@ -304,6 +302,7 @@ const ProductForm = () => {
 											id='Butterflies'
 											name='collection'
 											value='Butterflies'
+											onChange={handleChange}
 										/>
 										<label htmlFor='Butterflies'>Butterflies</label>
 									</div>
@@ -316,6 +315,7 @@ const ProductForm = () => {
 											id='Other'
 											name='collection'
 											value='Other'
+											onChange={handleChange}
 										/>
 										<label htmlFor='Other'>Other</label>
 									</div>
@@ -376,7 +376,7 @@ const ProductForm = () => {
 							<div>
 								<h1 className='mb-4'>Image Details</h1>
 								<label
-									htmlFor='image_uploads'
+									htmlFor='imagesDetail'
 									className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
 								>
 									Choose images to upload (PNG, JPG)
@@ -384,11 +384,19 @@ const ProductForm = () => {
 								<input
 									className='hidden'
 									type='file'
-									id='image_uploads'
-									name='image_uploads'
+									id='imagesDetail'
+									name='imagesDetail'
 									accept='.jpg, .jpeg, .png'
+									multiple
+									onChange={handleChangeImages}
 								/>
 							</div>
+							<span
+								className={`text-red-400 text-xs mt-1${
+								errorSelectImageDetail.imagesDetail ? 'block' : 'hidden'}`}
+							>
+								{errorSelectImageDetail.imagesDetail}
+							</span>
 							<div className='preview mt-4'>
 								No files currently selected for upload...
 							</div>
@@ -422,12 +430,13 @@ const ProductForm = () => {
 										<div
 											key={color.id}
 											className={`form-check form-switch cursor-pointer p-2 rounded-md mt-1 ml-10`}
+											onClick={handleOnClickColors}
 										>
 											<input
 												className='mycolors form-check-input appearance-none rounded-full   bg-gray-300 cursor-pointer'
 												type='checkbox'
 												role='switch'
-												name={color.name}
+												name={[color.hex, color.name]}
 												style={{
 													backgroundColor: `${color.hex}`,
 													borderColor: `${color.hex}`,
@@ -457,6 +466,13 @@ const ProductForm = () => {
 						value={input.description}
 						onChange={handleChange}
 					/>
+					<span
+						className={`text-red-400 text-xs mt-1${
+							error.description ? 'visible' : 'invisible'
+						}`}
+					>
+						{error.description}
+					</span>
 				</div>
 				<span className='p-0.5 text-red-400 italic' ref={errorAll}></span>
 				<span className='p-0.5 text-green-400 italic' ref={success}></span>
