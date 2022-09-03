@@ -12,6 +12,7 @@ import {
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
+	GET_PURCHASES,
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -106,6 +107,16 @@ export const getUserOrder = id => {
 		return dispatch({
 			type: GET_USER_ORDER,
 			payload: userOrder,
+		});
+	};
+};
+
+export const getPurchases = id => {
+	return async dispatch => {
+		const purchases = (await axios.get(`/purchases`)).data;
+		return dispatch({
+			type: GET_PURCHASES,
+			payload: purchases,
 		});
 	};
 };
