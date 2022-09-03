@@ -28,6 +28,7 @@ import Landing from './pages/Landing';
 import { SignIn } from './components/auth/SignIn';
 import Reviews from './components/Reviews';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import Page404 from './pages/Page404';
 
 function App() {
 	const { setCurrentUserF, user } = useAuth();
@@ -94,9 +95,9 @@ function App() {
 					component={DataFavorites}
 				/>
 				<Route exact path='/:id/user/menu/address' component={DataAddress} />
-				<Route exact path='/:id' component={Detail} />
+				<Route exact path='/detail/:id' component={Detail} />
+				<Route path='/' component={Page404} />
 			</Switch>
-			{/* <Footer /> */}
 		</>
 	);
 }
