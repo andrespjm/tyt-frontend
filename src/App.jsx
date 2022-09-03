@@ -15,6 +15,7 @@ import Navbar from './components/Navbar';
 import PayFailure from './components/PayFailure';
 import PaySuccess from './components/PaySuccess';
 import ProductForm from './components/ProductForm2';
+import ModifyProduct from './components/ModifyProduct';
 import ShoppingCart from './components/ShoppingCart';
 
 import { useAuth } from './context/AuthContext';
@@ -71,7 +72,8 @@ function App() {
 				<Route exact path='/' component={Landing} />
 				<Route exact path='/home' component={Home} />
 				<Route exact path='/admin' component={DashBoard} />
-				<Route exact path='/addproduct' component={ProductForm} />
+				<Route exact path='/admin/addproduct' component={ProductForm} />
+				<Route exact path='/admin/modifyproduct' component={ModifyProduct} />
 				<Route exact path='/shop/shoppingCart' component={ShoppingCart} />
 
 				<Route exact path='/signup'>
