@@ -5,7 +5,6 @@ import { Route, Switch } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignUp } from './components/auth/SignUp';
 import { DataAccount } from './components/dashboardClient/DataAccount';
-import { DataAddress } from './components/dashboardClient/DataAddress';
 import { DataFavorites } from './components/dashboardClient/DataFavorites';
 import { DataOrders } from './components/dashboardClient/DataOrders';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
@@ -27,6 +26,7 @@ import Home from './pages/Home';
 import Landing from './pages/Landing';
 
 import { SignIn } from './components/auth/SignIn';
+import { ChangePassword } from './components/dashboardClient/formsUsers/ChangePassword';
 import Reviews from './components/Reviews';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import Page404 from './pages/Page404';
@@ -85,7 +85,7 @@ function App() {
 				<Route exact path={'/payfailure'} component={PayFailure} />
 				<Route exact path={'/reviews/:id'} component={Reviews} />
 				<Route exact path='/user/edit' component={EditUserProfile} />
-				{/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
+				<Route exact path='/user/changepassword' component={ChangePassword} />
 				<Route exact path='/signin' component={SignIn} />
 				<Route exact path='/user/main' component={HomeUser} />
 				<Route exact path='/:id/user/menu' component={Menu} />
@@ -96,7 +96,6 @@ function App() {
 					path='/:id/user/menu/favorites'
 					component={DataFavorites}
 				/>
-				<Route exact path='/:id/user/menu/address' component={DataAddress} />
 				<Route exact path='/detail/:id' component={Detail} />
 				<Route path='/' component={Page404} />
 			</Switch>

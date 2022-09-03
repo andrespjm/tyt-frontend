@@ -11,6 +11,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert } from '@mui/material';
+import { Loader } from '../components/Loader';
 import { useAuth } from '../context/AuthContext';
 
 function Detail() {
@@ -23,6 +24,7 @@ function Detail() {
 	const [favorites, setFavorites] = useState('');
 	const history = useHistory();
 	const dispatch = useDispatch();
+	// const { loading } = useSelector(state => state);
 	const { user } = useAuth();
 	// const { redLoading } = useSelector(state => state);
 	const [cart, setCart] = useContext(ShoppingCartContext);
@@ -33,7 +35,13 @@ function Detail() {
 
 	const { vertical, horizontal } = state;
 
+	// adding state to use loader component
+	const [loader, setLoader] = useState(false);
+
+	console.log('loader before', loader);
+
 	useEffect(() => {
+		setLoader(true);
 		async function fetchData() {
 			try {
 				dispatch(setLoading(true));
@@ -43,6 +51,7 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
+        setLoader(false);
 				const information = {
 					userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
 					productid: id,
@@ -142,7 +151,7 @@ function Detail() {
 		</>
 	);
 
-	if (!product.id) return <h1>Cargando...</h1>;
+	if (!product.id) return <Loader />;
 
 	const handleClick = e => {
 		const miClassDiv = e.target.className.slice(0, 5);
@@ -182,12 +191,13 @@ function Detail() {
 
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
 	};
-
+	console.log('loader after', loader);
 	return (
 		<div
 			className='w-screen min-h-screen select-none -z-10
 			bg-gradient-to-b from-black to-neutral-300  text-white flex flex-col items-center'
 		>
+			{loader && <Loader />}
 			<div className='detail-content'>
 				{/* LEFT COLUMN */}
 				<div className='detail-content-left'>
@@ -198,7 +208,7 @@ function Detail() {
 						data-bs-ride='true'
 					>
 						<div className='carousel-indicators'>
-							{product.img_detail.map((im, i) => (
+							{product?.img_detail.map((im, i) => (
 								<button
 									key={i}
 									type='button'

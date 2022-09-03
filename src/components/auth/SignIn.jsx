@@ -1,47 +1,57 @@
-import {
-	GoogleAuthProvider,
-	onAuthStateChanged,
-	signInWithPopup,
-} from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { ShoppingCartContext } from '../../context/ShoppingCartContext';
-import { auth, getUserInfo } from '../../firebase/firebase';
+import {
+	auth,
+	getUserInfo,
+	registerNewUser,
+	userExists,
+} from '../../firebase/firebase';
 import { cartSignIn } from '../../helpers/cartSignIn.js';
 import { FormLogin } from './forms/FormLogin';
 
 export const SignIn = () => {
-	const { login } = useAuth();
+	const { login, loginWithGoogle, loginWithFacebook } = useAuth();
 	const navigate = useHistory();
 	// const [currentUser, setCurrentUser] = useState({});
 	const [error, setError] = useState('');
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	let userId;
 	useEffect(() => {
-		onAuthStateChanged(auth, handleUserStateChanged);
+		const unsubuscribe = onAuthStateChanged(auth, handleUserStateChanged);
+		return () => unsubuscribe;
 	}, []);
 	const handleUserStateChanged = async user => {
 		if (user) {
-			const userInfo = await getUserInfo(user.uid);
-			if (userInfo.processCompleted) {
-				return navigate.push('/home');
+			const isRegister = await userExists(user.uid);
+			if (isRegister) {
+				const userInfo = await getUserInfo(user.uid);
+				if (userInfo.processCompleted) {
+					return navigate.push('/home');
+				}
+				return navigate.push('/user/edit');
+			} else {
+				await registerNewUser({
+					id: user.uid,
+					displayName: user.displayName,
+					email: user.email,
+					profilePicture: user.profileImageURL || user.photoURL,
+					processCompleted: false,
+					processFirebase: false,
+				});
+				// window.location.reload();
 			}
-			navigate.push('/user/edit');
 		}
 	};
-	const handleOnClickGoogle = async () => {
-		const gooogleProvider = new GoogleAuthProvider();
-		await signInWithGoogle(gooogleProvider);
-		async function signInWithGoogle(gooogleProvider) {
-			try {
-				const res = await signInWithPopup(auth, gooogleProvider);
-				userId = res.user.uid;
-			} catch (err) {
-				console.error(err);
-			}
-			console.log('sign in, userdid', userId);
+
+	const handleSignInGoogle = async () => {
+		try {
+			await loginWithGoogle();
 			await cartSignIn(userId, cart, setCart);
+		} catch (err) {
+			setError(err.code);
 		}
 	};
 
@@ -50,13 +60,26 @@ export const SignIn = () => {
 			await login(email, password);
 			// navigate.push('/home');
 		} catch (err) {
-			setError(err.message);
+			if (
+				err.code === 'auth/wrong-password' ||
+				err.code === 'auth/user-not-found'
+			)
+				return setError('Wrong username or password');
+		}
+	};
+
+	const handleSignInFacebook = async () => {
+		try {
+			await loginWithFacebook();
+		} catch (err) {
+			return setError(err.code);
 		}
 	};
 
 	return (
 		<FormLogin
-			handleOnClickGoogle={handleOnClickGoogle}
+			handleSignInGoogle={handleSignInGoogle}
+			handleSignInFacebook={handleSignInFacebook}
 			handleSignInFirebase={handleSignInFirebase}
 			error={error}
 		/>

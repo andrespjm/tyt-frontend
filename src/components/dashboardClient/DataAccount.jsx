@@ -4,7 +4,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getUser, getUserOrder, getData } from '../../redux/actions';
+import { getUser, getData, getPurchases } from '../../redux/actions';
 import { Menu } from './Menu';
 import { useAuth } from '../../context/AuthContext';
 
@@ -12,21 +12,30 @@ import { useAuth } from '../../context/AuthContext';
 export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
-  const {redUser} = useSelector(state => state);
-  const { user } = useAuth();
-	const { redData } = useSelector(state => state);
+  const {redUser, redData, redPurchases} = useSelector(state => state);
+	const { currentUserF } = useAuth();
+  console.log("FOTOOOOOOOOO",currentUserF.profilePicture)
 
   useEffect(() => {
     dispatch(getUser(id));
-    dispatch(getUserOrder(id));
     dispatch(getData());
+    dispatch(getPurchases());
   }, [id])
+
+  let myPurchases = []
+
+  if (redPurchases.length) {
+    myPurchases = redPurchases.filter(compra => compra.User.id === id)
+  }
+
   return (
     <>
       <Menu />
       <div className="container mx-auto h-auto text-white flex">
-        <div className="flex justify center items center w-1/4 mt-16 ml-8">
-          <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg"/>
+        <div className="flex w-1/4">
+          <div className='mx-auto my-auto'>
+            <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg object-cover"/>
+          </div>
         </div>
         <div className="text-white w-2/4">
           <h2 className='font-bold'>Account information</h2>
@@ -64,19 +73,19 @@ export const DataAccount = (props) => {
           <h2 className='font-bold'>Shipping address</h2>
           <hr />
           <br />
-          {redUser?.Purchases?.length > 0 ? (
+          {myPurchases.length > 0 ? (
             <>
               <span className="flex font-medium">Last purchase address</span>
               <br />
               <div className="inline-block">
-                <span className="flex">Address: </span>
+                <span className="flex">Shipping Address: </span>
                 <span className="flex">Postal code: </span>
                 <span className="flex">Phone Number: </span>
               </div>
               <div className="inline-block pl-4">
-                  <span className="flex">{redUser?.Purchases[0]?.shippingAddressStreet} #{redUser?.Purchases[0]?.shippingAddressNumber}</span>
-                  <span className="flex">{redUser?.Purchases[0]?.postalCode}</span>
-                  <span className="flex">{redUser?.Purchases[0]?.phoneNumber}</span>
+                  <span className="flex">{myPurchases[0].shippingAddressStreet} #{myPurchases[0].shippingAddressNumber}</span>
+                  <span className="flex">{myPurchases[0].postalCode}</span>
+                  <span className="flex">{myPurchases[0].phoneNumber}</span>
               </div>
             </>
           ):(
@@ -85,13 +94,13 @@ export const DataAccount = (props) => {
             </div>
           )}
         </div>
-        <div className="text-white w-1/4 flex">
+        <div className="flex w-1/4">
           <div className="mx-auto my-auto justify center">
-            {Object.entries(user).length !== 0 ? (
+            {currentUserF.profilePicture !== null ? (
               <>
                 <img
                   className='inline-block h-7 w-7 mr-2 rounded-full ring-1 ring-white'
-                  src={user.profilePicture}
+                  src={currentUserF.profilePicture}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null; // prevents looping
                     currentTarget.src =
@@ -99,13 +108,13 @@ export const DataAccount = (props) => {
                   }}
                   alt=''
                 />
-                {user.firstName}
               </>
             ) : (
               <>
-                <i className='flex text-9xl mr-3 fa-solid fa-circle-user'></i>
-                <span className='flex'>Profile picture</span>
+                <img src={redUser.profilePicture} alt='Image user not found' className='rounded-lg'/>
               </>
+               /*  <i className='flex text-9xl mr-3 fa-solid fa-circle-user'></i>
+                <span className='flex'>Profile picture</span> */
             )}
           </div>
         </div>

@@ -295,12 +295,6 @@ export default function Navbar() {
 									>
 										My favorites
 									</Link>
-									<Link
-										to={`/${userId}/user/menu/address`}
-										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
-									>
-										My address book
-									</Link>
 									<button
 										onClick={() => {
 											handleSignout(userId, cart, setCart);
