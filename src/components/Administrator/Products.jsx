@@ -6,6 +6,7 @@ import {
 	SimpleShowLayout,
 	TextField,
 	TextInput,
+	NumberField,
 } from 'react-admin';
 
 const Description = () => (
@@ -15,14 +16,16 @@ const Description = () => (
 );
 
 const postFilters = [
+	// eslint-disable-next-line react/jsx-key
 	<TextInput label='Search' source='q' alwaysOn />,
+	// eslint-disable-next-line react/jsx-key
 	<TextInput label='name' source='name' />,
-	<TextInput label='collection' source='collection' />,
 ];
 
 export const Products = props => (
 	<List {...props} filters={postFilters}>
 		<Datagrid textAlign='center' expand={<Description />}>
+			<NumberField label='Id' source='id' textAlign='center' />
 			<ImageField
 				label='image'
 				source='img_detail[0].secure_url'

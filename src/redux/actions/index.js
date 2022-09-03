@@ -12,9 +12,10 @@ import {
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
+	GET_SALES,
 	GET_PURCHASES,
 	GET_USER_FAVOURITES,
-	DELETE_FAVOURITE
+	DELETE_FAVOURITE,
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -130,6 +131,24 @@ export const getRerview = id => {
 			type: GET_REVIEW,
 			payload: json.data,
 		});
+	};
+};
+
+// Get Sales from backend
+export const getSales = () => {
+	return async dispatch => {
+		try {
+			const response = await axios.get('/sales');
+			console.log('index/response', response.data);
+			console.log('index/status', response.status);
+			if (response.status === 200)
+				dispatch({
+					type: GET_SALES,
+					payload: response.data,
+				});
+		} catch {
+			dispatch({ type: GET_SALES, payload: null });
+		}
 	};
 };
 

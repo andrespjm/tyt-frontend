@@ -11,5 +11,6 @@
     border-radius: 10px;
     width: 24%;
     height: 300px;
-
+    text-align: center;
+    padding: 5px;
 }
