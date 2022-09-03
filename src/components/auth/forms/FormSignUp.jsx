@@ -187,12 +187,13 @@ export const FormSignUp = ({ handleSubmit, error }) => {
 									</div>
 									<hr className='mb-6 border-t' />
 									<div className='text-center'>
-										<a
+										<Link
+											to={'/user/changepassword'}
 											className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'
 											href='#'
 										>
 											Forgot Password?
-										</a>
+										</Link>
 									</div>
 									<div className='text-center'>
 										<Link
