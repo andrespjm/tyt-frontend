@@ -1,14 +1,41 @@
+// import * as yup from 'yup';
+
 // const noEmpty = /\S+/;
+// const regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]+$/;
 const letters = /^([a-zA-Z]+)(\s[a-zA-Z]+)*$/;
 // const validImage = /.(gif|jpeg|jpg|png)$/i;
 
 export const validateProduct = input => {
-	const error = {};
+	const errors = {};
 
 	if (!letters.test(input.name) || input.name.length < 4)
-		error.name = 'Name is required. Alphabetic field';
-	else if (input.description.length > 50 || input.description.length < 5)
-		error.description = 'Description cannot be longer than 50 characters';
-	else if (!letters.test(input.artist)) error.artist = 'Artist is required';
-	return error;
+		errors.name = 'Name is required. Alphabetic field';
+	if (input.description.length > 50 || input.description.length < 5)
+		errors.description = 'Description cannot be longer than 50 characters';
+	if (!letters.test(input.artist)) errors.artist = 'Artist is required';
+	return errors;
 };
+
+// export const validateProduct = yup.object({
+// 	name: yup
+// 		.string()
+// 		.required('Please enter your name')
+// 		.matches(regexName, 'Please, enter a valid name')
+// 		.min(3, 'Please min 3 characters')
+// 		.max(15, 'Please max 12 characters'),
+// 	artist: yup
+// 		.string()
+// 		.required("Please enter artist's name")
+// 		.min(3, 'Please min 3 characters')
+// 		.max(15, 'Please max 15 characters'),
+// 	/* imageMain: yup.mixed().required('Image main is required'),
+// 	cakeTrail: yup.number().required('Required field'),
+// 	priceCakeTrail: yup.number().required('Required field'),
+// 	turntable: yup.number().required('Required field'),
+// 	priceTurntable: yup.number().required('Required field'),
+// 	imagesDetail: yup.mixed().required('Image main is required'), */
+// 	description: yup
+// 		.string()
+// 		.min(5, 'Please min 5 characters')
+// 		.max(50, 'Please max 50 characters'),
+// });

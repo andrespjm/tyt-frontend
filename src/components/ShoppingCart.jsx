@@ -167,7 +167,7 @@ const ShoppingCart = () => {
 							cart.map(e => (
 								<div key={e.stockId}>
 									<div className='shopping-product'>
-										<Link to={`/${e.designId}`}>
+										<Link to={`/detail/${e.designId}`}>
 											<div
 												className='shp-img'
 												style={{
@@ -246,11 +246,12 @@ const ShoppingCart = () => {
 				<div className='absolute top-0 w-screen h-screen flex items-center justify-center'>
 					<form
 						onSubmit={handleOrder}
-						className='bg-gray-800 border-2 border-blue-300 text-white p-14 w-2/3 rounded-lg
+						className='bg-gray-800 border-2 border-gray-500 text-white px-12 py-8 w-[700px] rounded-lg
 						'
 					>
 						<div className='text-end text-lg'></div>
-						<h2 className='text-center text-xl border-b-2 border-blue-200 py-4'>
+						<h2 className='text-center text-xl border-b-2 border-gray-500 py-4 flex flex-col'>
+							<i className='bi bi-truck text-4xl text-blue-300 mb-4'></i>
 							Please update your shipping information!
 						</h2>
 						<div className='mt-6'>
@@ -322,19 +323,19 @@ const ShoppingCart = () => {
 
 						<div className='relative flex justify-around mt-4'>
 							<button
-								className='w-32 btn btn-red hover:btn-red'
+								className='w-28 py-2 px-3 rounded-md btn-red hover:btn-red'
 								onClick={() => setCheckout(false)}
 							>
-								close
+								Close
 							</button>
 							{!pay && (
 								<button
-									className='w-32 btn btn-blue hover:btn-blue '
+									className='w-28 py-3 px-3 rounded-md btn-blue hover:btn-blue '
 									id='page-content'
 									type='submit'
 									value='CONFIRM'
 								>
-									confirm
+									Confirm
 								</button>
 							)}
 							{pay && (
@@ -345,26 +346,27 @@ const ShoppingCart = () => {
 				</div>
 			)}
 			{deleteItem && (
-				<div className='absolute top-0 w-screen h-[800px] flex items-center justify-center'>
-					<div className='bg-blue-200 p-14 rounded-lg w-[600px] h-[260px] text-center'>
+				<div className='absolute top-0 w-screen h-screen flex items-center justify-center text-white'>
+					<div className='bg-gray-800 p-10 rounded-lg w-[500px] h-[260px] text-center flex flex-col gap-2'>
+						<i className='bi bi-trash3-fill text-2xl text-myRed'></i>
 						Are you sure you want to delete the item?
-						<div className='p-5'>
-							<button
-								onClick={() => {
-									setCart(cart.filter(i => i.stockId !== deleteItem));
-									setDeleteItem(false);
-								}}
-								className='m-3 btn btn-red hover:btn-red '
-								type='submit'
-							>
-								Confirm
-							</button>
+						<div className='py-4 '>
 							<button
 								onClick={() => setDeleteItem(false)}
 								className='m-3 btn btn-red hover:btn-red '
 								type='submit'
 							>
-								Cancel
+								cancel
+							</button>
+							<button
+								onClick={() => {
+									setCart(cart.filter(i => i.stockId !== deleteItem));
+									setDeleteItem(false);
+								}}
+								className='m-3 btn btn-blue hover:btn-blue '
+								type='submit'
+							>
+								confirm
 							</button>
 						</div>
 					</div>

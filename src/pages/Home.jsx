@@ -34,9 +34,10 @@ const Home = () => {
 					xl:bg-green-500
 					2xl:bg-gray-500 */}
 				{redData?.map((prod, i) => (
-					<Link key={i} to={`/${prod.id}`}>
+					<Link key={i} to={`/detail/${prod.id}`}>
 						<div
-							className='parent relative w-full aspect-square border
+							className='parent relative w-full aspect-square select-none
+							hover:border-2 hover:border-blue-500
 						'
 						>
 							<div
@@ -46,12 +47,9 @@ const Home = () => {
 							>
 								<div className='mytext w-full h-full '>
 									<div className=' w-full h-full flex flex-col justify-between p-10 lg:p-12'>
-										<div className='w-full flex justify-between'>
-											<span className='w-fit p-1 text-lg'>{prod.name}</span>
-											<span>
-												<i className='bi bi-bookmark-heart text-3xl'></i>
-											</span>
-										</div>
+										<span className='text-center font-semibold p-1 text-lg'>
+											{prod.name}
+										</span>
 
 										<div className='w-full flex justify-between  '>
 											<span className='text-sm w-fit rounded-md p-1'>

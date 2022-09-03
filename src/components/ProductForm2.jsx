@@ -7,6 +7,7 @@ import { getColors } from '../redux/actions';
 import { validateProduct } from '../validations/productValidation';
 
 const ProductForm = () => {
+	const dispatch = useDispatch();
 	const { redColors } = useSelector(state => state);
 	const [queryColors, setQueryColors] = useState([]);
 	const [imageMain, setImageMain] = useState();
@@ -21,7 +22,6 @@ const ProductForm = () => {
 		cakeTrail: '',
 		turntable: '',
 	});
-	const dispatch = useDispatch();
 	const [input, setInput] = useState({
 		name: '',
 		description: '',
@@ -38,28 +38,26 @@ const ProductForm = () => {
 		color3: '',
 	});
 
-	const updateSwitchColors = () => {
-		if (!queryColors.length) return;
-		document.querySelectorAll('.mycolors').forEach(element => {
-			if (queryColors.includes(element.name)) {
-				element.checked = true;
-				element.parentNode.style.backgroundColor = element.name;
-			}
-		});
-	};
+	useEffect(() => {
+		dispatch(getColors());
+		// updateSwitchColors();
+	}, []);
 
-	const handleGetColors = () => {
-		!redColors.length && dispatch(getColors());
-		document.querySelector('#colors').classList.toggle('hidden');
-		document.querySelector('#arr-clr').classList.toggle('rotate-180');
-		updateSwitchColors();
-	};
+	// const updateSwitchColors = () => {
+	// 	if (!queryColors.length) return;
+	// 	document.querySelectorAll('.form-mycolors').forEach(element => {
+	// 		if (queryColors.includes(element.name)) {
+	// 			element.checked = true;
+	// 			element.parentNode.style.backgroundColor = element.name;
+	// 		}
+	// 	});
+	// };
 
 	const handleOnClickColors = e => {
 		if (e.target.checked) {
 			if (queryColors.length === 3) return;
 			if (queryColors.length === 2)
-				document.querySelectorAll('.mycolors').forEach(element => {
+				document.querySelectorAll('.form-mycolors').forEach(element => {
 					if (!element.checked) element.disabled = true;
 				});
 			setQueryColors([...queryColors, e.target.name]);
@@ -71,7 +69,7 @@ const ProductForm = () => {
 					: e.target.name;
 		} else {
 			if (queryColors.length === 3)
-				document.querySelectorAll('.mycolors').forEach(element => {
+				document.querySelectorAll('.form-mycolors').forEach(element => {
 					if (element.disabled) element.disabled = false;
 				});
 			setQueryColors(queryColors.filter(color => color !== e.target.name));
@@ -94,79 +92,92 @@ const ProductForm = () => {
 		);
 	};
 
-	// const handleImage = e => {
-	// 	setImageMain(e.target.files[0]);
-	// 	/* setError(
-	// 		validateProduct({
-	// 			...input,
-	// 			[e.target.name]: e.target.value,
-	// 		})
-	// 	) */
-	// };
+	const handleImage = e => {
+		setImageMain(e.target.files[0]);
+	};
 
-	// const handleChangeImages = e => {
-	// 	setimagesDatail(e.target.files);
-	// 	/* setError(
-	// 			validateProduct({
-	// 				...input,
-	// 				[e.target.name]: e.target.value,
-	// 			})
-	// 		) */
-	// 	// }
-	// };
+	const handleChangeImages = e => {
+		setimagesDatail(e.target.files);
+	};
 
 	const handleChangeStock = e => {
 		if (e.target.value < 0) return alert('negative quantity not allowed');
 		setStock({ ...stock, [e.target.name]: Number(e.target.value) });
 	};
 
-	console.log(imageMain);
-
 	const handleSubmit = async e => {
 		e.preventDefault();
 		success.current.innerText = '';
 		try {
+			console.log('entre al try');
 			const images = [];
 			if (imagesDetail) {
 				for (const image of imagesDetail) {
 					images.push(image);
 				}
 			}
+			const color1 = redColors.filter(color => color.name === queryColors[0]);
+			const strClr1 = `${color1[0].hex},${color1[0].name}`;
+			const color2 = redColors.filter(color => color.name === queryColors[1]);
+			const strClr2 = `${color2[0].hex},${color2[0].name}`;
+			const color3 = redColors.filter(color => color.name === queryColors[2]);
+			const strClr3 = `${color3[0].hex},${color3[0].name}`;
+
 			const newProduct = { ...input };
 			newProduct.imageMain = imageMain;
 			newProduct.imagesDetail = images || [];
-			newProduct.color1 = newProduct.color[0];
-			newProduct.color2 = newProduct.color[1];
-			newProduct.color3 = newProduct.color[2];
+			// newProduct.color1 = newProduct.color[0];
+			// newProduct.color2 = newProduct.color[1];
+			// newProduct.color3 = newProduct.color[2];
 
-			console.log('ANTES', newProduct);
-			if (!newProduct.color.length)
-				errorSelectColor.current.innerText = 'Select 3 colors';
-			else errorSelectColor.current.innerText = '';
-			if (!newProduct.imageMain)
-				errorSelectImage.current.innerText = 'Add a image';
-			else errorSelectImage.current.innerText = '';
-			if (!newProduct.imagesDetail.length)
-				errorSelectImageDetail.current.innerText = 'Select at least 1 image';
-			else errorSelectImageDetail.current.innerText = '';
-			if (!newProduct.collection)
-				errorSelectColl.current.innerText = 'Add a collection';
-			else errorSelectColl.current.innerText = '';
+			console.log({
+				name: newProduct.name,
+				description: newProduct.description,
+				collection: document.querySelector('input[name="collection"]:checked')
+					.value,
+				imageMain,
+				imagesDetail: newProduct.imagesDetail,
+				artist: newProduct.artist,
+				color1: strClr1,
+				color2: strClr2,
+				color3: strClr3,
+				stockCakeTray: stock.cakeTrail,
+				stockTurntable: stock.turntable,
+				priceCakeTray: newProduct.priceCakeTray,
+				priceTurntable: newProduct.priceTurntable,
+			});
+			// console.log('ANTES', newProduct);
+			// if (!newProduct.color.length)
+			// 	errorSelectColor.current.innerText = 'Select 3 colors';
+			// else errorSelectColor.current.innerText = '';
+			// if (!newProduct.imageMain)
+			// 	errorSelectImage.current.innerText = 'Add a image';
+			// else errorSelectImage.current.innerText = '';
+			// if (!newProduct.imagesDetail.length)
+			// 	errorSelectImageDetail.current.innerText = 'Select at least 1 image';
+			// else errorSelectImageDetail.current.innerText = '';
+			// if (!newProduct.collection)
+			// 	errorSelectColl.current.innerText = 'Add a collection';
+			// else errorSelectColl.current.innerText = '';
+
 			if (!newProduct.name || Object.entries(newProduct).length === 0) {
 				errorAll.current.innerText = 'Some fields are missing';
 			} else {
+				console.log('AQUII');
 				const res = await axios.post(
 					'/products',
 					{
 						name: newProduct.name,
 						description: newProduct.description,
-						collection: newProduct.collection,
+						collection: document.querySelector(
+							'input[name="collection"]:checked'
+						).value,
 						imageMain,
 						imagesDetail: newProduct.imagesDetail,
 						artist: newProduct.artist,
-						color1: newProduct.color1,
-						color2: newProduct.color2,
-						color3: newProduct.color3,
+						color1: strClr1,
+						color2: strClr2,
+						color3: strClr3,
 						stockCakeTray: stock.cakeTrail,
 						stockTurntable: stock.turntable,
 						priceCakeTray: newProduct.priceCakeTray,
@@ -187,10 +198,12 @@ const ProductForm = () => {
 			// console.log(res);
 			// });
 		} catch (error) {
-			errorAll.current.innerText = error.response.data;
+			console.log(error);
+			// errorAll.current.innerText = error.response.data;
 			// console.log(error.response.data);
 		}
 	};
+
 	return (
 		<div className='bg-gray-800 py-10'>
 			<form
@@ -206,7 +219,7 @@ const ProductForm = () => {
 						<div className='mt-4 border-b-2 border-blue-300 pb-4'>
 							<div>
 								<label
-									htmlFor='image_uploads'
+									htmlFor='imageMain'
 									className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
 								>
 									Choose your cover image (PNG, JPG)
@@ -214,11 +227,20 @@ const ProductForm = () => {
 								<input
 									className='hidden'
 									type='file'
-									id='image_uploads'
-									name='image_uploads'
+									id='imageMain'
+									name='imageMain'
 									accept='.jpg, .jpeg, .png'
+									value={input.imageMain}
+									onChange={handleImage}
 								/>
 							</div>
+							<span
+								className={`text-red-400 text-xs mt-1${
+									errorSelectImage.imageMain ? 'visible' : 'invisible'
+								}`}
+							>
+								{errorSelectImage.imageMain}
+							</span>
 							<div className='preview mt-4'>
 								No files currently selected for upload...
 							</div>
@@ -240,7 +262,7 @@ const ProductForm = () => {
 
 							<span
 								className={`text-red-400 text-xs mt-1${
-									error.name ? 'block' : 'hidden'
+									error.name ? 'visible' : 'invisible'
 								}`}
 							>
 								{error.name}
@@ -258,16 +280,17 @@ const ProductForm = () => {
 								value={input.artist}
 								onChange={handleChange}
 							/>
-							{error.artist && (
-								<span className='text-red-500 text-xs'>{error.artist}</span>
-							)}
+							<span
+								className={`text-red-400 text-xs mt-1${
+									error.artist ? 'visible' : 'invisible'
+								}`}
+							>
+								{error.artist}
+							</span>
 						</div>
 
 						{/* COLLECTION */}
-						<div
-							className='
-             mt-4 border-y-2 border-blue-300 py-4'
-						>
+						<div className='mt-4 border-y-2 border-blue-300 py-4'>
 							<fieldset className='select-none'>
 								<span className='text-lg '>Select collection</span>
 								<div className='flex gap-4 m-4'>
@@ -280,6 +303,7 @@ const ProductForm = () => {
 											name='collection'
 											value='Abstract'
 											defaultChecked
+											onChange={handleChange}
 										/>
 										<label htmlFor='Abstract'>Abstract</label>
 									</div>
@@ -292,6 +316,7 @@ const ProductForm = () => {
 											id='Flowers'
 											name='collection'
 											value='Flowers'
+											onChange={handleChange}
 										/>
 										<label htmlFor='Flowers'>Flowers</label>
 									</div>
@@ -304,6 +329,7 @@ const ProductForm = () => {
 											id='Butterflies'
 											name='collection'
 											value='Butterflies'
+											onChange={handleChange}
 										/>
 										<label htmlFor='Butterflies'>Butterflies</label>
 									</div>
@@ -316,6 +342,7 @@ const ProductForm = () => {
 											id='Other'
 											name='collection'
 											value='Other'
+											onChange={handleChange}
 										/>
 										<label htmlFor='Other'>Other</label>
 									</div>
@@ -376,7 +403,7 @@ const ProductForm = () => {
 							<div>
 								<h1 className='mb-4'>Image Details</h1>
 								<label
-									htmlFor='image_uploads'
+									htmlFor='imagesDetail'
 									className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none'
 								>
 									Choose images to upload (PNG, JPG)
@@ -384,11 +411,20 @@ const ProductForm = () => {
 								<input
 									className='hidden'
 									type='file'
-									id='image_uploads'
-									name='image_uploads'
+									id='imagesDetail'
+									name='imagesDetail'
 									accept='.jpg, .jpeg, .png'
+									multiple
+									onChange={handleChangeImages}
 								/>
 							</div>
+							<span
+								className={`text-red-400 text-xs mt-1${
+									errorSelectImageDetail.imagesDetail ? 'block' : 'hidden'
+								}`}
+							>
+								{errorSelectImageDetail.imagesDetail}
+							</span>
 							<div className='preview mt-4'>
 								No files currently selected for upload...
 							</div>
@@ -401,19 +437,17 @@ const ProductForm = () => {
 							{/* COLORS */}
 							<div
 								className='p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer text-white'
-								onClick={handleGetColors}
+								// onClick={handleGetColors}
 							>
-								<i className='bi bi-chat-left-text-fill'></i>
+								<i className='bi bi-droplet text-blue-300'></i>
 								<div className='flex justify-between w-full items-center'>
 									<span className='text-md ml-4 text-gray-200'>Colors</span>
-									<span className='text-sm' id='arr-clr'>
-										<i className='bi bi-chevron-down'></i>
-									</span>
+									<span className='text-sm' id='arr-clr'></span>
 								</div>
 							</div>
 							<div
-								className='text-left text-sm font-thin mt-2 w-1/2 mx-auto text-white'
-								id='colors'
+								className='text-left text-sm font-thin mt-2 text-white select-none'
+								id='form-colors'
 							>
 								{!redColors.length ? (
 									<h1>Loading...</h1>
@@ -421,20 +455,21 @@ const ProductForm = () => {
 									redColors.map(color => (
 										<div
 											key={color.id}
-											className={`form-check form-switch cursor-pointer p-2 rounded-md mt-1 ml-10`}
+											className={`form-check form-switch cursor-pointer p-2 rounded-md mt-1 ml-10 w-4/5`}
 										>
 											<input
-												className='mycolors form-check-input appearance-none rounded-full   bg-gray-300 cursor-pointer'
+												className='form-mycolors form-check-input appearance-none rounded-full   bg-gray-300 cursor-pointer'
 												type='checkbox'
 												role='switch'
 												name={color.name}
+												onClick={handleOnClickColors}
 												style={{
 													backgroundColor: `${color.hex}`,
 													borderColor: `${color.hex}`,
 												}}
 											/>
 											<label
-												className='form-check-label inline-block text-white '
+												className='form-check-label inline-block text-white ml-2'
 												htmlFor='stock-switch'
 											>
 												{color.name}
@@ -457,6 +492,13 @@ const ProductForm = () => {
 						value={input.description}
 						onChange={handleChange}
 					/>
+					<span
+						className={`text-red-400 text-xs mt-1${
+							error.description ? 'visible' : 'invisible'
+						}`}
+					>
+						{error.description}
+					</span>
 				</div>
 				<span className='p-0.5 text-red-400 italic' ref={errorAll}></span>
 				<span className='p-0.5 text-green-400 italic' ref={success}></span>

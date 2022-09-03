@@ -25,7 +25,7 @@ export const DataOrders = () => {
 
             {!!redUser?.Purchases?.length && !redUser?.Purchases?.length > 0 ? <div>There are no orders</div> : redUser?.Purchases?.map((e, k) => {
               return (
-                <div className='relative w-full h-5/6'  key={k}>
+                <div className='relative rounded-xl' style={{border: '1px solid white', minHeight: '50vh', maxWidth: '50%', margin: '20px auto' }} key={k}>
                   <svg
                     fill='none'
                     viewBox='0 0 24 24'
@@ -43,7 +43,7 @@ export const DataOrders = () => {
                     <div ><b>Order ID:</b> {e?.id}</div>
                     <div ><b>Status:</b> {e?.status}</div>
                   </div>
-                  <div className='w-4/6 absolute left-72'>
+                  <div className='w-4/6 absolute left-72 flex-col justify-center '>
 
                     {!!e?.OrderItems?.length > 0 && e?.OrderItems?.map((o, k) => {
                       return (
