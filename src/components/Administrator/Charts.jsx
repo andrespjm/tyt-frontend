@@ -1,11 +1,12 @@
 import { SalesChart } from './SalesChart';
 import { PerformanceChart } from './PerformanceChart';
 
-export const Charts = () => {
+export const Charts = salesData => {
+	// console.log('chart/salesData', salesData);
 	return (
 		<div>
 			<SalesChart />
-			<PerformanceChart />
+			<PerformanceChart sales={salesData} />
 		</div>
 	);
 };
