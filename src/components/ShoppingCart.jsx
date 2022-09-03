@@ -167,7 +167,7 @@ const ShoppingCart = () => {
 							cart.map(e => (
 								<div key={e.stockId}>
 									<div className='shopping-product'>
-										<Link to={`/${e.designId}`}>
+										<Link to={`/detail/${e.designId}`}>
 											<div
 												className='shp-img'
 												style={{

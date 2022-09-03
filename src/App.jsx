@@ -95,7 +95,7 @@ function App() {
 					component={DataFavorites}
 				/>
 				<Route exact path='/:id/user/menu/address' component={DataAddress} />
-				<Route exact path='/:id' component={Detail} />
+				<Route exact path='/detail/:id' component={Detail} />
 				<Route path='/' component={Page404} />
 			</Switch>
 		</>
