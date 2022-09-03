@@ -13,6 +13,8 @@ import {
 	GET_USER_ORDER,
 	GET_REVIEW,
 	GET_PURCHASES,
+	GET_USER_FAVOURITES,
+	DELETE_FAVOURITE
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -130,3 +132,24 @@ export const getRerview = id => {
 		});
 	};
 };
+
+export const getUserFavourites = (id) => {
+	return async dispatch => {
+		const userFavourites = (await axios.get(`/favorites?userid=${id}`)).data;
+		return dispatch({
+			type: GET_USER_FAVOURITES,
+			payload: userFavourites
+		})
+	};
+};
+
+export const deleteFavourite = (userid, productid) => {
+	return async dispatch => {
+		try {
+			await axios.delete('/favorites', {userid, productid})
+			return dispatch({type: DELETE_FAVOURITE})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+}

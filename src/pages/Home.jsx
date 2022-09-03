@@ -34,7 +34,7 @@ const Home = () => {
 					xl:bg-green-500
 					2xl:bg-gray-500 */}
 				{redData?.map((prod, i) => (
-					<Link key={i} to={`/${prod.id}`}>
+					<Link key={i} to={`/detail/${prod.id}`}>
 						<div
 							className='parent relative w-full aspect-square select-none
 							hover:border-2 hover:border-blue-500
