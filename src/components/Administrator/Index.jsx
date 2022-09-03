@@ -23,9 +23,6 @@ export default function DashBoard() {
 		dispatch(getSales());
 	}, [dispatch]);
 
-	// console.log('adm/ind/salesData', salesData);
-	// const [loader, setLoader] = useState(null);
-	// const [error, setError] = useState(false);
 	return (
 		<Admin dataProvider={dataProvider}>
 			{/* {loader && <Loader />}

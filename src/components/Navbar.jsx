@@ -1,18 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
+
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 import { signout } from '../firebase/firebase';
-
-// import TemporaryDrawer from '../components/Drawer';
+import { cartLogout } from '../helpers/carLogout';
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar() {
-	const [cart, setCart] = useContext(ShoppingCartContext); // eslint-disable-line no-unused-vars
+	const [cart, setCart] = useContext(ShoppingCartContext);
+	// eslint-disable-line no-unused-vars
 	const [menuSign, setMenuSign] = useState(false);
 	const location = useLocation();
 	const navigate = useHistory();
-	const { currentUserF, setIsLogged } = useContext(AuthContext);
+	const { currentUserF, setIsLogged } = useAuth();
 	const userId = currentUserF.id;
 	console.log({ currentUserF });
 	console.log('ID USUARIO', currentUserF.id);
@@ -37,7 +38,11 @@ export default function Navbar() {
 	const handleSignout = (userId, cart, setCart) => {
 		console.log('navbar handleSignout, user id', userId);
 		console.log('navbar handleSignout, cart', cart);
-		signout(userId, cart, setCart).then(() => setIsLogged(true));
+		signout().then(() => {
+			window.location.reload();
+			cartLogout(userId, cart, setCart);
+			setIsLogged(true);
+		});
 		navigate.push('/home');
 	};
 	// const handleonclicksignin = () {
@@ -49,30 +54,29 @@ export default function Navbar() {
 
 	return (
 		<nav
-			className='sticky top-0 mx-auto p-4 bg-black select-none  text-white drop-shadow-2xl	z-50
-		lg:h-32'
+			className='sticky top-0 w-screen bg-black select-none text-white drop-shadow-2xl z-50
+		'
 		>
-			<div className='container mx-auto flex items-center justify-between'>
+			<div
+				className='container h-16 mx-auto flex items-center justify-between
+			lg:h-full
+			'
+			>
 				<Link
 					to='/'
 					className='z-50 hover:text-purple-300	duration-1000
-					lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-9
+					lg:absolute lg:left-1/2 lg:-translate-x-1/2
 				'
 				>
 					<i
-						className={`
-					fa-solid fa-palette
-					text-2xl
-					text-myPurple-100
-					mr-4
-					`}
+						className='fa-solid fa-palette text-3xl text-myPurple-100 mr-4
+					'
 					></i>
 					<span className='text-2xl'>
 						Cakes
 						<span
-							className={`text-2xl font-bold
-					text-myPurple-100
-						`}
+							className='text-2xl font-bold	text-myPurple-100
+						'
 						>
 							&
 						</span>
@@ -106,7 +110,7 @@ export default function Navbar() {
 					id='menubar'
 					className='
 					hidden
-					z-20
+  				z-20
 					flex-col
 					gap-4
 					absolute
@@ -130,7 +134,9 @@ export default function Navbar() {
 						${location.pathname !== '/home' && 'hidden'}
 						`}
 						onClick={() =>
-							document.querySelector('#sidebar').classList.toggle('hidden')
+							document
+								.querySelector('#sidebar')
+								.classList.toggle('translate-x-full')
 						}
 					>
 						<i className='bi bi-filter-left px-2'></i>
@@ -236,9 +242,9 @@ export default function Navbar() {
 						<button
 							role='menuitem'
 							onClick={handleOnClickAuth}
-							className={`py-2 px-6 text-white rounded-md
-							${location.pathname === '/home' ? 'bg-blue-500' : 'bg-myPurple-100'}
-					`}
+							className='py-2 px-6 text-white rounded-md
+							bg-myPurple-100
+							'
 							// href='/signin'
 						>
 							{Object.entries(currentUserF).length !== 0 ? (

@@ -1,79 +1,72 @@
-import { useState } from 'react';
+// import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { updateUser } from '../../../firebase/firebase';
-import { AuthProvider } from '../../auth/AuthProvider';
+import BeatLoader from 'react-spinners/BeatLoader';
+// import { useAuth } from '../../../context/AuthContext';
+import { auth, getUserInfo, updateUser } from '../../../firebase/firebase';
+// import { getUserInfo } from '../../../firebase/firebase';
+// import { updateUser } from '../../../firebase/firebase';
 import { FormUserProfile } from '../../auth/forms/FormUserProfile';
 
 export const EditUserProfile = () => {
-	const navigate = useHistory();
-	const [stateCurrent, setCurrentState] = useState(0);
-	const [currentUser, setCurrentUser] = useState(null);
+	// const navigate = useHistory();
 	// eslint-disable-next-line no-unused-vars
-	const [username, setUsername] = useState('');
-	const handleUserLoggedIn = user => {
-		navigate.push('/home');
-	};
-
-	const handleUserNotLoggedIn = () => {
-		navigate.push('/login');
-	};
-
-	const handleUserNotRegister = user => {
-		setCurrentUser(user);
-		setCurrentState(3);
-	};
-
-	// const handleInputUsername = (e) => {
-	//   setUsername(e.target.value);
-	// };
+	const [currentUser, setCurrentUser] = useState({});
+	const [status, setStatus] = useState(1);
+	const navigate = useHistory();
+	useEffect(() => {
+		onAuthStateChanged(auth, handleUserStateChanged);
+	}, []);
+	async function handleUserStateChanged(user) {
+		if (user) {
+			const userInfo = await getUserInfo(user.uid);
+			if (userInfo.processCompleted) {
+				navigate.push('/home');
+			}
+			setCurrentUser(userInfo);
+		} else {
+			navigate.push('/home');
+		}
+	}
 
 	const handleContinue = async values => {
 		currentUser.displayName = values.firstName + ' ' + values.lastName;
 		const tmp = { ...currentUser, ...values };
-		tmp.username = username;
 		tmp.processCompleted = true;
+		tmp.processFirebase = true;
 		await updateUser(tmp);
-		setCurrentState(6);
+		setStatus(2);
 	};
-
-	if (stateCurrent === 3 || stateCurrent === 5)
+	if (status === 1)
 		return (
 			<div className='bg-gray-100 w-2/4 mx-auto'>
-				<h1 className='text-center text-2xl mt-2'>
-					Bienvenido {currentUser.displayName}
+				<h1 className='text-center text-2xl mt-2 pt-4'>
+					Bienvenido {currentUser.firstName}
 				</h1>
 				<p className='text-center my-3'>
 					Para terminar el proceso elige un nombre de usuario
 				</p>
-
-				<FormUserProfile
-					currentUser={currentUser}
-					handleContinue={handleContinue}
-				/>
+				{Object.entries(currentUser).length !== 0 ? (
+					<FormUserProfile
+						currentUser={currentUser}
+						handleContinue={handleContinue}
+					/>
+				) : (
+					<div className='flex py-3 justify-center'>
+						<BeatLoader />
+					</div>
+				)}
 			</div>
 		);
-
-	if (stateCurrent === 6)
+	if (status === 2)
 		return (
-			// <div>
-			// 	{/* <h1>Felicidades ya puedes ir al dashboard a crear tus links</h1> */}
-			// 	{Swal.fire({
-			// 		position: 'top-center',
-			// 		icon: 'success',
-			// 		title: 'Good Job!',
-			// 		text: 'Your acount has been created successfully',
-			// 		showConfirmButton: false,
-			// 		timer: 1500,
-			// 	})}
-			// 	{navigate.push('/home')}
-			// 	{/* <Link to='/home'>Continuar</Link> */}
-			// </div>
-			<div className='flex justify-center'>
-				<div className='flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg'>
+			<div className='flex justify-center py-5'>
+				<div className='flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg w-full'>
 					<img
 						className=' w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg'
 						src='https://res.cloudinary.com/dyqwtxenu/image/upload/v1661740059/tyt/success_afsck3.jpg'
-						alt
+						alt='cakes and bases'
 					/>
 					<div className='p-6 flex flex-col justify-start'>
 						<div className='flex justify-center'>
@@ -90,15 +83,20 @@ export const EditUserProfile = () => {
 								/>
 							</svg>
 						</div>
-						<h5 className='text-gray-900 text-xl font-medium mb-2'>
+						<h5 className='text-gray-900 text-xl font-medium mb-2 text-center'>
 							Good Job!
 						</h5>
-						<h3>Thank you {currentUser.displayName}!</h3>
-						<p className='text-gray-700 text-base mb-4'>
-							Your account has been created successfully
+						<h5 className='text-center text-xl font-medium'>
+							Thank you {currentUser.displayName}!
+						</h5>
+						<h2 className='text-center text-xl font-medium'>
+							We are about to complete your register!
+						</h2>
+						<p className='text-gray-700 text-base mb-4 text-center'>
+							We have sent an message to your email to activate your account!
 						</p>
 						<a
-							className='inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-green-100 shadow-md duration-75 hover:bg-green-400'
+							className='inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-center text-green-100 shadow-md duration-75 hover:bg-green-400'
 							href='/home'
 						>
 							Continue
@@ -107,14 +105,5 @@ export const EditUserProfile = () => {
 				</div>
 			</div>
 		);
-
-	return (
-		<AuthProvider
-			onUserLoggedIn={handleUserLoggedIn}
-			onUserNotRegister={handleUserNotRegister}
-			onUserNotLoggedIn={handleUserNotLoggedIn}
-		>
-			<div>Loading...</div>
-		</AuthProvider>
-	);
+	return <div className='text-white py-4'>Loading...</div>;
 };

@@ -2,7 +2,7 @@ import moment from 'moment';
 import * as yup from 'yup';
 
 const regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]+$/;
-const regexPassword = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
+// const regexPassword = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
 
 export const validateUser = yup.object({
 	firstName: yup
@@ -22,8 +22,8 @@ export const validateUser = yup.object({
 		.string()
 		.required('Please enter your identity card')
 		.matches(/^[0-9]+$/, 'Must be only digits')
-		.min(8, 'Must be exactly 8 digits')
-		.max(10, 'Must be exactly 10 digits'),
+		.min(6, 'Please min 6 digits')
+		.max(10, 'Please max 10 digits'),
 	// typeId: yup.mixed().oneOf(['cc', 'ce', 'passport']).defined(),
 	// birthDate: yup
 	// 	.date()
@@ -38,18 +38,10 @@ export const validateUser = yup.object({
 		}),
 });
 
-export const validateChangePassword = yup.object({
-	password: yup
+export const validateResetPassword = yup.object({
+	email: yup
 		.string()
-		.required('Please choose a password')
-		.min(8, 'Please min 8 characters')
-		.max(16, 'Please max 16 characters')
-		.matches(
-			regexPassword,
-			'Please *at least one lowercase, *at least one uppercase, *at least one digit'
-		),
-	c_password: yup
-		.string()
-		.required('Please enter the password again')
-		.oneOf([yup.ref('password'), null], 'Please the passwords must match'),
+		.email('Please enter a valid email')
+		.required('Please enter your email')
+		.max(150, 'Please max 150 characters'),
 });

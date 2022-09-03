@@ -7,6 +7,7 @@ import login from './login';
 import redPage from './paginate';
 import redUser from './user';
 import salesData from './sales';
+import redPurchases from './purchases';
 
 const reducer = combineReducers({
 	redLoading,
@@ -17,6 +18,7 @@ const reducer = combineReducers({
 	redUser,
 	redErrorFilter,
 	salesData,
+	redPurchases,
 });
 
 export default reducer;

@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert } from '@mui/material';
 import { Loader } from '../components/Loader';
+import { useAuth } from '../context/AuthContext';
 
 function Detail() {
 	const { id } = useParams();
@@ -20,9 +21,12 @@ function Detail() {
 	const [quantityAvailable, setquantityAvailable] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [reviews, setReviews] = useState(0);
+	const [favorites, setFavorites] = useState('');
 	const history = useHistory();
 	const dispatch = useDispatch();
 	// const { loading } = useSelector(state => state);
+	const { user } = useAuth();
+	// const { redLoading } = useSelector(state => state);
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const [state] = useState({
 		vertical: 'top',
@@ -47,7 +51,15 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
-				// setLoader(false);
+        setLoader(false);
+				const information = {
+					userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+					productid: id,
+				};
+				const statusFavorite = await axios
+					.put(`/favorites/status`, information)
+					.then(res => res.data);
+				setFavorites(statusFavorite);
 			} catch (error) {
 				alert(error);
 			}
@@ -104,6 +116,23 @@ function Detail() {
 		}
 		setOpen(false);
 		setquantityAvailable(false);
+	};
+	const handleFavourite = async e => {
+		if (!user) {
+			history.push('/signin');
+		} else {
+			const information = {
+				userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+				productid: id,
+			};
+			console.log(information);
+			const resp = await axios.put(`/favorites`, information);
+			console.log(resp.data);
+			const statusFavorite = await axios
+				.put(`/favorites/status`, information)
+				.then(res => res.data);
+			setFavorites(statusFavorite);
+		}
 	};
 
 	const action = (
@@ -239,6 +268,7 @@ function Detail() {
 					<div className='detail-1'>
 						<div className='dt1-ref'>Ref-{product.id}</div>
 						<div className='dt1-name'>{product.name}</div>
+
 						<div className='dt1-price'>
 							Price: $ {product.ProductTypes[0].Stocks.priceST}
 						</div>
@@ -335,7 +365,9 @@ function Detail() {
 						<div onClick={addToCart} className='dt6-1'>
 							Add to bag
 						</div>
-						<div className='dt6-2'>Add to wishlist</div>
+						<div className='dt6-2' onClick={handleFavourite}>
+							{favorites}
+						</div>
 					</div>
 				</div>
 			</div>

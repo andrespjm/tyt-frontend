@@ -1,19 +1,85 @@
-import { createContext, useState } from 'react';
+/* eslint-disable react/prop-types */
+import {
+	createUserWithEmailAndPassword,
+	FacebookAuthProvider,
+	GoogleAuthProvider,
+	onAuthStateChanged,
+	sendEmailVerification,
+	sendPasswordResetEmail,
+	signInWithEmailAndPassword,
+	signInWithPopup,
+	signOut,
+} from 'firebase/auth';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { auth } from '../firebase/firebase';
 
-export const AuthContext = createContext();
+const authContext = createContext();
 
-// const VIDEOGAMES_PER_PAGE = 15;
-
-// eslint-disable-next-line react/prop-types
-export const AuthProvider = ({ children }) => {
-	const [currentUserF, setCurrentUserF] = useState({});
-	const [isLogged, setIsLogged] = useState(false);
-
-	const data = {
-		currentUserF,
-		setCurrentUserF,
-		isLogged,
-		setIsLogged,
-	};
-	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
+export const useAuth = () => {
+	const context = useContext(authContext);
+	if (!context) throw new Error('There is no Auth provider');
+	return context;
 };
+
+export function AuthProvider({ children }) {
+	const [user, setUser] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [currentUserF, setCurrentUserF] = useState({});
+	const [currentUser, setCurrentUser] = useState({});
+
+	const signup = async (email, password) => {
+		const res = await createUserWithEmailAndPassword(auth, email, password);
+		if (res.user) {
+			await sendEmailVerification(auth.currentUser);
+		}
+		return res;
+	};
+
+	const login = (email, password) => {
+		return signInWithEmailAndPassword(auth, email, password);
+	};
+
+	const loginWithGoogle = () => {
+		const googleProvider = new GoogleAuthProvider();
+		return signInWithPopup(auth, googleProvider);
+	};
+
+	const loginWithFacebook = () => {
+		const facebookProvider = new FacebookAuthProvider();
+		return signInWithPopup(auth, facebookProvider);
+	};
+
+	const logout = () => signOut(auth);
+
+	const resetPassword = async email => sendPasswordResetEmail(auth, email);
+
+	useEffect(() => {
+		const unsubuscribe = onAuthStateChanged(auth, currentUser => {
+			console.log({ currentUser });
+			setUser(currentUser);
+			setLoading(false);
+		});
+		return () => unsubuscribe();
+	}, []);
+
+	return (
+		<authContext.Provider
+			value={{
+				signup,
+				login,
+				user,
+				logout,
+				loading,
+				loginWithGoogle,
+				loginWithFacebook,
+				resetPassword,
+				currentUserF,
+				currentUser,
+				setCurrentUserF,
+				setCurrentUser,
+			}}
+		>
+			{children}
+		</authContext.Provider>
+	);
+}

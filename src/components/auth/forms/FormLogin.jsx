@@ -1,9 +1,16 @@
+/* eslint-disable react/prop-types */
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import BeatLoader from 'react-spinners/BeatLoader';
 import { validationSignInSchema } from '../../../helpers/validations.helper';
-// eslint-disable-next-line react/prop-types
-export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
-	console.log('formlogin, userid', userId);
+export const FormLogin = ({
+	handleSignInFirebase,
+	handleSignInGoogle,
+	handleSignInFacebook,
+	error,
+}) => {
+	const [spinner, setSpinner] = useState(true);
 	return (
 		<div className='container mx-auto'>
 			<div className='flex justify-center px-6 my-12'>
@@ -15,9 +22,16 @@ export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
 						<p className='text-gray-400 text-center'>
 							Please enter your details
 						</p>
-						<p className='text-sm italic mt-2 p-2 w-3/4 m-auto text-white text-center rounded-lg bg-red-500'>
-							Wrong username or password
-						</p>
+
+						<div className='flex justify-center py-3' hidden={spinner}>
+							<BeatLoader />
+						</div>
+
+						{error && (
+							<p className='text-sm italic mt-2 p-2 w-3/4 m-auto text-white text-center rounded-lg bg-red-500'>
+								{error}
+							</p>
+						)}
 						<Formik
 							initialValues={{
 								email: '',
@@ -25,7 +39,12 @@ export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
 							}}
 							validationSchema={validationSignInSchema}
 							onSubmit={(values, { resetForm }) => {
-								resetForm();
+								setSpinner(false);
+								handleSignInFirebase(values.email, values.password);
+								// resetForm();
+								setTimeout(() => {
+									setSpinner(true);
+								}, 3000);
 							}}
 						>
 							{({ errors }) => (
@@ -87,7 +106,7 @@ export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
 										{/* https://www.facebook.com/images/fb_icon_325x325.png */}
 										<button
 											type='button'
-											onClick={() => handleOnClick(userId, cart, setCart)}
+											onClick={handleSignInGoogle}
 											className='flex flex-wrap justify-center w-full my-2 border border-gray-300 hover:bg-gray-200 px-2 py-1.5 rounded-full'
 										>
 											<img
@@ -98,6 +117,7 @@ export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
 										</button>
 										<button
 											type='button'
+											onClick={handleSignInFacebook}
 											className='flex flex-wrap justify-center w-full my-2 border border-gray-300 hover:bg-gray-200 px-2 py-1.5 rounded-full'
 										>
 											<img
@@ -109,12 +129,13 @@ export const FormLogin = ({ handleOnClick, userId, cart, setCart }) => {
 									</div>
 									<hr className='mb-6 border-t' />
 									<div className='text-center'>
-										<a
+										<Link
+											to={'/user/changepassword'}
 											className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'
 											href='#'
 										>
 											Forgot Password?
-										</a>
+										</Link>
 									</div>
 									<div className='text-center'>
 										<Link
