@@ -14,7 +14,6 @@ export const DataAccount = (props) => {
   const dispatch = useDispatch();
   const {redUser, redData, redPurchases} = useSelector(state => state);
 	const { currentUserF } = useAuth();
-  console.log("FOTOOOOOOOOO",currentUserF.profilePicture)
 
   useEffect(() => {
     dispatch(getUser(id));
@@ -99,7 +98,7 @@ export const DataAccount = (props) => {
             {currentUserF.profilePicture !== null ? (
               <>
                 <img
-                  className='inline-block h-7 w-7 mr-2 rounded-full ring-1 ring-white'
+                  className='inline-block w-56 h-56 mr-2 rounded-full ring-1 ring-white'
                   src={currentUserF.profilePicture}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null; // prevents looping
@@ -111,9 +110,9 @@ export const DataAccount = (props) => {
               </>
             ) : (
               <>
-                <img src={redUser.profilePicture} alt='Image user not found' className='rounded-lg'/>
+                <img src={redUser?.profilePicture} alt='Image user not found' className='w-56 h-56 rounded-lg'/>
               </>
-               /*  <i className='flex text-9xl mr-3 fa-solid fa-circle-user'></i>
+              /*  <i className='flex text-9xl mr-3 fa-solid fa-circle-user'></i>
                 <span className='flex'>Profile picture</span> */
             )}
           </div>
