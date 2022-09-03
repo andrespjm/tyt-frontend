@@ -5,7 +5,6 @@ import { Route, Switch } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignUp } from './components/auth/SignUp';
 import { DataAccount } from './components/dashboardClient/DataAccount';
-import { DataAddress } from './components/dashboardClient/DataAddress';
 import { DataFavorites } from './components/dashboardClient/DataFavorites';
 import { DataOrders } from './components/dashboardClient/DataOrders';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
@@ -95,7 +94,6 @@ function App() {
 					path='/:id/user/menu/favorites'
 					component={DataFavorites}
 				/>
-				<Route exact path='/:id/user/menu/address' component={DataAddress} />
 				<Route exact path='/detail/:id' component={Detail} />
 				<Route path='/' component={Page404} />
 			</Switch>
