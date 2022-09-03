@@ -46,10 +46,10 @@ export const userExists = async id => {
 	return res.exists();
 };
 
-export const existsUsername = async username => {
+export const existsEmail = async email => {
 	const users = [];
 	const docsRef = collection(db, 'users');
-	const q = query(docsRef, where('username', '==', username));
+	const q = query(docsRef, where('email', '==', email));
 	const querySnapshot = await getDocs(q);
 	querySnapshot.forEach(doc => users.push(doc.data()));
 	return users.length > 0 ? users[0].id : null;

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import {
 	createUserWithEmailAndPassword,
+	FacebookAuthProvider,
 	GoogleAuthProvider,
 	onAuthStateChanged,
 	sendEmailVerification,
@@ -43,6 +44,11 @@ export function AuthProvider({ children }) {
 		return signInWithPopup(auth, googleProvider);
 	};
 
+	const loginWithFacebook = () => {
+		const facebookProvider = new FacebookAuthProvider();
+		return signInWithPopup(auth, facebookProvider);
+	};
+
 	const logout = () => signOut(auth);
 
 	const resetPassword = async email => sendPasswordResetEmail(auth, email);
@@ -65,6 +71,7 @@ export function AuthProvider({ children }) {
 				logout,
 				loading,
 				loginWithGoogle,
+				loginWithFacebook,
 				resetPassword,
 				currentUserF,
 				currentUser,

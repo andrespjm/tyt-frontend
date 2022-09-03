@@ -34,6 +34,7 @@ export const EditUserProfile = () => {
 		currentUser.displayName = values.firstName + ' ' + values.lastName;
 		const tmp = { ...currentUser, ...values };
 		tmp.processCompleted = true;
+		tmp.processFirebase = true;
 		await updateUser(tmp);
 		setStatus(2);
 	};

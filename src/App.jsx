@@ -26,8 +26,10 @@ import Home from './pages/Home';
 import Landing from './pages/Landing';
 
 import { SignIn } from './components/auth/SignIn';
+import { ChangePassword } from './components/dashboardClient/formsUsers/ChangePassword';
 import Reviews from './components/Reviews';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import Page404 from './pages/Page404';
 
 function App() {
 	const { setCurrentUserF, user } = useAuth();
@@ -82,7 +84,7 @@ function App() {
 				<Route exact path={'/payfailure'} component={PayFailure} />
 				<Route exact path={'/reviews/:id'} component={Reviews} />
 				<Route exact path='/user/edit' component={EditUserProfile} />
-				{/* <Route exact path='/user/changepassword' component={ChangePassword} /> */}
+				<Route exact path='/user/changepassword' component={ChangePassword} />
 				<Route exact path='/signin' component={SignIn} />
 				<Route exact path='/user/main' component={HomeUser} />
 				<Route exact path='/:id/user/menu' component={Menu} />
@@ -94,9 +96,9 @@ function App() {
 					component={DataFavorites}
 				/>
 				<Route exact path='/:id/user/menu/address' component={DataAddress} />
-				<Route exact path='/:id' component={Detail} />
+				<Route exact path='/detail/:id' component={Detail} />
+				<Route path='/' component={Page404} />
 			</Switch>
-			{/* <Footer /> */}
 		</>
 	);
 }

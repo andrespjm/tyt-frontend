@@ -1,38 +1,39 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getUserOrder, getData } from '../../redux/actions';
-
+import { getUser, getData, getPurchases } from '../../redux/actions';
 import { Menu } from './Menu';
-// import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 
 export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
-  const {redUser} = useSelector(state => state);
-
-
-	// const { currentUserF } = useContext(AuthContext);
-	// const userId = currentUserF.id;
-
-	// const { redUser } = useSelector(state => state);
-	const { redData } = useSelector(state => state);
-
-
+  const {redUser, redData, redPurchases} = useSelector(state => state);
+  const { user } = useAuth();
+  
   useEffect(() => {
-    dispatch(getUserOrder(id));
+    dispatch(getUser(id));
     dispatch(getData());
+    dispatch(getPurchases());
   }, [id])
+
+  let myPurchases = []
+
+  if (redPurchases.length) {
+    myPurchases = redPurchases.filter(compra => compra.User.id === id)
+    
+  }
+
   return (
     <>
       <Menu />
       <div className="container mx-auto h-auto text-white flex">
         <div className="flex justify center items center w-1/4 mt-16 ml-8">
-          <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg"/>
+          <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg object-cover"/>
         </div>
         <div className="text-white w-2/4">
           <h2 className='font-bold'>Account information</h2>
@@ -70,19 +71,19 @@ export const DataAccount = (props) => {
           <h2 className='font-bold'>Shipping address</h2>
           <hr />
           <br />
-          {redUser?.Purchases?.length > 0 ? (
+          {myPurchases.length > 0 ? (
             <>
               <span className="flex font-medium">Last purchase address</span>
               <br />
               <div className="inline-block">
-                <span className="flex">Address: </span>
+                <span className="flex">Shipping Address: </span>
                 <span className="flex">Postal code: </span>
                 <span className="flex">Phone Number: </span>
               </div>
               <div className="inline-block pl-4">
-                  <span className="flex">{redUser?.Purchases[0]?.shippingAddressStreet} #{redUser?.Purchases[0]?.shippingAddressNumber}</span>
-                  <span className="flex">{redUser?.Purchases[0]?.postalCode}</span>
-                  <span className="flex">{redUser?.Purchases[0]?.phoneNumber}</span>
+                  <span className="flex">{myPurchases[0].shippingAddressStreet} #{myPurchases[0].shippingAddressNumber}</span>
+                  <span className="flex">{myPurchases[0].postalCode}</span>
+                  <span className="flex">{myPurchases[0].phoneNumber}</span>
               </div>
             </>
           ):(
@@ -93,11 +94,11 @@ export const DataAccount = (props) => {
         </div>
         <div className="text-white w-1/4 flex">
           <div className="mx-auto my-auto justify center">
-            {Object.entries(currentUserF).length !== 0 ? (
+            {Object.entries(user).length !== 0 ? (
               <>
                 <img
                   className='inline-block h-7 w-7 mr-2 rounded-full ring-1 ring-white'
-                  src={currentUserF.profilePicture}
+                  src={user.profilePicture}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null; // prevents looping
                     currentTarget.src =
@@ -105,7 +106,7 @@ export const DataAccount = (props) => {
                   }}
                   alt=''
                 />
-                {currentUserF.firstName}
+                {user.firstName}
               </>
             ) : (
               <>

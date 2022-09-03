@@ -1,4 +1,4 @@
-import { GET_USER, GET_USERS, GET_USER_ORDER } from '../actions/types';
+import { DELETE_FAVOURITE, GET_USER, GET_USERS, GET_USER_FAVOURITES, GET_USER_ORDER } from '../actions/types';
 
 const initialState = [];
 
@@ -10,6 +10,10 @@ export const redUser = (state = initialState, { type, payload }) => {
 			return payload;
 		case GET_USER_ORDER:
 			return payload;
+		case GET_USER_FAVOURITES:
+			return payload;
+		case DELETE_FAVOURITE:
+			return state;
 		default:
 			return state;
 	}
