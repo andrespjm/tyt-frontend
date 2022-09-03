@@ -1,10 +1,15 @@
+/* eslint-disable react/prop-types */
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { validationSignInSchema } from '../../../helpers/validations.helper';
-// eslint-disable-next-line react/prop-types
-export const FormLogin = ({ handleSignInFirebase, error }) => {
+export const FormLogin = ({
+	handleSignInFirebase,
+	handleSignInGoogle,
+	handleSignInFacebook,
+	error,
+}) => {
 	const [spinner, setSpinner] = useState(true);
 	return (
 		<div className='container mx-auto'>
@@ -17,12 +22,14 @@ export const FormLogin = ({ handleSignInFirebase, error }) => {
 						<p className='text-gray-400 text-center'>
 							Please enter your details
 						</p>
+
 						<div className='flex justify-center py-3' hidden={spinner}>
 							<BeatLoader />
 						</div>
+
 						{error && (
 							<p className='text-sm italic mt-2 p-2 w-3/4 m-auto text-white text-center rounded-lg bg-red-500'>
-								Wrong username or password
+								{error}
 							</p>
 						)}
 						<Formik
@@ -33,11 +40,11 @@ export const FormLogin = ({ handleSignInFirebase, error }) => {
 							validationSchema={validationSignInSchema}
 							onSubmit={(values, { resetForm }) => {
 								setSpinner(false);
+								handleSignInFirebase(values.email, values.password);
+								// resetForm();
 								setTimeout(() => {
-									handleSignInFirebase(values.email, values.password);
-									// resetForm();
 									setSpinner(true);
-								}, 1000);
+								}, 3000);
 							}}
 						>
 							{({ errors }) => (
@@ -99,6 +106,7 @@ export const FormLogin = ({ handleSignInFirebase, error }) => {
 										{/* https://www.facebook.com/images/fb_icon_325x325.png */}
 										<button
 											type='button'
+											onClick={handleSignInGoogle}
 											className='flex flex-wrap justify-center w-full my-2 border border-gray-300 hover:bg-gray-200 px-2 py-1.5 rounded-full'
 										>
 											<img
@@ -109,6 +117,7 @@ export const FormLogin = ({ handleSignInFirebase, error }) => {
 										</button>
 										<button
 											type='button'
+											onClick={handleSignInFacebook}
 											className='flex flex-wrap justify-center w-full my-2 border border-gray-300 hover:bg-gray-200 px-2 py-1.5 rounded-full'
 										>
 											<img
@@ -120,12 +129,13 @@ export const FormLogin = ({ handleSignInFirebase, error }) => {
 									</div>
 									<hr className='mb-6 border-t' />
 									<div className='text-center'>
-										<a
+										<Link
+											to={'/user/changepassword'}
 											className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'
 											href='#'
 										>
 											Forgot Password?
-										</a>
+										</Link>
 									</div>
 									<div className='text-center'>
 										<Link
