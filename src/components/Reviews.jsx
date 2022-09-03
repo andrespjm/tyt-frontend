@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ReactStarsRating from 'react-awesome-stars-rating';
 const Reviews = () => {
 	const { id } = useParams();
@@ -18,9 +18,14 @@ const Reviews = () => {
 
 	return (
 		<div>
-			{data &&
+			{data.length ? (
 				data.map(e => (
 					<div key={e.id}>
+						<img
+							src={e.product.img_home.secure_url}
+							alt='img product'
+							style={{ height: '300px' }}
+						/>
 						<p>{e.user.displayName}</p>
 						<p key={e.comments}>comments: {e.comments}</p>
 						<p key={e.score}>score: {e.score}</p>
@@ -30,7 +35,13 @@ const Reviews = () => {
 							isSelectable={false}
 						/>
 					</div>
-				))}
+				))
+			) : (
+				<h1>there are no reviews on this product</h1>
+			)}
+			<Link to={`/detail/${id}`}>
+				<button>back to product detail</button>
+			</Link>
 		</div>
 	);
 };
