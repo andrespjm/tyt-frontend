@@ -18,7 +18,6 @@ export const SignIn = () => {
 	// const [currentUser, setCurrentUser] = useState({});
 	const [error, setError] = useState('');
 	const [cart, setCart] = useContext(ShoppingCartContext);
-	let userId;
 	useEffect(() => {
 		const unsubuscribe = onAuthStateChanged(auth, handleUserStateChanged);
 		return () => unsubuscribe;
@@ -29,6 +28,8 @@ export const SignIn = () => {
 			if (isRegister) {
 				const userInfo = await getUserInfo(user.uid);
 				if (userInfo.processCompleted) {
+					await cartSignIn(user.uid, cart, setCart);
+
 					return navigate.push('/home');
 				}
 				return navigate.push('/user/edit');
@@ -49,7 +50,6 @@ export const SignIn = () => {
 	const handleSignInGoogle = async () => {
 		try {
 			await loginWithGoogle();
-			await cartSignIn(userId, cart, setCart);
 		} catch (err) {
 			setError(err.code);
 		}

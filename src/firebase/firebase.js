@@ -82,9 +82,5 @@ export const getUserInfo = async id => {
 };
 
 export const signout = async () => {
-	// console.log('ejecuto signout');
-	// console.log('ejecuto signout', userId);
-	// console.log('ejecuto signout', cart);
-	// await cartLogout(userId, cart, setCart);
 	await signOut(auth);
 };
