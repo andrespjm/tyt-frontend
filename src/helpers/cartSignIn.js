@@ -13,6 +13,7 @@ export const cartSignIn = async (userId, cart, setCart) => {
 
 			const ordersDB = orderItems.map(el => ({
 				name: el.Stock.Product.name,
+				designId: el.Stock.Product.id,
 				prodImageHome: el.Stock.Product.img_home.secure_url,
 				prodType: el.Stock.ProductTypeName,
 				stockId: el.StockId,
