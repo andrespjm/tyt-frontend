@@ -45,16 +45,6 @@ export const Menu = () => {
 							</button>
 						</Link>
 					</li>
-					<li>
-						<Link to={`/${id}/user/menu/address`}>
-							<button
-								id='address'
-								className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400 duration-1000'
-							>
-								Address Book
-							</button>
-						</Link>
-					</li>
 				</ul>
 			</div>
 		</>

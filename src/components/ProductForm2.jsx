@@ -94,6 +94,10 @@ const ProductForm = () => {
 
 	const handleImage = e => {
 		setImageMain(e.target.files[0]);
+		document.getElementById('output').src = URL.createObjectURL(
+			e.target.files[0]
+		);
+		document.getElementById('main-img-name').innerHTML = e.target.files[0].name;
 	};
 
 	const handleChangeImages = e => {
@@ -126,27 +130,6 @@ const ProductForm = () => {
 			const newProduct = { ...input };
 			newProduct.imageMain = imageMain;
 			newProduct.imagesDetail = images || [];
-			// newProduct.color1 = newProduct.color[0];
-			// newProduct.color2 = newProduct.color[1];
-			// newProduct.color3 = newProduct.color[2];
-
-			console.log({
-				name: newProduct.name,
-				description: newProduct.description,
-				collection: document.querySelector('input[name="collection"]:checked')
-					.value,
-				imageMain,
-				imagesDetail: newProduct.imagesDetail,
-				artist: newProduct.artist,
-				color1: strClr1,
-				color2: strClr2,
-				color3: strClr3,
-				stockCakeTray: stock.cakeTrail,
-				stockTurntable: stock.turntable,
-				priceCakeTray: newProduct.priceCakeTray,
-				priceTurntable: newProduct.priceTurntable,
-			});
-			// console.log('ANTES', newProduct);
 			// if (!newProduct.color.length)
 			// 	errorSelectColor.current.innerText = 'Select 3 colors';
 			// else errorSelectColor.current.innerText = '';
@@ -211,7 +194,7 @@ const ProductForm = () => {
 				onSubmit={handleSubmit}
 				encType='multipart/form-data'
 			>
-				<span className='text-5xl'>Create Product!</span>{' '}
+				<span className='text-5xl'>Create Product!</span>
 				<div className='grid grid-cols-[1fr_0.6fr] gap-8'>
 					{/* LEFT COLUMN */}
 					<div className=''>
@@ -241,7 +224,7 @@ const ProductForm = () => {
 							>
 								{errorSelectImage.imageMain}
 							</span>
-							<div className='preview mt-4'>
+							<div id='main-img-name' className='preview mt-4'>
 								No files currently selected for upload...
 							</div>
 						</div>
@@ -432,7 +415,10 @@ const ProductForm = () => {
 					</div>
 					{/* RIGHT COLUMN */}
 					<div className=''>
-						<div className='w-4/5 mt-4 mx-auto aspect-square bg-[url("https://i.ibb.co/sR9SRFR/IMG-7795.jpg")] bg-cover rounded-xl'></div>
+						<img
+							id='output'
+							className='w-4/5 mt-4 mx-auto aspect-square rounded-xl object-cover'
+						></img>
 						<div>
 							{/* COLORS */}
 							<div
@@ -441,12 +427,14 @@ const ProductForm = () => {
 							>
 								<i className='bi bi-droplet text-blue-300'></i>
 								<div className='flex justify-between w-full items-center'>
-									<span className='text-md ml-4 text-gray-200'>Colors</span>
+									<span className='text-md ml-4 text-gray-200'>
+										Select 3 main colors:
+									</span>
 									<span className='text-sm' id='arr-clr'></span>
 								</div>
 							</div>
 							<div
-								className='text-left text-sm font-thin mt-2 text-white select-none'
+								className='text-left text-sm font-thin mt-2 text-white select-none ml-6'
 								id='form-colors'
 							>
 								{!redColors.length ? (

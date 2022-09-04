@@ -15,8 +15,6 @@ export default function Navbar() {
 	const navigate = useHistory();
 	const { currentUserF, setIsLogged } = useAuth();
 	const userId = currentUserF.id;
-	console.log({ currentUserF });
-	console.log('ID USUARIO', currentUserF.id);
 
 	useEffect(() => {
 		document.getElementById('shp-num').innerHTML = cart.length;
@@ -294,12 +292,6 @@ export default function Navbar() {
 										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
 									>
 										My favorites
-									</Link>
-									<Link
-										to={`/${userId}/user/menu/address`}
-										className='block px-4 py-2  hover:bg-blue-500 hover:text-white'
-									>
-										My address book
 									</Link>
 									<button
 										onClick={() => {
