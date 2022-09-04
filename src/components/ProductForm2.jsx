@@ -11,9 +11,7 @@ const ProductForm = () => {
 	const { redColors } = useSelector(state => state);
 	const [queryColors, setQueryColors] = useState([]);
 	const [imageMain, setImageMain] = useState();
-	const [imagesDetail, setimagesDatail] = useState();
-	const errorSelectColor = useRef();
-	const errorSelectColl = useRef();
+	const [imagesDetail, setimagesDetail] = useState();
 	const errorSelectImage = useRef();
 	const errorSelectImageDetail = useRef();
 	const errorAll = useRef();
@@ -27,7 +25,6 @@ const ProductForm = () => {
 		description: '',
 		collection: '',
 		artist: '',
-		// imagesDetail:[],
 		stockCakeTray: 0,
 		stockTurntable: 0,
 		priceCakeTray: '',
@@ -40,18 +37,7 @@ const ProductForm = () => {
 
 	useEffect(() => {
 		dispatch(getColors());
-		// updateSwitchColors();
 	}, []);
-
-	// const updateSwitchColors = () => {
-	// 	if (!queryColors.length) return;
-	// 	document.querySelectorAll('.form-mycolors').forEach(element => {
-	// 		if (queryColors.includes(element.name)) {
-	// 			element.checked = true;
-	// 			element.parentNode.style.backgroundColor = element.name;
-	// 		}
-	// 	});
-	// };
 
 	const handleOnClickColors = e => {
 		if (e.target.checked) {
@@ -101,7 +87,7 @@ const ProductForm = () => {
 	};
 
 	const handleChangeImages = e => {
-		setimagesDatail(e.target.files);
+		setimagesDetail(e.target.files);
 	};
 
 	const handleChangeStock = e => {
@@ -113,7 +99,6 @@ const ProductForm = () => {
 		e.preventDefault();
 		success.current.innerText = '';
 		try {
-			console.log('entre al try');
 			const images = [];
 			if (imagesDetail) {
 				for (const image of imagesDetail) {
@@ -143,40 +128,57 @@ const ProductForm = () => {
 			// 	errorSelectColl.current.innerText = 'Add a collection';
 			// else errorSelectColl.current.innerText = '';
 
-			if (!newProduct.name || Object.entries(newProduct).length === 0) {
-				errorAll.current.innerText = 'Some fields are missing';
-			} else {
-				console.log('AQUII');
-				const res = await axios.post(
-					'/products',
-					{
-						name: newProduct.name,
-						description: newProduct.description,
-						collection: document.querySelector(
-							'input[name="collection"]:checked'
-						).value,
-						imageMain,
-						imagesDetail: newProduct.imagesDetail,
-						artist: newProduct.artist,
-						color1: strClr1,
-						color2: strClr2,
-						color3: strClr3,
-						stockCakeTray: stock.cakeTrail,
-						stockTurntable: stock.turntable,
-						priceCakeTray: newProduct.priceCakeTray,
-						priceTurntable: newProduct.priceTurntable,
-					},
-					{
-						headers: {
-							'Content-Type': 'multipart/form-data',
-						},
-					}
-				);
-				if (res.data.success === 'ok') {
-					errorAll.current.innerText = '';
-					return (success.current.innerText = 'Product added successfully');
-				}
-			}
+			console.log({
+				name: newProduct.name,
+				description: newProduct.description,
+				collection: document.querySelector('input[name="collection"]:checked')
+					.value,
+				imageMain,
+				imagesDetail: newProduct.imagesDetail,
+				artist: newProduct.artist,
+				color1: strClr1,
+				color2: strClr2,
+				color3: strClr3,
+				stockCakeTray: stock.cakeTrail,
+				stockTurntable: stock.turntable,
+				priceCakeTray: newProduct.priceCakeTray,
+				priceTurntable: newProduct.priceTurntable,
+			});
+
+			// if (!newProduct.name || Object.entries(newProduct).length === 0) {
+			// 	errorAll.current.innerText = 'Some fields are missing';
+			// } else {
+			// 	console.log('AQUII');
+			// 	const res = await axios.put(
+			// 		'/products/201',
+			// 		{
+			// 			name: newProduct.name,
+			// 			description: newProduct.description,
+			// 			collection: document.querySelector(
+			// 				'input[name="collection"]:checked'
+			// 			).value,
+			// 			imageMain,
+			// 			imagesDetail: newProduct.imagesDetail,
+			// 			artist: newProduct.artist,
+			// 			color1: strClr1,
+			// 			color2: strClr2,
+			// 			color3: strClr3,
+			// 			stockCakeTray: stock.cakeTrail,
+			// 			stockTurntable: stock.turntable,
+			// 			priceCakeTray: newProduct.priceCakeTray,
+			// 			priceTurntable: newProduct.priceTurntable,
+			// 		},
+			// 		{
+			// 			headers: {
+			// 				'Content-Type': 'multipart/form-data',
+			// 			},
+			// 		}
+			// 	);
+			// 	if (res.data.success === 'ok') {
+			// 		errorAll.current.innerText = '';
+			// 		return (success.current.innerText = 'Product added successfully');
+			// 	}
+			// }
 
 			// console.log(res);
 			// });
@@ -188,7 +190,7 @@ const ProductForm = () => {
 	};
 
 	return (
-		<div className='bg-gray-800 py-10'>
+		<div className='h-screen py-10 bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<form
 				className='max-w-5xl text-white mx-auto'
 				onSubmit={handleSubmit}
@@ -335,47 +337,47 @@ const ProductForm = () => {
 
 						{/* INVENTARY */}
 						<div className='grid grid-cols-2 gap-4 mt-4'>
-							<div>
+							<div className='flex justify-between items-center'>
 								<label className='mb-2'>Cake Trail Stock:</label>
 								<input
 									type='number'
-									className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
 									name='cakeTrail'
-									placeholder='0, 1, 2 or more...'
+									placeholder='units'
 									value={stock.cakeTrail}
 									onChange={handleChangeStock}
 								/>
 							</div>
-							<div>
+							<div className='flex justify-between items-center'>
 								<label className='mb-2'>Cake Trail Price:</label>
 								<input
 									type='number'
-									className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
 									name='priceCakeTray'
-									placeholder='$...'
+									placeholder='$'
 									value={input.priceCakeTray}
 									onChange={handleChange}
 								/>
 							</div>
-							<div>
+							<div className='flex justify-between items-center'>
 								<label className='mb-2'>Turntable Stock:</label>
 								<input
 									type='number'
-									className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
 									name='turntable'
-									placeholder='0, 1, 2 or more...'
+									placeholder='units'
 									// value={input.stock[1].quantity}
 									value={stock.turntable}
 									onChange={handleChangeStock}
 								/>
 							</div>
-							<div>
+							<div className='flex justify-between items-center'>
 								<label className='mb-2'>Turntable Price:</label>
 								<input
 									type='number'
-									className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
 									name='priceTurntable'
-									placeholder='$...'
+									placeholder='$'
 									value={input.priceTurntable}
 									onChange={handleChange}
 								/>
@@ -408,13 +410,35 @@ const ProductForm = () => {
 							>
 								{errorSelectImageDetail.imagesDetail}
 							</span>
-							<div className='preview mt-4'>
-								No files currently selected for upload...
+							<div className='mt-4 text-[10px] flex flex-col'>
+								<span>No files currently selected for upload</span>
+								<span>No files currently selected for upload</span>
+								<span>No files currently selected for upload</span>
 							</div>
+						</div>
+
+						{/* DESCRIPTION */}
+						<div>
+							<label className=''>Description</label>
+							<input
+								type='text'
+								className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+								name='description'
+								placeholder='Description...'
+								value={input.description}
+								onChange={handleChange}
+							/>
+							<span
+								className={`text-red-400 text-xs mt-1${
+									error.description ? 'visible' : 'invisible'
+								}`}
+							>
+								{error.description}
+							</span>
 						</div>
 					</div>
 					{/* RIGHT COLUMN */}
-					<div className=''>
+					<div className='flex flex-col justify-between'>
 						<img
 							id='output'
 							className='w-4/5 mt-4 mx-auto aspect-square rounded-xl object-cover'
@@ -466,44 +490,29 @@ const ProductForm = () => {
 									))
 								)}
 							</div>
+							{/* BUTTONS */}
+							<div className='mt-4 flex justify-center gap-4'>
+								<Link to='/admin'>
+									<button
+										className='btn btn-red hover:btn-red w-32'
+										value='Back'
+									>
+										Back
+									</button>
+								</Link>
+								<button
+									type='submit'
+									value='Add product'
+									className='btn btn-purple hover:btn-purple justify-end'
+								>
+									Add Product
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-				{/* DESCRIPTION */}
-				<div>
-					<label className=''>Description</label>
-					<input
-						type='text'
-						className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-						name='description'
-						placeholder='Description...'
-						value={input.description}
-						onChange={handleChange}
-					/>
-					<span
-						className={`text-red-400 text-xs mt-1${
-							error.description ? 'visible' : 'invisible'
-						}`}
-					>
-						{error.description}
-					</span>
-				</div>
-				<span className='p-0.5 text-red-400 italic' ref={errorAll}></span>
-				<span className='p-0.5 text-green-400 italic' ref={success}></span>
-				<div className='flex justify-end gap-4'>
-					<Link to='/admin'>
-						<button className='btn btn-red hover:btn-red w-32' value='Back'>
-							Back
-						</button>
-					</Link>
-					<button
-						type='submit'
-						value='Add product'
-						className='btn btn-purple hover:btn-purple justify-end'
-					>
-						Add Product
-					</button>
-				</div>
+				<span className='p-0.5 text-red-400' ref={errorAll}></span>
+				<span className='p-0.5 text-green-400' ref={success}></span>
 			</form>
 		</div>
 	);

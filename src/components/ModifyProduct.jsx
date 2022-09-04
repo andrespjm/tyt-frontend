@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getColors } from '../redux/actions';
@@ -8,6 +8,10 @@ const ModifyProduct = () => {
 	const dispatch = useDispatch();
 	const [product, setProduct] = useState({});
 	const [newColors, setNewColors] = useState([]);
+	const [imageMain, setImageMain] = useState();
+	const [imagesDetail, setimagesDetail] = useState([]);
+	const errorAll = useRef();
+	const success = useRef();
 	const { redColors } = useSelector(state => state);
 	const id = 200;
 
@@ -17,18 +21,12 @@ const ModifyProduct = () => {
 			try {
 				const response = await axios.get(`/products/${id}`);
 				setProduct(response.data);
-				setNewColors([
-					product.Colors[0].name,
-					product.Colors[1].name,
-					product.Colors[2].name,
-				]);
 			} catch (error) {
-				alert(error);
+				console.log('error en modify', error);
 			}
 		}
 		fetchData();
-		updateSwitchColors();
-	}, []);
+	}, [dispatch]);
 
 	const updateSwitchColors = () => {
 		if (!product.Colors) return;
@@ -73,12 +71,104 @@ const ModifyProduct = () => {
 		}
 	};
 
-	if (!product.name) return <h1>Loading...</h1>;
+	const handleChange = e => {
+		setProduct({ ...product, [e.target.name]: e.target.value });
+	};
 
-	console.log(newColors);
+	const handleImage = e => {
+		setImageMain(e.target.files[0]);
+		document.getElementById('output').src = URL.createObjectURL(
+			e.target.files[0]
+		);
+		document.getElementById('main-img-name').innerHTML = e.target.files[0].name;
+	};
+
+	const handleModifyProduct = async e => {
+		e.preventDefault();
+		success.current.innerText = '';
+		const images = [];
+		if (imagesDetail) {
+			for (const image of imagesDetail) {
+				images.push(image);
+			}
+		}
+		const color1 = redColors.filter(color => color.name === newColors[0]);
+		const strClr1 = `${color1[0].hex},${color1[0].name}`;
+		const color2 = redColors.filter(color => color.name === newColors[1]);
+		const strClr2 = `${color2[0].hex},${color2[0].name}`;
+		const color3 = redColors.filter(color => color.name === newColors[2]);
+		const strClr3 = `${color3[0].hex},${color3[0].name}`;
+
+		// console.log({
+		// 	name: product.name,
+		// 	description: product.description,
+		// 	collection: document.querySelector('input[name="collection"]:checked')
+		// 		.value,
+		// 	imageMain,
+		// 	imagesDetail,
+		// 	artist: product.artist,
+		// 	color1: strClr1,
+		// 	color2: strClr2,
+		// 	color3: strClr3,
+		// 	stockCakeTray: product.stockCakeTray,
+		// 	stockTurntable: product.stockTurntable,
+		// 	priceCakeTray: product.priceCakeTray,
+		// 	priceTurntable: product.priceTurntable,
+		// });
+		try {
+			const res = await axios.put(
+				`/products/${id}`,
+				{
+					name: product.name,
+					description: product.description,
+					collection: document.querySelector('input[name="collection"]:checked')
+						.value,
+					// imageMain,
+					// imagesDetail,
+					artist: product.artist,
+					color1: strClr1,
+					color2: strClr2,
+					color3: strClr3,
+					stockCakeTray: product.stockCakeTray,
+					stockTurntable: product.stockTurntable,
+					priceCakeTray: product.priceCakeTray,
+					priceTurntable: product.priceTurntable,
+				},
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
+			);
+			if (res.data.success === 'ok') {
+				errorAll.current.innerText = '';
+				return (success.current.innerText = 'Product added successfully');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	if (!product.name) return <h1>Loading...</h1>;
+	if (!product.stockCakeTray) {
+		setProduct({
+			...product,
+			stockCakeTray: product.ProductTypes[0].Stocks.quantityST,
+			priceCakeTray: product.ProductTypes[0].Stocks.priceST,
+			stockTurntable: product.ProductTypes[1].Stocks.quantityST,
+			priceTurntable: product.ProductTypes[1].Stocks.priceST,
+		});
+		setNewColors([
+			product.Colors[0].name,
+			product.Colors[1].name,
+			product.Colors[2].name,
+		]);
+		updateSwitchColors();
+	}
+	// console.log(product);
 
 	return (
-		<div className='bg-gray-800 py-10'>
+		<div className='h-screen py-10 bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<form
 				className='max-w-5xl text-white mx-auto'
 				// onSubmit={handleSubmit}
@@ -103,8 +193,8 @@ const ModifyProduct = () => {
 									id='imageMain'
 									name='imageMain'
 									accept='.jpg, .jpeg, .png'
-									// value={input.imageMain}
-									// onChange={handleImage}
+									value={product.imageMain}
+									onChange={handleImage}
 								/>
 							</div>
 							<span
@@ -130,8 +220,7 @@ const ModifyProduct = () => {
 								value={product.name}
 								name='name'
 								placeholder='Name...'
-								// value={input.name}
-								// onChange={handleChange}
+								onChange={handleChange}
 							/>
 
 							<span
@@ -152,8 +241,7 @@ const ModifyProduct = () => {
 								value={product.artist}
 								name='artist'
 								placeholder='Artist...'
-								// value={input.artist}
-								// onChange={handleChange}
+								onChange={handleChange}
 							/>
 							<span
 							// className={`text-red-400 text-xs mt-1${
@@ -178,7 +266,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Abstract'
 											checked={product.collection === 'Abstract'}
-											// onChange={handleChange}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Abstract'>Abstract</label>
 									</div>
@@ -192,7 +280,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Flowers'
 											checked={product.collection === 'Flowers'}
-											// onChange={handleChange}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Flowers'>Flowers</label>
 									</div>
@@ -206,7 +294,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Butterflies'
 											checked={product.collection === 'Butterflies'}
-											// onChange={handleChange}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Butterflies'>Butterflies</label>
 									</div>
@@ -220,7 +308,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Other'
 											checked={product.collection === 'Other'}
-											// onChange={handleChange}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Other'>Other</label>
 									</div>
@@ -235,11 +323,10 @@ const ModifyProduct = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-									value={product.ProductTypes[0].Stocks.quantityST}
-									name='cakeTrail'
+									value={product.stockCakeTray}
+									name='stockCakeTray'
 									placeholder='0, 1, 2 or more...'
-									// value={stock.cakeTrail}
-									// onChange={handleChangeStock}
+									onChange={handleChange}
 								/>
 							</div>
 							<div className='flex justify-between items-center'>
@@ -247,11 +334,10 @@ const ModifyProduct = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-									value={product.ProductTypes[0].Stocks.priceST}
+									value={product.priceCakeTray}
 									name='priceCakeTray'
 									placeholder='$...'
-									// value={input.priceCakeTray}
-									// onChange={handleChange}
+									onChange={handleChange}
 								/>
 							</div>
 							<div className='flex justify-between items-center'>
@@ -259,12 +345,10 @@ const ModifyProduct = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-									value={product.ProductTypes[1].Stocks.quantityST}
-									name='turntable'
+									value={product.stockTurntable}
+									name='stockTurntable'
 									placeholder='0, 1, 2 or more...'
-									// value={input.stock[1].quantity}
-									// value={stock.turntable}
-									// onChange={handleChangeStock}
+									onChange={handleChange}
 								/>
 							</div>
 							<div className='flex justify-between items-center'>
@@ -272,11 +356,10 @@ const ModifyProduct = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-									value={product.ProductTypes[1].Stocks.priceST}
+									value={product.priceTurntable}
 									name='priceTurntable'
 									placeholder='$...'
-									// value={input.priceTurntable}
-									// onChange={handleChange}
+									onChange={handleChange}
 								/>
 							</div>
 						</div>
@@ -298,7 +381,7 @@ const ModifyProduct = () => {
 									name='imagesDetail'
 									accept='.jpg, .jpeg, .png'
 									multiple
-									// onChange={handleChangeImages}
+									onChange={e => setimagesDetail(e.target.files)}
 								/>
 							</div>
 							<span
@@ -308,13 +391,36 @@ const ModifyProduct = () => {
 							>
 								{/* {errorSelectImageDetail.imagesDetail} */}
 							</span>
-							<div className='preview mt-4'>
-								No files currently selected for upload...
+							<div className='mt-4 text-[10px] flex flex-col'>
+								<span>{product.img_detail[0]?.secure_url}</span>
+								<span>{product.img_detail[1]?.secure_url}</span>
+								<span>{product.img_detail[2]?.secure_url}</span>
 							</div>
+						</div>
+
+						{/* DESCRIPTION */}
+						<div>
+							<label className=''>Description</label>
+							<input
+								type='text'
+								className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+								value={product.description}
+								name='description'
+								placeholder='Description...'
+								// value={input.description}
+								onChange={handleChange}
+							/>
+							<span
+							// className={`text-red-400 text-xs mt-1${
+							// 	error.description ? 'visible' : 'invisible'
+							// }`}
+							>
+								{/* {error.description} */}
+							</span>
 						</div>
 					</div>
 					{/* RIGHT COLUMN */}
-					<div className=''>
+					<div className='flex flex-col justify-between'>
 						<img
 							id='output'
 							src={product.img_home.secure_url}
@@ -364,45 +470,31 @@ const ModifyProduct = () => {
 									))
 								)}
 							</div>
+							{/* BUTTONS */}
+							<div className='mt-4 flex justify-center gap-4'>
+								<Link to='/admin'>
+									<button
+										className='btn btn-red hover:btn-red w-32'
+										value='Back'
+									>
+										Back
+									</button>
+								</Link>
+								<button
+									onClick={handleModifyProduct}
+									type='submit'
+									value='Add product'
+									className='btn btn-purple hover:btn-purple justify-end'
+								>
+									Modify Product
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-				{/* DESCRIPTION */}
-				<div>
-					<label className=''>Description</label>
-					<input
-						type='text'
-						className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-						value={product.description}
-						name='description'
-						placeholder='Description...'
-						// value={input.description}
-						// onChange={handleChange}
-					/>
-					<span
-					// className={`text-red-400 text-xs mt-1${
-					// 	error.description ? 'visible' : 'invisible'
-					// }`}
-					>
-						{/* {error.description} */}
-					</span>
-				</div>
-				{/* <span className='p-0.5 text-red-400 italic' ref={errorAll}></span> */}
-				{/* <span className='p-0.5 text-green-400 italic' ref={success}></span> */}
-				<div className='flex justify-end gap-4'>
-					<Link to='/admin'>
-						<button className='btn btn-red hover:btn-red w-32' value='Back'>
-							Back
-						</button>
-					</Link>
-					<button
-						type='submit'
-						value='Add product'
-						className='btn btn-purple hover:btn-purple justify-end'
-					>
-						Add Product
-					</button>
-				</div>
+
+				<span className='p-0.5 text-red-400 italic' ref={errorAll}></span>
+				<span className='p-0.5 text-green-400 italic' ref={success}></span>
 			</form>
 		</div>
 	);
