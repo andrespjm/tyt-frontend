@@ -51,9 +51,10 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
+				console.log('Aca', user.uid);
         setLoader(false);
 				const information = {
-					userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+					userid: user.uid, // luego agregar user.uid
 					productid: id,
 				};
 				const statusFavorite = await axios
@@ -122,7 +123,7 @@ function Detail() {
 			history.push('/signin');
 		} else {
 			const information = {
-				userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+				userid: user.uid, // luego agregar user.uid
 				productid: id,
 			};
 			console.log(information);
