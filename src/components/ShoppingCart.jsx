@@ -29,7 +29,7 @@ const ShoppingCart = () => {
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
 	const { user } = useAuth();
-	const userId = user.uid; // from token information
+	// const userId = user.uid; // from token information
 
 	function handleIncrement(e) {
 		const cart2 = [...cart];
@@ -48,9 +48,10 @@ const ShoppingCart = () => {
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
-		// console.log(currentUserF);
+		console.log(cart);
 		Object.entries(user).length === 0 && history.push('/signin');
 		try {
+			const userId = user.uid;
 			const orderId = (await axios.get(`/purchases/data?userId=${userId}`))
 				.data;
 			if (orderId.length > 0) {
@@ -107,6 +108,7 @@ const ShoppingCart = () => {
 			setErrorOrder(true);
 		} else {
 			setErrorOrder(false);
+			const userId = user.uid;
 			try {
 				// find cart order
 				orderId = (await axios.get(`/purchases/cart?userId=${userId}`)).data;
