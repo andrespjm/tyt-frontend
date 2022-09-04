@@ -13,8 +13,7 @@ import {
 	GET_REVIEW,
 	GET_SALES,
 	GET_PURCHASES,
-	GET_USER_FAVOURITES,
-	DELETE_FAVOURITE,
+	GET_USER_FAVOURITES
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -162,6 +161,7 @@ export const getUserFavourites = id => {
 		});
 	};
 };
+
 
 export const deleteFavourite = (userid, productid) => {
 	return async dispatch => {

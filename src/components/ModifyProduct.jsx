@@ -492,7 +492,6 @@ const ModifyProduct = () => {
 						</div>
 					</div>
 				</div>
-
 				<span className='p-0.5 text-red-400 italic' ref={errorAll}></span>
 				<span className='p-0.5 text-green-400 italic' ref={success}></span>
 			</form>

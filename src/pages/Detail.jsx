@@ -51,9 +51,10 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
-        setLoader(false);
+				console.log('Aca', user.uid);
+				setLoader(false);
 				const information = {
-					userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+					userid: user.uid, // luego agregar user.uid
 					productid: id,
 				};
 				const statusFavorite = await axios
@@ -91,7 +92,9 @@ function Detail() {
 				.quantityST;
 		console.log(cart);
 
-		const alreadySelected = cart.find(e => e.stockId === selection.stockId);
+		const cart2 = [...cart];
+
+		const alreadySelected = cart2.find(e => e.stockId === selection.stockId);
 
 		if (alreadySelected) {
 			if (alreadySelected.quantity + selection.quantity > stock) {
@@ -104,6 +107,8 @@ function Detail() {
 				alreadySelected.quantity + selection.quantity > stock
 					? stock
 					: alreadySelected.quantity + selection.quantity;
+
+			setCart(cart2);
 		} else {
 			setCart([...cart, selection]);
 			setOpen(true);
@@ -122,7 +127,7 @@ function Detail() {
 			history.push('/signin');
 		} else {
 			const information = {
-				userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
+				userid: user.uid, // luego agregar user.uid
 				productid: id,
 			};
 			console.log(information);
