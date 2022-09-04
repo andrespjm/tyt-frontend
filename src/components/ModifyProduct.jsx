@@ -1,52 +1,60 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import '../components/ProductForm2.css';
 import { getColors } from '../redux/actions';
-import { validateProduct } from '../validations/productValidation';
 
-const ProductForm = () => {
+const ModifyProduct = () => {
 	const dispatch = useDispatch();
-	const { redColors } = useSelector(state => state);
-	const [queryColors, setQueryColors] = useState([]);
+	const [product, setProduct] = useState({});
+	const [newColors, setNewColors] = useState([]);
 	const [imageMain, setImageMain] = useState();
-	const [imagesDetail, setimagesDetail] = useState();
-	const errorSelectImage = useRef();
-	const errorSelectImageDetail = useRef();
+	const [imagesDetail, setimagesDetail] = useState([]);
 	const errorAll = useRef();
 	const success = useRef();
-	const [stock, setStock] = useState({
-		cakeTrail: '',
-		turntable: '',
-	});
-	const [input, setInput] = useState({
-		name: '',
-		description: '',
-		collection: '',
-		artist: '',
-		stockCakeTray: 0,
-		stockTurntable: 0,
-		priceCakeTray: '',
-		priceTurntable: '',
-		color: [],
-		color1: '',
-		color2: '',
-		color3: '',
-	});
+	const { redColors } = useSelector(state => state);
+	const id = 200;
 
 	useEffect(() => {
 		dispatch(getColors());
-	}, []);
+		async function fetchData() {
+			try {
+				const response = await axios.get(`/products/${id}`);
+				setProduct(response.data);
+			} catch (error) {
+				console.log('error en modify', error);
+			}
+		}
+		fetchData();
+	}, [dispatch]);
+
+	const updateSwitchColors = () => {
+		if (!product.Colors) return;
+		document.querySelectorAll('.modify-mycolors').forEach(element => {
+			for (const color of product.Colors)
+				if (color.name === element.name) {
+					element.checked = true;
+					element.parentNode.style.backgroundColor =
+						element.name === 'water green'
+							? '#03bb85'
+							: element.name === 'light blue'
+							? '#ADD8E6'
+							: element.name;
+				}
+		});
+		document.querySelectorAll('.modify-mycolors').forEach(element => {
+			if (!element.checked) element.disabled = true;
+		});
+	};
 
 	const handleOnClickColors = e => {
 		if (e.target.checked) {
-			if (queryColors.length === 3) return;
-			if (queryColors.length === 2)
-				document.querySelectorAll('.form-mycolors').forEach(element => {
+			if (newColors.length === 3) return;
+			if (newColors.length === 2)
+				document.querySelectorAll('.modify-mycolors').forEach(element => {
 					if (!element.checked) element.disabled = true;
 				});
-			setQueryColors([...queryColors, e.target.name]);
+			setNewColors([...newColors, e.target.name]);
 			e.target.parentNode.style.backgroundColor =
 				e.target.name === 'water green'
 					? '#03bb85'
@@ -54,28 +62,17 @@ const ProductForm = () => {
 					? '#ADD8E6'
 					: e.target.name;
 		} else {
-			if (queryColors.length === 3)
-				document.querySelectorAll('.form-mycolors').forEach(element => {
+			if (newColors.length === 3)
+				document.querySelectorAll('.modify-mycolors').forEach(element => {
 					if (element.disabled) element.disabled = false;
 				});
-			setQueryColors(queryColors.filter(color => color !== e.target.name));
+			setNewColors(newColors.filter(color => color !== e.target.name));
 			e.target.parentNode.style.backgroundColor = '';
 		}
 	};
 
-	const [error, setError] = useState({});
-
 	const handleChange = e => {
-		setInput({
-			...input,
-			[e.target.name]: e.target.value,
-		});
-		setError(
-			validateProduct({
-				...input,
-				[e.target.name]: e.target.value,
-			})
-		);
+		setProduct({ ...product, [e.target.name]: e.target.value });
 	};
 
 	const handleImage = e => {
@@ -86,117 +83,98 @@ const ProductForm = () => {
 		document.getElementById('main-img-name').innerHTML = e.target.files[0].name;
 	};
 
-	const handleChangeImages = e => {
-		setimagesDetail(e.target.files);
-	};
-
-	const handleChangeStock = e => {
-		if (e.target.value < 0) return alert('negative quantity not allowed');
-		setStock({ ...stock, [e.target.name]: Number(e.target.value) });
-	};
-
-	const handleSubmit = async e => {
+	const handleModifyProduct = async e => {
 		e.preventDefault();
 		success.current.innerText = '';
-		try {
-			const images = [];
-			if (imagesDetail) {
-				for (const image of imagesDetail) {
-					images.push(image);
-				}
+		const images = [];
+		if (imagesDetail) {
+			for (const image of imagesDetail) {
+				images.push(image);
 			}
-			const color1 = redColors.filter(color => color.name === queryColors[0]);
-			const strClr1 = `${color1[0].hex},${color1[0].name}`;
-			const color2 = redColors.filter(color => color.name === queryColors[1]);
-			const strClr2 = `${color2[0].hex},${color2[0].name}`;
-			const color3 = redColors.filter(color => color.name === queryColors[2]);
-			const strClr3 = `${color3[0].hex},${color3[0].name}`;
+		}
+		const color1 = redColors.filter(color => color.name === newColors[0]);
+		const strClr1 = `${color1[0].hex},${color1[0].name}`;
+		const color2 = redColors.filter(color => color.name === newColors[1]);
+		const strClr2 = `${color2[0].hex},${color2[0].name}`;
+		const color3 = redColors.filter(color => color.name === newColors[2]);
+		const strClr3 = `${color3[0].hex},${color3[0].name}`;
 
-			const newProduct = { ...input };
-			newProduct.imageMain = imageMain;
-			newProduct.imagesDetail = images || [];
-			// if (!newProduct.color.length)
-			// 	errorSelectColor.current.innerText = 'Select 3 colors';
-			// else errorSelectColor.current.innerText = '';
-			// if (!newProduct.imageMain)
-			// 	errorSelectImage.current.innerText = 'Add a image';
-			// else errorSelectImage.current.innerText = '';
-			// if (!newProduct.imagesDetail.length)
-			// 	errorSelectImageDetail.current.innerText = 'Select at least 1 image';
-			// else errorSelectImageDetail.current.innerText = '';
-			// if (!newProduct.collection)
-			// 	errorSelectColl.current.innerText = 'Add a collection';
-			// else errorSelectColl.current.innerText = '';
-
-			console.log({
-				name: newProduct.name,
-				description: newProduct.description,
-				collection: document.querySelector('input[name="collection"]:checked')
-					.value,
-				imageMain,
-				imagesDetail: newProduct.imagesDetail,
-				artist: newProduct.artist,
-				color1: strClr1,
-				color2: strClr2,
-				color3: strClr3,
-				stockCakeTray: stock.cakeTrail,
-				stockTurntable: stock.turntable,
-				priceCakeTray: newProduct.priceCakeTray,
-				priceTurntable: newProduct.priceTurntable,
-			});
-
-			// if (!newProduct.name || Object.entries(newProduct).length === 0) {
-			// 	errorAll.current.innerText = 'Some fields are missing';
-			// } else {
-			// 	console.log('AQUII');
-			// 	const res = await axios.put(
-			// 		'/products/201',
-			// 		{
-			// 			name: newProduct.name,
-			// 			description: newProduct.description,
-			// 			collection: document.querySelector(
-			// 				'input[name="collection"]:checked'
-			// 			).value,
-			// 			imageMain,
-			// 			imagesDetail: newProduct.imagesDetail,
-			// 			artist: newProduct.artist,
-			// 			color1: strClr1,
-			// 			color2: strClr2,
-			// 			color3: strClr3,
-			// 			stockCakeTray: stock.cakeTrail,
-			// 			stockTurntable: stock.turntable,
-			// 			priceCakeTray: newProduct.priceCakeTray,
-			// 			priceTurntable: newProduct.priceTurntable,
-			// 		},
-			// 		{
-			// 			headers: {
-			// 				'Content-Type': 'multipart/form-data',
-			// 			},
-			// 		}
-			// 	);
-			// 	if (res.data.success === 'ok') {
-			// 		errorAll.current.innerText = '';
-			// 		return (success.current.innerText = 'Product added successfully');
-			// 	}
-			// }
-
-			// console.log(res);
-			// });
+		// console.log({
+		// 	name: product.name,
+		// 	description: product.description,
+		// 	collection: document.querySelector('input[name="collection"]:checked')
+		// 		.value,
+		// 	imageMain,
+		// 	imagesDetail,
+		// 	artist: product.artist,
+		// 	color1: strClr1,
+		// 	color2: strClr2,
+		// 	color3: strClr3,
+		// 	stockCakeTray: product.stockCakeTray,
+		// 	stockTurntable: product.stockTurntable,
+		// 	priceCakeTray: product.priceCakeTray,
+		// 	priceTurntable: product.priceTurntable,
+		// });
+		try {
+			const res = await axios.put(
+				`/products/${id}`,
+				{
+					name: product.name,
+					description: product.description,
+					collection: document.querySelector('input[name="collection"]:checked')
+						.value,
+					// imageMain,
+					// imagesDetail,
+					artist: product.artist,
+					color1: strClr1,
+					color2: strClr2,
+					color3: strClr3,
+					stockCakeTray: product.stockCakeTray,
+					stockTurntable: product.stockTurntable,
+					priceCakeTray: product.priceCakeTray,
+					priceTurntable: product.priceTurntable,
+				},
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
+			);
+			if (res.data.success === 'ok') {
+				errorAll.current.innerText = '';
+				return (success.current.innerText = 'Product added successfully');
+			}
 		} catch (error) {
 			console.log(error);
-			// errorAll.current.innerText = error.response.data;
-			// console.log(error.response.data);
 		}
 	};
+
+	if (!product.name) return <h1>Loading...</h1>;
+	if (!product.stockCakeTray) {
+		setProduct({
+			...product,
+			stockCakeTray: product.ProductTypes[0].Stocks.quantityST,
+			priceCakeTray: product.ProductTypes[0].Stocks.priceST,
+			stockTurntable: product.ProductTypes[1].Stocks.quantityST,
+			priceTurntable: product.ProductTypes[1].Stocks.priceST,
+		});
+		setNewColors([
+			product.Colors[0].name,
+			product.Colors[1].name,
+			product.Colors[2].name,
+		]);
+		updateSwitchColors();
+	}
+	// console.log(product);
 
 	return (
 		<div className='h-screen py-10 bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<form
 				className='max-w-5xl text-white mx-auto'
-				onSubmit={handleSubmit}
+				// onSubmit={handleSubmit}
 				encType='multipart/form-data'
 			>
-				<span className='text-5xl'>Create Product!</span>
+				<span className='text-5xl'>Modify Product!</span>
 				<div className='grid grid-cols-[1fr_0.6fr] gap-8'>
 					{/* LEFT COLUMN */}
 					<div className=''>
@@ -215,19 +193,19 @@ const ProductForm = () => {
 									id='imageMain'
 									name='imageMain'
 									accept='.jpg, .jpeg, .png'
-									value={input.imageMain}
+									value={product.imageMain}
 									onChange={handleImage}
 								/>
 							</div>
 							<span
-								className={`text-red-400 text-xs mt-1${
-									errorSelectImage.imageMain ? 'visible' : 'invisible'
-								}`}
+							// className={`text-red-400 text-xs mt-1${
+							// errorSelectImage.imageMain ? 'visible' : 'invisible'
+							// }`}
 							>
-								{errorSelectImage.imageMain}
+								{/* {errorSelectImage.imageMain} */}
 							</span>
-							<div id='main-img-name' className='preview mt-4'>
-								No files currently selected for upload...
+							<div id='main-img-name' className='mt-4'>
+								{product.img_home.secure_url}
 							</div>
 						</div>
 
@@ -239,18 +217,18 @@ const ProductForm = () => {
 								type='text'
 								className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1
                 '
+								value={product.name}
 								name='name'
 								placeholder='Name...'
-								value={input.name}
 								onChange={handleChange}
 							/>
 
 							<span
-								className={`text-red-400 text-xs mt-1${
-									error.name ? 'visible' : 'invisible'
-								}`}
+							// className={`text-red-400 text-xs mt-1${
+							// error.name ? 'visible' : 'invisible'
+							// }`}
 							>
-								{error.name}
+								{/* {error.name} */}
 							</span>
 						</div>
 
@@ -260,17 +238,17 @@ const ProductForm = () => {
 							<input
 								type='text'
 								className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+								value={product.artist}
 								name='artist'
 								placeholder='Artist...'
-								value={input.artist}
 								onChange={handleChange}
 							/>
 							<span
-								className={`text-red-400 text-xs mt-1${
-									error.artist ? 'visible' : 'invisible'
-								}`}
+							// className={`text-red-400 text-xs mt-1${
+							// 	error.artist ? 'visible' : 'invisible'
+							// }`}
 							>
-								{error.artist}
+								{/* {error.artist} */}
 							</span>
 						</div>
 
@@ -287,8 +265,8 @@ const ProductForm = () => {
 											id='Abstract'
 											name='collection'
 											value='Abstract'
-											defaultChecked
-											onChange={handleChange}
+											checked={product.collection === 'Abstract'}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Abstract'>Abstract</label>
 									</div>
@@ -301,7 +279,8 @@ const ProductForm = () => {
 											id='Flowers'
 											name='collection'
 											value='Flowers'
-											onChange={handleChange}
+											checked={product.collection === 'Flowers'}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Flowers'>Flowers</label>
 									</div>
@@ -314,7 +293,8 @@ const ProductForm = () => {
 											id='Butterflies'
 											name='collection'
 											value='Butterflies'
-											onChange={handleChange}
+											checked={product.collection === 'Butterflies'}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Butterflies'>Butterflies</label>
 									</div>
@@ -327,7 +307,8 @@ const ProductForm = () => {
 											id='Other'
 											name='collection'
 											value='Other'
-											onChange={handleChange}
+											checked={product.collection === 'Other'}
+											onChange={() => {}}
 										/>
 										<label htmlFor='Other'>Other</label>
 									</div>
@@ -342,10 +323,10 @@ const ProductForm = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-									name='cakeTrail'
-									placeholder='units'
-									value={stock.cakeTrail}
-									onChange={handleChangeStock}
+									value={product.stockCakeTray}
+									name='stockCakeTray'
+									placeholder='0, 1, 2 or more...'
+									onChange={handleChange}
 								/>
 							</div>
 							<div className='flex justify-between items-center'>
@@ -353,9 +334,9 @@ const ProductForm = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+									value={product.priceCakeTray}
 									name='priceCakeTray'
-									placeholder='$'
-									value={input.priceCakeTray}
+									placeholder='$...'
 									onChange={handleChange}
 								/>
 							</div>
@@ -364,11 +345,10 @@ const ProductForm = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
-									name='turntable'
-									placeholder='units'
-									// value={input.stock[1].quantity}
-									value={stock.turntable}
-									onChange={handleChangeStock}
+									value={product.stockTurntable}
+									name='stockTurntable'
+									placeholder='0, 1, 2 or more...'
+									onChange={handleChange}
 								/>
 							</div>
 							<div className='flex justify-between items-center'>
@@ -376,13 +356,14 @@ const ProductForm = () => {
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+									value={product.priceTurntable}
 									name='priceTurntable'
-									placeholder='$'
-									value={input.priceTurntable}
+									placeholder='$...'
 									onChange={handleChange}
 								/>
 							</div>
 						</div>
+
 						{/* DETAILS IMAGE */}
 						<div className='mt-4 mb-4 border-y-2 border-blue-300 py-4'>
 							<div>
@@ -400,20 +381,20 @@ const ProductForm = () => {
 									name='imagesDetail'
 									accept='.jpg, .jpeg, .png'
 									multiple
-									onChange={handleChangeImages}
+									onChange={e => setimagesDetail(e.target.files)}
 								/>
 							</div>
 							<span
-								className={`text-red-400 text-xs mt-1${
-									errorSelectImageDetail.imagesDetail ? 'block' : 'hidden'
-								}`}
+							// className={`text-red-400 text-xs mt-1${
+							// 	errorSelectImageDetail.imagesDetail ? 'block' : 'hidden'
+							// }`}
 							>
-								{errorSelectImageDetail.imagesDetail}
+								{/* {errorSelectImageDetail.imagesDetail} */}
 							</span>
 							<div className='mt-4 text-[10px] flex flex-col'>
-								<span>No files currently selected for upload</span>
-								<span>No files currently selected for upload</span>
-								<span>No files currently selected for upload</span>
+								<span>{product.img_detail[0]?.secure_url}</span>
+								<span>{product.img_detail[1]?.secure_url}</span>
+								<span>{product.img_detail[2]?.secure_url}</span>
 							</div>
 						</div>
 
@@ -423,17 +404,18 @@ const ProductForm = () => {
 							<input
 								type='text'
 								className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
+								value={product.description}
 								name='description'
 								placeholder='Description...'
-								value={input.description}
+								// value={input.description}
 								onChange={handleChange}
 							/>
 							<span
-								className={`text-red-400 text-xs mt-1${
-									error.description ? 'visible' : 'invisible'
-								}`}
+							// className={`text-red-400 text-xs mt-1${
+							// 	error.description ? 'visible' : 'invisible'
+							// }`}
 							>
-								{error.description}
+								{/* {error.description} */}
 							</span>
 						</div>
 					</div>
@@ -441,14 +423,12 @@ const ProductForm = () => {
 					<div className='flex flex-col justify-between'>
 						<img
 							id='output'
+							src={product.img_home.secure_url}
 							className='w-4/5 mt-4 mx-auto aspect-square rounded-xl object-cover'
 						></img>
 						<div>
 							{/* COLORS */}
-							<div
-								className='p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer text-white'
-								// onClick={handleGetColors}
-							>
+							<div className='p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer text-white'>
 								<i className='bi bi-droplet text-blue-300'></i>
 								<div className='flex justify-between w-full items-center'>
 									<span className='text-md ml-4 text-gray-200'>
@@ -470,7 +450,7 @@ const ProductForm = () => {
 											className={`form-check form-switch cursor-pointer p-2 rounded-md mt-1 ml-10 w-4/5`}
 										>
 											<input
-												className='form-mycolors form-check-input appearance-none rounded-full   bg-gray-300 cursor-pointer'
+												className='modify-mycolors form-check-input appearance-none rounded-full   bg-gray-300 cursor-pointer'
 												type='checkbox'
 												role='switch'
 												name={color.name}
@@ -501,21 +481,22 @@ const ProductForm = () => {
 									</button>
 								</Link>
 								<button
+									onClick={handleModifyProduct}
 									type='submit'
 									value='Add product'
 									className='btn btn-purple hover:btn-purple justify-end'
 								>
-									Add Product
+									Modify Product
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<span className='p-0.5 text-red-400' ref={errorAll}></span>
-				<span className='p-0.5 text-green-400' ref={success}></span>
+				<span className='p-0.5 text-red-400 italic' ref={errorAll}></span>
+				<span className='p-0.5 text-green-400 italic' ref={success}></span>
 			</form>
 		</div>
 	);
 };
 
-export default ProductForm;
+export default ModifyProduct;

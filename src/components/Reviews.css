@@ -1,0 +1,33 @@
+.containerReviews{
+    width: 75vw;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+}
+.containerReviews div{
+    color: white;
+    border: 1px solid white;
+    padding: 10px;
+    margin: 10px;
+}
+
+.buttonReviews{
+    position: absolute;
+    bottom: -50px;
+    overflow: hidden;
+}
+
+.buttonReviews button{
+    width: 100%;
+    padding: 10px;
+    color: aliceblue;
+    
+}
+
+.buttonReviews:hover {
+    transform: scale(1.1);
+}

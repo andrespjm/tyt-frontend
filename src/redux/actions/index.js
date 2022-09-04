@@ -8,7 +8,6 @@ import {
 	GET_USERS,
 	SET_LOADING,
 	SET_LOGIN,
-	SET_PAGE,
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
@@ -21,9 +20,6 @@ import {
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
 
-export const setPage = page => dispatch =>
-	dispatch({ type: SET_PAGE, payload: page });
-
 export const loggin = () => dispatch => dispatch({ type: SET_LOGIN });
 
 // Get Products from backend
@@ -35,6 +31,7 @@ export const getData = () => {
 			if (response.status === 200)
 				dispatch({ type: GET_DATA, payload: response.data });
 		} catch {
+			alert('error in action getData');
 			dispatch({ type: GET_DATA, payload: null });
 		}
 		dispatch(setLoading(false));
@@ -66,8 +63,12 @@ export const setErrorFilter = payload => ({
 export const getColors = () => {
 	return async dispatch => {
 		dispatch(setLoading(true));
-		const response = await axios.get('/colors');
-		dispatch({ type: GET_COLORS, payload: response.data });
+		try {
+			const response = await axios.get('/colors');
+			dispatch({ type: GET_COLORS, payload: response.data });
+		} catch {
+			alert('error in action getColors');
+		}
 		dispatch(setLoading(false));
 	};
 };

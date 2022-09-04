@@ -16,6 +16,9 @@ module.exports = {
 			minHeight: {
 				'55vh': '55vh',
 			},
+			height: {
+				'43.2px': '43.2px',
+			},
 			padding: {
 				'20px 10px': '20px 10px',
 			},

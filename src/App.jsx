@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignUp } from './components/auth/SignUp';
 import { DataAccount } from './components/dashboardClient/DataAccount';
-import { DataAddress } from './components/dashboardClient/DataAddress';
+import { FormEditProfile } from './components/dashboardClient/formsUsers/FormEditProfle';
 import { DataFavorites } from './components/dashboardClient/DataFavorites';
 import { DataOrders } from './components/dashboardClient/DataOrders';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
@@ -16,6 +16,7 @@ import Navbar from './components/Navbar';
 import PayFailure from './components/PayFailure';
 import PaySuccess from './components/PaySuccess';
 import ProductForm from './components/ProductForm2';
+import ModifyProduct from './components/ModifyProduct';
 import ShoppingCart from './components/ShoppingCart';
 
 import { useAuth } from './context/AuthContext';
@@ -72,7 +73,8 @@ function App() {
 				<Route exact path='/' component={Landing} />
 				<Route exact path='/home' component={Home} />
 				<Route exact path='/admin' component={DashBoard} />
-				<Route exact path='/addproduct' component={ProductForm} />
+				<Route exact path='/admin/addproduct' component={ProductForm} />
+				<Route exact path='/admin/modifyproduct' component={ModifyProduct} />
 				<Route exact path='/shop/shoppingCart' component={ShoppingCart} />
 
 				<Route exact path='/signup'>
@@ -95,7 +97,7 @@ function App() {
 					path='/:id/user/menu/favorites'
 					component={DataFavorites}
 				/>
-				<Route exact path='/:id/user/menu/address' component={DataAddress} />
+				<Route path='/:id/user/menu/account/edit' component={FormEditProfile} />
 				<Route exact path='/detail/:id' component={Detail} />
 				<Route path='/' component={Page404} />
 			</Switch>

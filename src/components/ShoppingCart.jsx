@@ -29,7 +29,7 @@ const ShoppingCart = () => {
 	const [errorOrder, setErrorOrder] = useState(false);
 	const [deleteItem, setDeleteItem] = useState(false);
 	const { user } = useAuth();
-	const userId = user.uid; // from token information
+	// const userId = user.uid; // from token information
 
 	function handleIncrement(e) {
 		const cart2 = [...cart];
@@ -48,9 +48,10 @@ const ShoppingCart = () => {
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
-		// console.log(currentUserF);
+		console.log(cart);
 		Object.entries(user).length === 0 && history.push('/signin');
 		try {
+			const userId = user.uid;
 			const orderId = (await axios.get(`/purchases/data?userId=${userId}`))
 				.data;
 			if (orderId.length > 0) {
@@ -107,6 +108,7 @@ const ShoppingCart = () => {
 			setErrorOrder(true);
 		} else {
 			setErrorOrder(false);
+			const userId = user.uid;
 			try {
 				// find cart order
 				orderId = (await axios.get(`/purchases/cart?userId=${userId}`)).data;
@@ -152,60 +154,89 @@ const ShoppingCart = () => {
 		}
 	}
 
+	// console.log(e.quanitty);
+
 	return (
-		<div className='shopping-wrapper bg-white h-screen'>
-			<div className='shopping-bag'>
+		<section className='text-white w-screen h-screen select-none bg-gradient-to-b from-black via-gray-600 to-base-900'>
+			<div className='container text-white'>
 				<div className='shopping-header'>
-					<h2>Bag</h2>
+					<h2 className='text-5xl'>
+						<i className='bi bi-bag'></i> Shopping Bag
+					</h2>
 				</div>
 				<hr />
-				<div className='shopping-container'>
+				<div className='relative shopping-container'>
 					<div className='shop-cont-left'>
 						{!cart.length ? (
 							<div>No items in the bag</div>
 						) : (
 							cart.map(e => (
 								<div key={e.stockId}>
-									<div className='shopping-product'>
-										<Link to={`/detail/${e.designId}`}>
-											<div
-												className='shp-img'
-												style={{
-													backgroundImage: `url('${e.prodImageHome}')`,
-												}}
-											></div>
-										</Link>
-										<div className='shp-details'>
-											<p className='shp-ref'>Stock-RF {e.stockId}</p>
-											<h3>{e.name}</h3>
-											<p>Type: {e.prodType}</p>
-											<p>
-												Left availability: {e.stockQuantity - e.quantity} un
-											</p>
-											<div id='shp-bottom-shp-details'>
-												<span className='shp-add-fv'>Add to favorites</span>
-												<span
-													className='text-myRed ml-4 text-xl'
-													onClick={() =>
-														// setCart(cart.filter(i => i.stockId !== e.stockId))
-														setDeleteItem(e.stockId)
-													}
-												>
-													<i className='fa-solid fa-trash-can'></i>
-												</span>
+									<div className='flex justify-between pr-10'>
+										<div className='flex gap-3'>
+											<Link to={`/detail/${e.designId}`}>
+												<div
+													className='shp-img'
+													style={{
+														backgroundImage: `url('${e.prodImageHome}')`,
+													}}
+												></div>
+											</Link>
+											<div className='shp-details'>
+												<p className='shp-ref'>Stock-RF {e.stockId}</p>
+												<h3>{e.name}</h3>
+												<p>Type: {e.prodType}</p>
+												<p>
+													Left availability: {e.stockQuantity - e.quantity} un
+												</p>
+												<div id='shp-bottom-shp-details flex justify-between'>
+													{/* ADD FAV AND DELETE */}
+													<span className='underline text-blue-300'>
+														<i className='bi bi-bookmark-heart pr-2'></i>
+														Add to favorites
+													</span>
+													<span
+														className='text-rose-400 ml-20 underline cursor-pointer'
+														onClick={() =>
+															// setCart(cart.filter(i => i.stockId !== e.stockId))
+															setDeleteItem(e.stockId)
+														}
+													>
+														<i className='fa-solid fa-trash-can text-xl px-2'></i>
+														Delete
+													</span>
+												</div>
 											</div>
 										</div>
-										<div>
-											<div>
-												<button onClick={handleDecrement} id={e.stockId}>
-													-
-												</button>
-												<button onClick={handleIncrement} id={e.stockId}>
-													+
-												</button>
-												{e.quantity} un
+										{/* 3  */}
+										<div className=' flex flex-col justify-between py-3 text-right'>
+											<div className='text-2xl'>$ {e.price}</div>
+											{/* SELECT QUANTITY */}
+											<div className='flex'>
+												<span>Quantity:</span>
+												<div className='flex'>
+													<i
+														id={e.stockId}
+														className='fa-solid  items-center fa-minus ml-4 mt-1 h-fit cursor-pointer'
+														onClick={handleDecrement}
+													></i>
+													<div id='detail-7'>
+														<input
+															className='text-white text-center bg-transparent w-10 caret-transparent after
+								'
+															readOnly
+															type='number'
+															id='shop-quantity'
+															value={e.quantity}
+														/>
+													</div>
+													<i
+														id={e.stockId}
+														className='fa-solid fa-plus mt-1 h-fit cursor-pointer'
+														onClick={handleIncrement}
+													></i>
+												</div>
 											</div>
-											<div>$ {e.price}</div>
 										</div>
 									</div>
 									<hr />
@@ -213,40 +244,55 @@ const ShoppingCart = () => {
 							))
 						)}
 					</div>
-					<div className='shop-cont-right'>
-						<h1 style={{ color: '#c684ff' }}>Summary</h1>
-						<div className='shp-pay-info'>
-							<div className='shp-pay-info-left'>
-								<p>Subtotal</p>
-								<p>Shipping</p>
-								<p>Tax</p>
-								<h3>Total</h3>
+					{/* SUMMARY AND PAYING INFORMATION */}
+					<div className='absolute bg-gray-800 w-[420px] h-[420px] right-12 top-10 rounded-xl p-10 border-gray-600'>
+						<h1 className='text-3xl text-blue-400 text-center'>Summary</h1>
+						<div className='flex flex-col mt-4 py-3 border-y-2 border-y-gray-600'>
+							<div className='flex justify-between'>
+								<p className='mb-2'>Subtotal</p>
+								<p className='mb-2 text-right'>U$ {totalPrice}</p>
 							</div>
-							<div className='shp-pay-info-right'>
-								<p>U$ {totalPrice}</p>
-								<p>U$ {totalShipping}</p>
-								<p>U$ {(totalPrice + totalShipping) * 0.2}</p>
-								<h3>U$ {(totalPrice + totalShipping) * 1.2}</h3>
+							<div className='flex justify-between'>
+								<p className='mb-2'>Shipping</p>
+								<p className='mb-2 text-right'>U$ {totalShipping}</p>
+							</div>
+							<div className='flex justify-between'>
+								<p className='mb-2'>Tax</p>
+								<p className='mb-2 text-right'>
+									U$ {(totalPrice + totalShipping) * 0.2}
+								</p>
+							</div>
+							<div className='flex justify-between border-t-2 border-gray-500 pt-3'>
+								<h3 className='text-xl font-semibold'>Total</h3>
+								<h3 className='text-xl font-semibold'>
+									U$ {(totalPrice + totalShipping) * 1.2}
+								</h3>
 							</div>
 						</div>
-						<button className='shp-chkout' onClick={handleCheckOut}>
-							Checkout
-						</button>
+						{/* BOTONES */}
+						<div className='flex justify-between'>
+							<button
+								className='btn btn-red hover:btn-red my-5 w-32'
+								onClick={() => history.push('/home')}
+							>
+								back
+							</button>
+							<button
+								className='btn btn-blue hover:btn-blue my-5 w-32'
+								onClick={handleCheckOut}
+							>
+								checkout
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
 
-			<button
-				className='btn btn-red hover:btn-red mx-auto my-5 w-32'
-				onClick={() => history.push('/home')}
-			>
-				back
-			</button>
 			{checkout && (
-				<div className='absolute top-0 w-screen h-screen flex items-center justify-center'>
+				<div className='fixed left-0 top-0 w-screen h-screen flex items-center justify-center text-white bg-[rgba(0,0,0,0.8)]'>
 					<form
 						onSubmit={handleOrder}
-						className='bg-gray-800 border-2 border-gray-500 text-white px-12 py-8 w-[700px] rounded-lg
+						className='bg-gray-800 px-12 py-8 w-[700px] rounded-lg
 						'
 					>
 						<div className='text-end text-lg'></div>
@@ -324,7 +370,10 @@ const ShoppingCart = () => {
 						<div className='relative flex justify-around mt-4'>
 							<button
 								className='w-28 py-2 px-3 rounded-md btn-red hover:btn-red'
-								onClick={() => setCheckout(false)}
+								onClick={() => {
+									setCheckout(false);
+									setPay(false);
+								}}
 							>
 								Close
 							</button>
@@ -346,7 +395,7 @@ const ShoppingCart = () => {
 				</div>
 			)}
 			{deleteItem && (
-				<div className='absolute top-0 w-screen h-screen flex items-center justify-center text-white'>
+				<div className='fixed left-0 top-0 w-screen h-screen flex items-center justify-center text-white bg-[rgba(0,0,0,0.8)]'>
 					<div className='bg-gray-800 p-10 rounded-lg w-[500px] h-[260px] text-center flex flex-col gap-2'>
 						<i className='bi bi-trash3-fill text-2xl text-myRed'></i>
 						Are you sure you want to delete the item?
@@ -372,7 +421,7 @@ const ShoppingCart = () => {
 					</div>
 				</div>
 			)}
-		</div>
+		</section>
 	);
 };
 

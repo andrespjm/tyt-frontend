@@ -21,7 +21,7 @@ body {
 	@apply bg-myPurple-100 text-white;
 }
 .btn-blue {
-	@apply bg-blue-300 text-white;
+	@apply bg-blue-400 text-white;
 }
 .btn-red:hover {
 	@apply bg-transparent border border-myRed text-myRed;
@@ -30,7 +30,7 @@ body {
 	@apply bg-transparent border border-myPurple-100 text-myPurple-100;
 }
 .btn-blue:hover {
-	@apply bg-transparent border border-blue-300 text-blue-300;
+	@apply bg-transparent border border-blue-400 text-blue-400;
 }
 
 @layer utilities {

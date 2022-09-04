@@ -8,10 +8,8 @@ const letters = /^([a-zA-Z]+)(\s[a-zA-Z]+)*$/;
 export const validateProduct = input => {
 	const errors = {};
 
-	if (!letters.test(input.name) || input.name.length < 4)
+	if (!letters.test(input.name))
 		errors.name = 'Name is required. Alphabetic field';
-	if (input.description.length > 50 || input.description.length < 5)
-		errors.description = 'Description cannot be longer than 50 characters';
 	if (!letters.test(input.artist)) errors.artist = 'Artist is required';
 	return errors;
 };

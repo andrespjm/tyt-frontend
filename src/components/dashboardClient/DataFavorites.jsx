@@ -1,20 +1,25 @@
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useEffect , useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { deleteFavourite, getUserFavourites } from '../../redux/actions';
+import { getUserFavourites } from '../../redux/actions';
 import { Menu } from './Menu';
 
 export const DataFavorites = () => {
+  const [flag, setFlag] = useState(false)
   const {id} = useParams();
   const dispatch = useDispatch();
   const {redUser} = useSelector(state => state);
   console.log(redUser)
 
-  
+  const deleteFav = (userid, productid) => {
+    axios.delete('/favorites', {data:{userid, productid}})
+    .then(res => setFlag(!flag))
+  }
 
   useEffect(() => {
     dispatch(getUserFavourites(id));
-  }, [])
+  }, [dispatch,flag])
   return (
     <>
       <Menu />
@@ -35,7 +40,7 @@ export const DataFavorites = () => {
                 <td className='p-3'>{e?.name}</td>
                 <td className='p-3'>{e?.description}</td>
                 <td className='p-3  overflow-hidden'><img className='w-16 rounded-3xl object-cover' src={e?.img_home?.secure_url} alt={e?.name} /></td>
-                <td className='p-3'><button onClick={() => dispatch(deleteFavourite(id, e?.id))}className='bg-red-600 p-2 rounded-lg hover:transform-cpu'>Delete</button></td>
+                <td className='p-3'><button onClick={() => deleteFav(id, e?.id)}className='bg-red-600 p-2 rounded-lg hover:transform-cpu'>Delete</button></td>
                 </tr>
               </table>
             );

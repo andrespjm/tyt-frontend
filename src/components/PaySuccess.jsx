@@ -7,10 +7,10 @@ import { ShoppingCartContext } from '../context/ShoppingCartContext';
 const PaySuccess = () => {
 	const [cart, setCart] = useContext(ShoppingCartContext);
 	const { currentUserF } = useAuth();
-	// useEffect(() => {
+	console.log(cart);
 	async function pay() {
 		try {
-			// CHANGE
+			console.log(currentUserF);
 			const userId = currentUserF.id;
 			console.log(userId);
 			const user = (await axios.get(`/users/${userId}`)).data;
@@ -45,10 +45,10 @@ const PaySuccess = () => {
 			console.log('voy a limppiar el carrito');
 			setCart([]);
 		} catch (error) {
+			console.log(error.message);
 			alert('error');
 		}
 	}
-	// }, []);
 
 	return (
 		<div className='absolute top-0 w-screen h-[800px] flex items-center justify-center'>

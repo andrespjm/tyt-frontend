@@ -13,8 +13,8 @@ export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const {redUser, redData, redPurchases} = useSelector(state => state);
-  const { user } = useAuth();
-  
+	const { currentUserF } = useAuth();
+
   useEffect(() => {
     dispatch(getUser(id));
     dispatch(getData());
@@ -25,15 +25,16 @@ export const DataAccount = (props) => {
 
   if (redPurchases.length) {
     myPurchases = redPurchases.filter(compra => compra.User.id === id)
-    
   }
 
   return (
     <>
       <Menu />
       <div className="container mx-auto h-auto text-white flex">
-        <div className="flex justify center items center w-1/4 mt-16 ml-8">
-          <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg object-cover"/>
+        <div className="flex w-1/4">
+          <div className='mx-auto my-auto'>
+            <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg object-cover"/>
+          </div>
         </div>
         <div className="text-white w-2/4">
           <h2 className='font-bold'>Account information</h2>
@@ -92,13 +93,13 @@ export const DataAccount = (props) => {
             </div>
           )}
         </div>
-        <div className="text-white w-1/4 flex">
+        <div className="flex w-1/4">
           <div className="mx-auto my-auto justify center">
-            {Object.entries(user).length !== 0 ? (
+            {currentUserF.profilePicture !== null ? (
               <>
                 <img
-                  className='inline-block h-7 w-7 mr-2 rounded-full ring-1 ring-white'
-                  src={user.profilePicture}
+                  className='inline-block w-56 h-56 mr-2 rounded-full ring-1 ring-white'
+                  src={currentUserF.profilePicture}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null; // prevents looping
                     currentTarget.src =
@@ -106,13 +107,13 @@ export const DataAccount = (props) => {
                   }}
                   alt=''
                 />
-                {user.firstName}
               </>
             ) : (
               <>
-                <i className='flex text-9xl mr-3 fa-solid fa-circle-user'></i>
-                <span className='flex'>Profile picture</span>
+                <img src={redUser?.profilePicture} alt='Image user not found' className='w-56 h-56 rounded-lg'/>
               </>
+              /*  <i className='flex text-9xl mr-3 fa-solid fa-circle-user'></i>
+                <span className='flex'>Profile picture</span> */
             )}
           </div>
         </div>
