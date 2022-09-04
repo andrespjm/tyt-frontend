@@ -128,60 +128,56 @@ const ProductForm = () => {
 			// 	errorSelectColl.current.innerText = 'Add a collection';
 			// else errorSelectColl.current.innerText = '';
 
-			console.log({
-				name: newProduct.name,
-				description: newProduct.description,
-				collection: document.querySelector('input[name="collection"]:checked')
-					.value,
-				imageMain,
-				imagesDetail: newProduct.imagesDetail,
-				artist: newProduct.artist,
-				color1: strClr1,
-				color2: strClr2,
-				color3: strClr3,
-				stockCakeTray: stock.cakeTrail,
-				stockTurntable: stock.turntable,
-				priceCakeTray: newProduct.priceCakeTray,
-				priceTurntable: newProduct.priceTurntable,
-			});
-
-			// if (!newProduct.name || Object.entries(newProduct).length === 0) {
-			// 	errorAll.current.innerText = 'Some fields are missing';
-			// } else {
-			// 	console.log('AQUII');
-			// 	const res = await axios.put(
-			// 		'/products/201',
-			// 		{
-			// 			name: newProduct.name,
-			// 			description: newProduct.description,
-			// 			collection: document.querySelector(
-			// 				'input[name="collection"]:checked'
-			// 			).value,
-			// 			imageMain,
-			// 			imagesDetail: newProduct.imagesDetail,
-			// 			artist: newProduct.artist,
-			// 			color1: strClr1,
-			// 			color2: strClr2,
-			// 			color3: strClr3,
-			// 			stockCakeTray: stock.cakeTrail,
-			// 			stockTurntable: stock.turntable,
-			// 			priceCakeTray: newProduct.priceCakeTray,
-			// 			priceTurntable: newProduct.priceTurntable,
-			// 		},
-			// 		{
-			// 			headers: {
-			// 				'Content-Type': 'multipart/form-data',
-			// 			},
-			// 		}
-			// 	);
-			// 	if (res.data.success === 'ok') {
-			// 		errorAll.current.innerText = '';
-			// 		return (success.current.innerText = 'Product added successfully');
-			// 	}
-			// }
-
-			// console.log(res);
+			// console.log({
+			// 	name: newProduct.name,
+			// 	description: newProduct.description,
+			// 	collection: document.querySelector('input[name="collection"]:checked')
+			// 		.value,
+			// 	imageMain,
+			// 	imagesDetail: newProduct.imagesDetail,
+			// 	artist: newProduct.artist,
+			// 	color1: strClr1,
+			// 	color2: strClr2,
+			// 	color3: strClr3,
+			// 	stockCakeTray: stock.cakeTrail,
+			// 	stockTurntable: stock.turntable,
+			// 	priceCakeTray: newProduct.priceCakeTray,
+			// 	priceTurntable: newProduct.priceTurntable,
 			// });
+
+			if (!newProduct.name || Object.entries(newProduct).length === 0) {
+				errorAll.current.innerText = 'Some fields are missing';
+			} else {
+				const res = await axios.put(
+					'/products/201',
+					{
+						name: newProduct.name,
+						description: newProduct.description,
+						collection: document.querySelector(
+							'input[name="collection"]:checked'
+						).value,
+						imageMain,
+						imagesDetail: newProduct.imagesDetail,
+						artist: newProduct.artist,
+						color1: strClr1,
+						color2: strClr2,
+						color3: strClr3,
+						stockCakeTray: stock.cakeTrail,
+						stockTurntable: stock.turntable,
+						priceCakeTray: newProduct.priceCakeTray,
+						priceTurntable: newProduct.priceTurntable,
+					},
+					{
+						headers: {
+							'Content-Type': 'multipart/form-data',
+						},
+					}
+				);
+				if (res.data.success === 'ok') {
+					errorAll.current.innerText = '';
+					return (success.current.innerText = 'Product added successfully');
+				}
+			}
 		} catch (error) {
 			console.log(error);
 			// errorAll.current.innerText = error.response.data;
@@ -192,14 +188,14 @@ const ProductForm = () => {
 	return (
 		<div className='h-screen py-10 bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<form
-				className='max-w-5xl text-white mx-auto'
+				className='max-w-7xl text-white mx-auto'
 				onSubmit={handleSubmit}
 				encType='multipart/form-data'
 			>
 				<span className='text-5xl'>Create Product!</span>
 				<div className='grid grid-cols-[1fr_0.6fr] gap-8'>
 					{/* LEFT COLUMN */}
-					<div className=''>
+					<div className='flex flex-col justify-between'>
 						{/* MAIN IMAGE */}
 						<div className='mt-4 border-b-2 border-blue-300 pb-4'>
 							<div>
