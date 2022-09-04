@@ -1,15 +1,11 @@
 import { useContext, useEffect } from 'react'; // eslint-disable-line no-unused-vars
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getUsers } from '../../redux/actions';
+// import { getUsers } from '../../redux/actions';
 
 export const Menu = () => {
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const { id } = useParams();
-
-	useEffect(() => {
-		dispatch(getUsers());
-	}, []);
 
 	return (
 		<>
