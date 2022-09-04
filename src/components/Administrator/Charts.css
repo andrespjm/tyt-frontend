@@ -1,0 +1,13 @@
+.chart-buttons-container {
+    padding: 5px;
+    text-align: -webkit-right
+}
+
+.chart-buttons {
+    border: 1px solid grey;
+    background-color: purple;
+    border-radius: 5px;
+    width: 100px;
+    margin-left: 10px;
+    color: white;
+}

@@ -2,9 +2,9 @@ import { GET_SALES } from '../actions/types';
 
 const initialState = [];
 
-console.log('reducers/salesData', initialState);
+console.log('reducers/month', initialState);
 
-const salesData = (state = initialState, { type, payload }) => {
+const getDataSales = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case GET_SALES:
 			return payload;
@@ -13,4 +13,4 @@ const salesData = (state = initialState, { type, payload }) => {
 	}
 };
 
-export default salesData;
+export default getDataSales;

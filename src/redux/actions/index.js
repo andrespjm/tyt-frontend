@@ -12,10 +12,11 @@ import {
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
-	GET_SALES,
 	GET_PURCHASES,
 	GET_USER_FAVOURITES,
 	DELETE_FAVOURITE,
+	GET_SALES,
+	GET_SALES_FILTER,
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -134,13 +135,35 @@ export const getRerview = id => {
 	};
 };
 
+export const getUserFavourites = id => {
+	return async dispatch => {
+		const userFavourites = (await axios.get(`/favorites?userid=${id}`)).data;
+		return dispatch({
+			type: GET_USER_FAVOURITES,
+			payload: userFavourites,
+		});
+	};
+};
+
+export const deleteFavourite = (userid, productid) => {
+	return async dispatch => {
+		try {
+			await axios.delete('/favorites', { userid, productid });
+			return dispatch({ type: DELETE_FAVOURITE });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+// PANEL ADMIN
 // Get Sales from backend
 export const getSales = () => {
 	return async dispatch => {
 		try {
-			const response = await axios.get('/sales');
-			console.log('index/response', response.data);
-			console.log('index/status', response.status);
+			const response = await axios.get('/sales?total=all');
+			// console.log('index/response', response.data);
+			// console.log('index/status', response.status);
 			if (response.status === 200)
 				dispatch({
 					type: GET_SALES,
@@ -152,23 +175,9 @@ export const getSales = () => {
 	};
 };
 
-export const getUserFavourites = (id) => {
-	return async dispatch => {
-		const userFavourites = (await axios.get(`/favorites?userid=${id}`)).data;
-		return dispatch({
-			type: GET_USER_FAVOURITES,
-			payload: userFavourites
-		})
+export const getSalesFilter = payload => {
+	return {
+		type: GET_SALES_FILTER,
+		payload,
 	};
 };
-
-export const deleteFavourite = (userid, productid) => {
-	return async dispatch => {
-		try {
-			await axios.delete('/favorites', {userid, productid})
-			return dispatch({type: DELETE_FAVOURITE})
-		} catch (error) {
-			console.log(error)
-		}
-	}
-}

@@ -25,9 +25,6 @@ export default function DashBoard() {
 
 	return (
 		<Admin dataProvider={dataProvider}>
-			{/* {loader && <Loader />}
-			{error && <Message />} */}
-
 			<Resource
 				name='chart'
 				list={Charts(salesData)}

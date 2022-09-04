@@ -11,8 +11,8 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert } from '@mui/material';
-import { Loader } from '../components/Loader';
 import { useAuth } from '../context/AuthContext';
+import Loader from '../components/Loader';
 
 function Detail() {
 	const { id } = useParams();
@@ -51,7 +51,7 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
-        setLoader(false);
+				setLoader(false);
 				const information = {
 					userid: '2e36407e-f111-434b-a0ba-82284c102e7c', // luego agregar user.uid
 					productid: id,

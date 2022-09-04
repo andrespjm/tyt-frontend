@@ -11,7 +11,9 @@ import {
 } from 'chart.js';
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export function SalesChart() {
+export function SalesChart(sales) {
+	console.log('graph', sales.sales);
+
 	const options = {
 		maintainAspectRatio: false,
 		responsive: true,
@@ -62,7 +64,7 @@ export function SalesChart() {
 	};
 
 	return (
-		<div className='chartContainer'>
+		<div className='sales-chart-Container'>
 			<Bar options={options} data={data} />
 		</div>
 	);
