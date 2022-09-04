@@ -370,7 +370,10 @@ const ShoppingCart = () => {
 						<div className='relative flex justify-around mt-4'>
 							<button
 								className='w-28 py-2 px-3 rounded-md btn-red hover:btn-red'
-								onClick={() => setCheckout(false)}
+								onClick={() => {
+									setCheckout(false);
+									setPay(false);
+								}}
 							>
 								Close
 							</button>
