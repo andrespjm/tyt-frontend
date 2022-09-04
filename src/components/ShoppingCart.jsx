@@ -48,7 +48,7 @@ const ShoppingCart = () => {
 
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
-		// console.log(currentUserF);
+		console.log(cart);
 		Object.entries(user).length === 0 && history.push('/signin');
 		try {
 			const userId = user.uid;

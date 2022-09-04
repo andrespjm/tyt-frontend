@@ -52,7 +52,7 @@ function Detail() {
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
 				console.log('Aca', user.uid);
-        setLoader(false);
+				setLoader(false);
 				const information = {
 					userid: user.uid, // luego agregar user.uid
 					productid: id,
@@ -92,7 +92,9 @@ function Detail() {
 				.quantityST;
 		console.log(cart);
 
-		const alreadySelected = cart.find(e => e.stockId === selection.stockId);
+		const cart2 = [...cart];
+
+		const alreadySelected = cart2.find(e => e.stockId === selection.stockId);
 
 		if (alreadySelected) {
 			if (alreadySelected.quantity + selection.quantity > stock) {
@@ -105,6 +107,8 @@ function Detail() {
 				alreadySelected.quantity + selection.quantity > stock
 					? stock
 					: alreadySelected.quantity + selection.quantity;
+
+			setCart(cart2);
 		} else {
 			setCart([...cart, selection]);
 			setOpen(true);
