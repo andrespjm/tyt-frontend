@@ -8,7 +8,6 @@ import {
 	GET_USERS,
 	SET_LOADING,
 	SET_LOGIN,
-	SET_PAGE,
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
@@ -18,9 +17,6 @@ import {
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
-
-export const setPage = page => dispatch =>
-	dispatch({ type: SET_PAGE, payload: page });
 
 export const loggin = () => dispatch => dispatch({ type: SET_LOGIN });
 
@@ -33,6 +29,7 @@ export const getData = () => {
 			if (response.status === 200)
 				dispatch({ type: GET_DATA, payload: response.data });
 		} catch {
+			alert('error in action getData');
 			dispatch({ type: GET_DATA, payload: null });
 		}
 		dispatch(setLoading(false));
@@ -64,8 +61,12 @@ export const setErrorFilter = payload => ({
 export const getColors = () => {
 	return async dispatch => {
 		dispatch(setLoading(true));
-		const response = await axios.get('/colors');
-		dispatch({ type: GET_COLORS, payload: response.data });
+		try {
+			const response = await axios.get('/colors');
+			dispatch({ type: GET_COLORS, payload: response.data });
+		} catch {
+			alert('error in action getColors');
+		}
 		dispatch(setLoading(false));
 	};
 };
@@ -151,13 +152,24 @@ export const getSales = () => {
 	};
 };
 
-export const getUserFavourites = (id) => {
+export const getUserFavourites = id => {
 	return async dispatch => {
 		const userFavourites = (await axios.get(`/favorites?userid=${id}`)).data;
 		return dispatch({
 			type: GET_USER_FAVOURITES,
-			payload: userFavourites
-		})
+			payload: userFavourites,
+		});
 	};
 };
 
+
+export const deleteFavourite = (userid, productid) => {
+	return async dispatch => {
+		try {
+			await axios.delete('/favorites', { userid, productid });
+			return dispatch({ type: DELETE_FAVOURITE });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
