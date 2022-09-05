@@ -4,8 +4,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { validateUserEdit } from '../../../validations/editProfileValidate';
-import { getUser } from '../../../redux/actions';
+import { getUser, updateUserP } from '../../../redux/actions';
 import { Menu } from '../Menu';
+
 export const FormEditProfile = () => {
 
   const {id} = useParams();
@@ -39,6 +40,8 @@ export const FormEditProfile = () => {
           }}
           validationSchema={validateUserEdit}
           onSubmit={(values, { resetForm }) => {
+            console.log(values);
+            updateUserP(values);
             resetForm();
           }}
         >
