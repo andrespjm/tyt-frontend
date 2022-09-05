@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignUp } from './components/auth/SignUp';
 import { DataAccount } from './components/dashboardClient/DataAccount';
@@ -21,7 +21,7 @@ import ShoppingCart from './components/ShoppingCart';
 
 import { useAuth } from './context/AuthContext';
 
-import { auth, getUserInfo, userExists } from './firebase/firebase';
+import { auth, getUserInfo, signout, userExists } from './firebase/firebase';
 import Detail from './pages/Detail';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
@@ -31,9 +31,11 @@ import { ChangePassword } from './components/dashboardClient/formsUsers/ChangePa
 import Reviews from './components/Reviews';
 import Page404 from './pages/Page404';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import { ProtectedRouteUser } from './routes/ProtectedRouteUser';
 
 function App() {
 	const { setCurrentUserF, user } = useAuth();
+	const navigate = useHistory();
 	useEffect(() => {
 		onAuthStateChanged(auth, handleUserStateChanged);
 	}, [user]);
@@ -43,14 +45,17 @@ function App() {
 			if (isRegister) {
 				const userInfo = await getUserInfo(user.uid);
 				if (userInfo.processCompleted) {
-					// console.log(userInfo);
-					setCurrentUserF({
-						id: userInfo.id,
-						firstName: userInfo.firstName,
-						lastName: user.lastName,
-						profilePicture: userInfo.profilePicture,
-						email: user.email,
-					});
+					if (userInfo.enabled) {
+						setCurrentUserF({
+							id: userInfo.id,
+							firstName: userInfo.firstName,
+							lastName: user.lastName,
+							profilePicture: userInfo.profilePicture,
+							email: user.email,
+						});
+					} else {
+						return signout().then(() => navigate.push('/signin')); // console.log(userInfo);
+					}
 				}
 			}
 		}
@@ -75,28 +80,55 @@ function App() {
 				<Route exact path='/admin/addproduct' component={ProductForm} />
 				<Route exact path='/admin/modifyproduct' component={ModifyProduct} />
 				<Route exact path='/shop/shoppingCart' component={ShoppingCart} />
-
 				<Route exact path='/signup'>
 					<ProtectedRoute>
 						<SignUp />
 					</ProtectedRoute>
 				</Route>
-				<Route exact path={'/paysuccess'} component={PaySuccess} />
-				<Route exact path={'/payfailure'} component={PayFailure} />
+				<Route exact path={'/paysuccess'}>
+					<ProtectedRouteUser>
+						<PaySuccess />
+					</ProtectedRouteUser>
+				</Route>
+				<Route exact path={'/payfailure'}>
+					<ProtectedRouteUser>
+						<PayFailure />
+					</ProtectedRouteUser>
+				</Route>
 				<Route exact path={'/reviews/:id'} component={Reviews} />
 				<Route exact path='/user/edit' component={EditUserProfile} />
 				<Route exact path='/user/changepassword' component={ChangePassword} />
-				<Route exact path='/signin' component={SignIn} />
+				<Route exact path='/signin'>
+					<ProtectedRoute>
+						<SignIn />
+					</ProtectedRoute>
+				</Route>
 				<Route exact path='/user/main' component={HomeUser} />
-				<Route exact path='/:id/user/menu' component={Menu} />
-				<Route exact path='/:id/user/menu/account' component={DataAccount} />
-				<Route exact path='/:id/user/menu/orders' component={DataOrders} />
-				<Route
-					exact
-					path='/:id/user/menu/favorites'
-					component={DataFavorites}
-				/>
-				<Route path='/:id/user/menu/account/edit' component={FormEditProfile} />
+				<Route exact path='/:id/user/menu'>
+					<ProtectedRouteUser>
+						<Menu />
+					</ProtectedRouteUser>
+				</Route>
+				<Route exact path='/:id/user/menu/account'>
+					<ProtectedRouteUser>
+						<DataAccount />
+					</ProtectedRouteUser>
+				</Route>
+				<Route exact path='/:id/user/menu/orders'>
+					<ProtectedRouteUser>
+						<DataOrders />
+					</ProtectedRouteUser>
+				</Route>
+				<Route exact path='/:id/user/menu/favorites'>
+					<ProtectedRouteUser>
+						<DataFavorites />
+					</ProtectedRouteUser>
+				</Route>
+				<Route path='/:id/user/menu/account/edit'>
+					<ProtectedRouteUser>
+						<FormEditProfile />
+					</ProtectedRouteUser>
+				</Route>
 				<Route exact path='/detail/:id' component={Detail} />
 				<Route path='/' component={Page404} />
 			</Switch>
