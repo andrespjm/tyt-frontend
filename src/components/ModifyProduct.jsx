@@ -13,7 +13,8 @@ const ModifyProduct = () => {
 	const errorAll = useRef();
 	const success = useRef();
 	const { redColors } = useSelector(state => state);
-	const id = 200;
+	const id = window.location.href.split('/')[5];
+	console.log(id);
 
 	useEffect(() => {
 		dispatch(getColors());
