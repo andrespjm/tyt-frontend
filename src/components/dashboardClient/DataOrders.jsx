@@ -100,44 +100,15 @@ export const DataOrders = () => {
 															</div>
 
 															{
-																(e?.status === 'Received') &
-																(o?.Stock?.Product?.id !==
-																	o?.Stock?.Product?.Reviews?.map(
-																		e => e.ProductId
-																	)) ? (
+																!!(e?.status === 'Received') &&
+																(!o?.Stock?.Product?.Reviews.some(i => i.ProductId === o?.Stock?.Product?.id)) && (
 																	<div>
 																		<Stars
 																			userId={id}
 																			productId={o?.Stock?.Product?.id}
 																		/>
 																	</div>
-																) : (
-																	<div>
-																		{/* <div>aca {o?.Stock?.Product?.id}</div>
-																		<div>
-																			acaaaa{' '}
-																			{redUser?.Purchases?.map(e =>
-																				e.OrderItems?.map(
-																					p => p.Stock.Product.Reviews
-																				)
-																					.flat()
-																					.filter(e => e.UserId === id)
-																					.map(e => e.ProductId)
-																			)}
-																		</div> */}
-																	</div>
-																)
-
-																// o?.Stock?.Product?.Reviews.length === 0 ? (
-																// 	<div>
-																// 		<Stars
-																// 			userId={id}
-																// 			productId={o?.Stock?.Product?.id}
-																// 		/>
-																// 	</div>
-																// ) : (
-																// 	<div></div>
-																// )
+																) 
 															}
 														</div>
 													);
