@@ -1,18 +1,26 @@
 /* eslint-disable react/prop-types */
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useEffect } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { getUser, updateUserP } from '../../../redux/actions';
 import { validateUserEdit } from '../../../validations/editProfileValidate';
-import { getUser } from '../../../redux/actions';
 import { Menu } from '../Menu';
+
 export const FormEditProfile = () => {
 
   const {id} = useParams();
   const dispatch = useDispatch();
+	const [profilePicture, setProfilePicture] = useState();
   const {redUser} = useSelector(state => state);
 
+  console.log(updateUserP)
+  const handleImageProfile = e => {
+		setProfilePicture(e.target.files[0]);
+	};
+
   useEffect(() => {
+    console.log(id)
     dispatch(getUser(id));
   }, [id])
 
@@ -32,14 +40,18 @@ export const FormEditProfile = () => {
           initialValues={{
             firstName: redUser.firstName,
             lastName: redUser.lastName,
-            profilePicture: '',
             gender: redUser.gender ? redUser.gender : '',
             identityCard: redUser.identityCard ? redUser.identityCard : '',
-            birthDate: redUser.birthDate ? redUser.birthDate : '',
+            birthDate: redUser.birthDate ? redUser?.birthDate?.substring(0, 10) : '',
           }}
           validationSchema={validateUserEdit}
           onSubmit={(values, { resetForm }) => {
-            resetForm();
+            console.log("VIEJO USUARIO",values);
+            const editUser = { ...values };
+            editUser.profilePicture = profilePicture
+            console.log("NUEVO USUARIO",editUser)
+            updateUserP(editUser);
+            // resetForm();
           }}
         >
           {({ errors }) => (
@@ -123,7 +135,7 @@ export const FormEditProfile = () => {
                       )}
                     />
                     <label
-                      htmlFor='imageMain'
+                      htmlFor='profilePicture'
                       className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none mt-4 h-[43.2px]'
                     >
                       Choose your profile image (PNG, JPG)
@@ -134,6 +146,7 @@ export const FormEditProfile = () => {
                       name='profilePicture'
                       type='file'
                       accept='.jpg, .jpeg, .png'
+                      onChange={handleImageProfile}
                     />
                     <Field
                       as='select'

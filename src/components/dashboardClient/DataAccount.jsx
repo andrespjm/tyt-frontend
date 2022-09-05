@@ -50,9 +50,9 @@ export const DataAccount = (props) => {
           <div className="inline-block pl-4">
             <span className="flex">{redUser?.displayName}</span>
             <span className="flex">{redUser?.email}</span>
-            <span className="flex">{redUser?.gender}</span>
-            <span className="flex">{redUser?.identityCard}</span>
-            <span className="flex">{redUser?.birthDate?.substring(0, 10)}</span>
+            <span className="flex">{redUser.gender ? redUser.gender : ''}</span>
+            <span className="flex">{redUser.identityCard ? redUser.identityCard : ''}</span>
+            <span className="flex">{redUser.birthDate ? redUser?.birthDate?.substring(0, 10) : ''}</span>
           </div>
           <div className="inline-block float-right">
             <div className='inline-block text-center border-r-[1px]  pr-1'>
@@ -89,7 +89,9 @@ export const DataAccount = (props) => {
             </>
           ):(
             <div>
-              No hay dirección de envio
+              <span>
+                So far you have no shipping address because you dont have purchase
+              </span>
             </div>
           )}
         </div>
