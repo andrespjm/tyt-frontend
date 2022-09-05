@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ReactStarsRating from 'react-awesome-stars-rating';
-import './Reviews.css'
+import './Reviews.css';
 const Reviews = () => {
 	const { id } = useParams();
 
@@ -28,9 +28,15 @@ const Reviews = () => {
 							style={{ height: '300px' }}
 							className='rounded-lg my-2'
 						/>
-						<p><b>Name: </b> {e.user.displayName}</p>
-						<p key={e.comments}><b>Comments:</b> {e.comments}</p>
-						<p key={e.score}><b>Score:</b> {e.score}</p>
+						<p>
+							<b>Name: </b> {e.user.displayName}
+						</p>
+						<p key={e.comments}>
+							<b>Comments:</b> {e.comments}
+						</p>
+						<p key={e.score}>
+							<b>Score:</b> {e.score}
+						</p>
 						<ReactStarsRating
 							value={e.score}
 							className='flex'
@@ -42,7 +48,9 @@ const Reviews = () => {
 				<h1>there are no reviews on this product</h1>
 			)}
 			<Link className='buttonReviews' to={`/detail/${id}`}>
-				<button className='bg-red-400 rounded-xl'>Back to product detail</button>
+				<button className='bg-red-400 rounded-xl'>
+					Back to product detail
+				</button>
 			</Link>
 		</div>
 	);
