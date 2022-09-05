@@ -29,8 +29,7 @@ const Sidebar = () => {
 	useEffect(() => {
 		if (localStorage.getItem('Filter')) {
 			setFilter(JSON.parse(localStorage.getItem('Filter')));
-			const sidebar = document.querySelector('#sidebar');
-			sidebar.classList[0] === 'hidden' && toogleSidebar();
+			document.querySelector('#filter-btn').classList.add('ring-2');
 		}
 		if (localStorage.getItem('Colors')) {
 			setQueryColors(JSON.parse(localStorage.getItem('Colors')));
@@ -107,7 +106,9 @@ const Sidebar = () => {
 			if (element.disabled) element.disabled = false;
 		});
 		dispatch(setErrorFilter(false));
+		document.querySelector('#filter-btn').classList.remove('ring-2');
 	};
+
 	const queryString = () =>
 		`?
 	${queryColors[0] ? `color1=${queryColors[0]}&` : ''}
@@ -125,6 +126,7 @@ const Sidebar = () => {
 		localStorage.setItem('Filter', JSON.stringify(filter));
 		localStorage.setItem('Colors', JSON.stringify(queryColors));
 		localStorage.setItem('Query', JSON.stringify(queryString()));
+		document.querySelector('#filter-btn').classList.add('ring-2');
 	};
 
 	return (
