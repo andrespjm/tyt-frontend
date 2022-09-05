@@ -18,10 +18,11 @@ export const SignIn = () => {
 	// const [currentUser, setCurrentUser] = useState({});
 	const [error, setError] = useState('');
 	const [cart, setCart] = useContext(ShoppingCartContext);
+	const [statusSpinner, setStatusSpinner] = useState(true);
 	useEffect(() => {
 		const unsubuscribe = onAuthStateChanged(auth, handleUserStateChanged);
 		return () => unsubuscribe;
-	}, []);
+	}, [status]);
 	const handleUserStateChanged = async user => {
 		if (user) {
 			const isRegister = await userExists(user.uid);
@@ -29,7 +30,6 @@ export const SignIn = () => {
 				const userInfo = await getUserInfo(user.uid);
 				if (userInfo.processCompleted) {
 					await cartSignIn(user.uid, cart, setCart);
-
 					return navigate.push('/home');
 				}
 				return navigate.push('/user/edit');
@@ -42,14 +42,18 @@ export const SignIn = () => {
 					processCompleted: false,
 					processFirebase: false,
 				});
-				// window.location.reload();
+				navigate.push('/user/edit');
 			}
 		}
 	};
 
 	const handleSignInGoogle = async () => {
 		try {
-			await loginWithGoogle();
+			const res = await loginWithGoogle();
+			if (res.user) {
+				setStatusSpinner(false);
+			}
+			return res;
 		} catch (err) {
 			setError(err.code);
 		}
@@ -70,7 +74,11 @@ export const SignIn = () => {
 
 	const handleSignInFacebook = async () => {
 		try {
-			await loginWithFacebook();
+			const res = await loginWithFacebook();
+			if (res.user) {
+				setStatusSpinner(false);
+			}
+			return res;
 		} catch (err) {
 			return setError(err.code);
 		}
@@ -81,6 +89,8 @@ export const SignIn = () => {
 			handleSignInGoogle={handleSignInGoogle}
 			handleSignInFacebook={handleSignInFacebook}
 			handleSignInFirebase={handleSignInFirebase}
+			statusSpinner={statusSpinner}
+			setStatusSpinner={setStatusSpinner}
 			error={error}
 		/>
 	);

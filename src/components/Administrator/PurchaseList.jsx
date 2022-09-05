@@ -5,11 +5,24 @@ import {
 	List,
 	TextField,
 	NumberField,
+	Filter,
+	SearchInput,
 	// DeleteButton,
 } from 'react-admin';
 
-export const PurchaseList = () => (
-	<List>
+const PurchasesFilter = props => (
+	<Filter {...props}>
+		<SearchInput
+			placeholder='Order Status'
+			source='status'
+			resettable
+			alwaysOn
+		/>
+	</Filter>
+);
+
+export const PurchaseList = props => (
+	<List {...props} filters={<PurchasesFilter />} title='List of purchases'>
 		<Datagrid textAlign='center'>
 			<NumberField source='id' />
 			{/* <NumberField source='User.id' /> */}

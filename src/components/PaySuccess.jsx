@@ -10,6 +10,7 @@ const PaySuccess = () => {
 	console.log(cart);
 	async function pay() {
 		try {
+			console.log(currentUserF);
 			const userId = currentUserF.id;
 			console.log(userId);
 			const user = (await axios.get(`/users/${userId}`)).data;
