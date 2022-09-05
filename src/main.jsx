@@ -11,7 +11,6 @@ import store from './redux';
 
 axios.defaults.baseURL =
 	import.meta.env.VITE_API || 'https://tytecommerce.herokuapp.com';
-// import.meta.env.VITE_API || 'http://localhost:3001';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
