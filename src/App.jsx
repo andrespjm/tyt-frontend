@@ -5,18 +5,18 @@ import { Route, Switch } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignUp } from './components/auth/SignUp';
 import { DataAccount } from './components/dashboardClient/DataAccount';
-import { FormEditProfile } from './components/dashboardClient/formsUsers/FormEditProfle';
 import { DataFavorites } from './components/dashboardClient/DataFavorites';
 import { DataOrders } from './components/dashboardClient/DataOrders';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
+import { FormEditProfile } from './components/dashboardClient/formsUsers/FormEditProfle';
 import { HomeUser } from './components/dashboardClient/HomeUser';
 import { Menu } from './components/dashboardClient/Menu';
 import Navbar from './components/Navbar';
 
+import ModifyProduct from './components/ModifyProduct';
 import PayFailure from './components/PayFailure';
 import PaySuccess from './components/PaySuccess';
 import ProductForm from './components/ProductForm2';
-import ModifyProduct from './components/ModifyProduct';
 import ShoppingCart from './components/ShoppingCart';
 
 import { useAuth } from './context/AuthContext';
@@ -29,12 +29,11 @@ import Landing from './pages/Landing';
 import { SignIn } from './components/auth/SignIn';
 import { ChangePassword } from './components/dashboardClient/formsUsers/ChangePassword';
 import Reviews from './components/Reviews';
-import { ProtectedRoute } from './routes/ProtectedRoute';
 import Page404 from './pages/Page404';
+import { ProtectedRoute } from './routes/ProtectedRoute';
 
 function App() {
 	const { setCurrentUserF, user } = useAuth();
-
 	useEffect(() => {
 		onAuthStateChanged(auth, handleUserStateChanged);
 	}, [user]);
