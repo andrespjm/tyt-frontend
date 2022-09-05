@@ -38,6 +38,32 @@ export const validateUser = yup.object({
 		}),
 });
 
+export const validateUserEdit = yup.object({
+	firstName: yup
+		.string()
+		.required('Please enter your name')
+		.matches(regexName, 'Please, enter a valid name')
+		.min(3, 'Please min 3 characters')
+		.max(15, 'Please max 15 characters'),
+	lastName: yup
+		.string()
+		.required('Please enter your last name')
+		.matches(regexName, 'Please, enter a valid last name')
+		.min(3, 'Please min 3 characters')
+		.max(20, 'Please max 20 characters'),
+	gender: yup.mixed().oneOf(['Male', 'Female', 'Other']).defined(),
+	identityCard: yup
+		.string()
+		.matches(/^[0-9]+$/, 'Must be only digits')
+		.min(6, 'Please min 6 digits')
+		.max(10, 'Please max 10 digits'),
+	birthDate: yup
+		.string()
+		.test('Message', 'Must be an adult', value => {
+			return moment().diff(moment(value), 'years') >= 18;
+		}),
+})
+
 export const validateResetPassword = yup.object({
 	email: yup
 		.string()
