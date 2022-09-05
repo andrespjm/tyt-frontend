@@ -1,26 +1,26 @@
 /* eslint-disable react/prop-types */
+import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { getUser, updateUserP } from '../../../redux/actions';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { getUser } from '../../../redux/actions';
 import { validateUserEdit } from '../../../validations/editProfileValidate';
 import { Menu } from '../Menu';
 
 export const FormEditProfile = () => {
 
+  const history = useHistory();
   const {id} = useParams();
   const dispatch = useDispatch();
 	const [profilePicture, setProfilePicture] = useState();
   const {redUser} = useSelector(state => state);
 
-  console.log(updateUserP)
   const handleImageProfile = e => {
 		setProfilePicture(e.target.files[0]);
 	};
 
   useEffect(() => {
-    console.log(id)
     dispatch(getUser(id));
   }, [id])
 
@@ -45,17 +45,30 @@ export const FormEditProfile = () => {
             birthDate: redUser.birthDate ? redUser?.birthDate?.substring(0, 10) : '',
           }}
           validationSchema={validateUserEdit}
-          onSubmit={(values, { resetForm }) => {
+          onSubmit={async (values, { resetForm }) => {
             console.log("VIEJO USUARIO",values);
             const editUser = { ...values };
-            editUser.profilePicture = profilePicture
-            console.log("NUEVO USUARIO",editUser)
-            updateUserP(editUser);
-            // resetForm();
+            editUser.profilePicture = profilePicture;
+            editUser.displayName = `${editUser.firstName} ${editUser.lastName}`;
+            console.log("NUEVO USUARIO", editUser)
+            try {
+              await axios.put(`/users/user/${id}`, {
+                editUser
+              },
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+              history.push(`/${id}/user/menu/account`)
+              // resetForm();
+            } catch (error) {
+              console.log(error)
+            }
           }}
         >
           {({ errors }) => (
-            <Form className='pb-10'>
+            <Form className='pb-10' encType='multipart/form-data'>
               <div className=''>
                 <div className='flex justify-start'>
                   <div className='w-1/5 inline-block mt-4'>
