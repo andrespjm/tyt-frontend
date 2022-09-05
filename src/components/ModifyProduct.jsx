@@ -169,7 +169,7 @@ const ModifyProduct = () => {
 	// console.log(product);
 
 	return (
-		<div className='h-screen py-10 bg-gradient-to-b from-black via-gray-700 to-base-900'>
+		<div className='py-10 bg-gray-800'>
 			<form
 				className='max-w-7xl text-white mx-auto'
 				encType='multipart/form-data'
@@ -472,14 +472,6 @@ const ModifyProduct = () => {
 							</div>
 							{/* BUTTONS */}
 							<div className='mt-4 flex justify-center gap-4'>
-								<Link to='/admin'>
-									<button
-										className='btn btn-red hover:btn-red w-28'
-										value='Back'
-									>
-										Back
-									</button>
-								</Link>
 								<button
 									onClick={handleModifyProduct}
 									type='submit'

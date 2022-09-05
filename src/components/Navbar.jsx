@@ -56,7 +56,7 @@ export default function Navbar() {
 
 	return (
 		<nav
-			className='sticky top-0 bg-black select-none text-white drop-shadow-2xl z-50
+			className='fixed top-0 inset-x-0 bg-black select-none text-white drop-shadow-2xl z-50
 			'
 		>
 			<div
@@ -132,7 +132,8 @@ export default function Navbar() {
 					'
 				>
 					<span
-						className={`text-white flex gap-2 py-1 px-6 cursor-pointer
+						id='filter-btn'
+						className={`text-white flex gap-2 py-1 px-6 cursor-pointer ring-blue-300
 						${location.pathname !== '/home' && 'hidden'}
 						`}
 						onClick={() =>
