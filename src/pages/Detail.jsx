@@ -113,6 +113,7 @@ function Detail() {
 		setOpen(false);
 		setquantityAvailable(false);
 	};
+
 	const handleFavourite = async e => {
 		if (!user) {
 			history.push('/signin');
@@ -187,8 +188,8 @@ function Detail() {
 
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
 	};
-	// console.log('loader after', loader);
 
+	console.log('favorites', favorites);
 	return (
 		<div
 			className='w-screen select-none -z-10
@@ -395,7 +396,7 @@ function Detail() {
 							`}
 							onClick={handleFavourite}
 						>
-							{favorites}
+							{favorites || 'Add to favourites'}
 						</div>
 					</div>
 				</div>

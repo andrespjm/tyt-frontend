@@ -58,7 +58,7 @@ export const dataProvider = {
 		httpClient(`${apiUrl}/${resource}/${params.id}`, {
 			method: 'PUT',
 			body: JSON.stringify(params.data),
-		}).then(({ json }) => ({ data: {id: json[0]} })),
+		}).then(({ json }) => ({ data: { id: json[0] } })),
 
 	updateMany: (resource, params) => {
 		const query = {
