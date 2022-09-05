@@ -187,7 +187,7 @@ function Detail() {
 
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
 	};
-	console.log('loader after', loader);
+	// console.log('loader after', loader);
 
 	return (
 		<div
@@ -261,7 +261,7 @@ function Detail() {
 				</div>
 
 				{/* RIGHT COLUMN */}
-				<div className='detail-content-right'>
+				<div className='w-[400px]'>
 					<div className='detail-1'>
 						<div className='dt1-ref'>Ref-{product.id}</div>
 						<div className='flex'>
@@ -278,11 +278,12 @@ function Detail() {
 								></i>
 							</span>
 						</div>
-
-						<div className='dt1-price'>
-							Price: $ {product.ProductTypes[0].Stocks.priceST}
+						<span className='text-blue-400'>Painted by: {product.artist}</span>
+						<div className='dt1-price mt-4 text-xl'>
+							Price: U$ {product.ProductTypes[0].Stocks.priceST}
 						</div>
 					</div>
+
 
 					{rating !== 'NaN' ? (
 						<div className='detail-2'>
@@ -298,6 +299,7 @@ function Detail() {
 
 					<div className='detail-3'>
 						<span>Colours</span>
+
 						<div className='dt3'>
 							<div
 								className='dt3-1'
@@ -322,7 +324,7 @@ function Detail() {
 							></div>
 						</div>
 					</div>
-					<div className='detail-4' id={0}>
+					<div className='detail-4 mt-4' id={0}>
 						<span>Type</span>
 						<div className='dt4'>
 							<div className='dt4-1 selected' onClick={handleClick}>
@@ -335,7 +337,7 @@ function Detail() {
 							</div>
 						</div>
 					</div>
-					<div className='mt-10'>
+					<div className='mt-3'>
 						<span>Stock: </span>
 						<span id='detail-5' className='ml-2'>
 							{product.ProductTypes[0].Stocks.quantityST}
@@ -343,7 +345,7 @@ function Detail() {
 						<span> un</span>
 					</div>
 
-					<div className='mt-4 w-full flex items-center'>
+					<div className='mt-2 w-full flex items-center'>
 						<span>Select quantity:</span>
 						<div className='flex'>
 							<i
@@ -377,7 +379,7 @@ function Detail() {
 						</div>
 					</div>
 
-					<div className='detail-6'>
+					<div className='detail-6 mt-4'>
 						<div
 							onClick={addToCart}
 							className='dt6-1 btn btn-blue hover:btn-blue w-full mt-2'
@@ -388,7 +390,7 @@ function Detail() {
 							className={`dt6-2 btn text-white w-full mt-2
 							${
 								favorites === 'Remove from my favorites'
-									? 'bg-orange-500 hover:bg-orange-900'
+									? 'bg-orange-500 hover:bg-transparent hover:border-orange-500'
 									: 'btn-purple hover:btn-purple'
 							}
 							`}
@@ -400,7 +402,7 @@ function Detail() {
 				</div>
 			</div>
 			<button
-				onClick={() => history.push('/home')}
+				onClick={history.goBack}
 				className='btn btn-red hover:btn-red w-32 mt-4'
 			>
 				back
