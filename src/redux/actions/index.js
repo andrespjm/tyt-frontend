@@ -13,7 +13,7 @@ import {
 	GET_REVIEW,
 	GET_SALES,
 	GET_PURCHASES,
-	GET_USER_FAVOURITES
+	GET_USER_FAVOURITES,
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -43,7 +43,6 @@ export const getFilteredData = query => {
 			dispatch(setLoading(true));
 			const response = await axios.get(`/products/${query}`);
 			dispatch({ type: GET_FILTERED_DATA, payload: response.data });
-			setPage(1);
 		} catch (error) {
 			dispatch(setErrorFilter(true));
 			getData();
@@ -162,14 +161,13 @@ export const getUserFavourites = id => {
 	};
 };
 
-
-export const deleteFavourite = (userid, productid) => {
-	return async dispatch => {
-		try {
-			await axios.delete('/favorites', { userid, productid });
-			return dispatch({ type: DELETE_FAVOURITE });
-		} catch (error) {
-			console.log(error);
-		}
-	};
-};
+// export const deleteFavourite = (userid, productid) => {
+// 	return async dispatch => {
+// 		try {
+// 			await axios.delete('/favorites', { userid, productid });
+// 			return dispatch({ type: DELETE_FAVOURITE });
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	};
+// };

@@ -102,26 +102,3 @@
 	color: rgb(170, 170, 170);
 	margin-top: 16px;
 }
-.dt6-1,
-.dt6-2 {
-	margin-top: 10px;
-	height: 48px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: 1px solid #1f2937;
-	font-size: 16px;
-	font-weight: bold;
-	border-radius: 15px;
-	cursor: pointer;
-}
-.dt6-1 {
-	color: #fff;
-	background-color: #1f2937;
-	transition: 1s;
-}
-.dt6-1:hover {
-	background-color: transparent;
-	border: 2px solid #1f2937;
-	color: #1f2937;
-}

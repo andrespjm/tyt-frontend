@@ -197,10 +197,11 @@ function Detail() {
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
 	};
 	console.log('loader after', loader);
+
 	return (
 		<div
-			className='w-screen min-h-screen select-none -z-10
-			bg-gradient-to-b from-black to-neutral-300  text-white flex flex-col items-center'
+			className='w-screen select-none -z-10
+			 flex flex-col items-center text-white h-screen bg-gradient-to-b from-black via-gray-600 to-base-900'
 		>
 			{loader && <Loader />}
 			<div className='detail-content'>
@@ -272,7 +273,20 @@ function Detail() {
 				<div className='detail-content-right'>
 					<div className='detail-1'>
 						<div className='dt1-ref'>Ref-{product.id}</div>
-						<div className='dt1-name'>{product.name}</div>
+						<div className='flex'>
+							<span className='dt1-name'>{product.name}</span>
+							<span onClick={handleFavourite}>
+								<i
+									className={`text-2xl ml-6 cursor-pointer
+															${
+																favorites === 'Remove from my favorites'
+																	? 'bi bi-heart-fill text-myRed'
+																	: 'bi bi-heart text-gray-500'
+															}
+								 `}
+								></i>
+							</span>
+						</div>
 
 						<div className='dt1-price'>
 							Price: $ {product.ProductTypes[0].Stocks.priceST}
@@ -367,10 +381,22 @@ function Detail() {
 					</div>
 
 					<div className='detail-6'>
-						<div onClick={addToCart} className='dt6-1'>
-							Add to bag
+						<div
+							onClick={addToCart}
+							className='dt6-1 btn btn-blue hover:btn-blue w-full mt-2'
+						>
+							add to bag
 						</div>
-						<div className='dt6-2' onClick={handleFavourite}>
+						<div
+							className={`dt6-2 btn text-white w-full mt-2
+							${
+								favorites === 'Remove from my favorites'
+									? 'bg-orange-500 hover:bg-orange-900'
+									: 'btn-purple hover:btn-purple'
+							}
+							`}
+							onClick={handleFavourite}
+						>
 							{favorites}
 						</div>
 					</div>
@@ -378,7 +404,7 @@ function Detail() {
 			</div>
 			<button
 				onClick={() => history.push('/home')}
-				className='btn btn-red mt-4'
+				className='btn btn-red hover:btn-red w-32 mt-4'
 			>
 				back
 			</button>
@@ -394,13 +420,6 @@ function Detail() {
 					Product added to Bag 🥰 !!
 				</Alert>
 			</Snackbar>
-			{/* <Snackbar
-				open={open}
-				autoHideDuration={3000}
-				onClose={handleClose}
-				message='Product added to Bag'
-				action={action}
-			/> */}
 			<Snackbar
 				open={quantityAvailable}
 				autoHideDuration={3000}
