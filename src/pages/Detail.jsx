@@ -284,7 +284,6 @@ function Detail() {
 						</div>
 					</div>
 
-
 					{rating !== 'NaN' ? (
 						<div className='detail-2'>
 							<span>{rating}</span>
