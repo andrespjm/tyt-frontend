@@ -48,11 +48,15 @@ export const DataFavorites = () => {
 				</div>
 			) : (
 				<div className='container mx-auto text-white'>
+					<div className='text-5xl border-b border-blue-300 p-2'>
+						<i className='bi-heart-fill text-myRed mr-4'></i>
+						Favorites!
+					</div>
 					{favs?.map(e => {
 						return (
 							<div
 								key={e.id}
-								className='grid grid-cols-[0.3fr_1fr_0.5fr] border-y border-blue-300 gap-2 py-3 select-none'
+								className='grid grid-cols-[0.3fr_1fr_0.5fr] border-b border-blue-300 gap-2 py-3 select-none'
 							>
 								<img
 									src={e.img_home.secure_url}
