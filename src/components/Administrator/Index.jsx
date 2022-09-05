@@ -5,7 +5,8 @@ import { UserEdit } from './UserEdit';
 import { PurchaseList } from './PurchaseList';
 import { PurchaseEdit } from './PurchaseEdit';
 import { Products } from './Products';
-import { Create } from './ProductsCreate';
+import ProductForm from '../../components/ProductForm2';
+import ModifyProduct from '../../components/ModifyProduct';
 import UserIcon from '@mui/icons-material/Group';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import FactoryIcon from '@mui/icons-material/Factory';
@@ -14,6 +15,11 @@ import BarChartSharpIcon from '@mui/icons-material/BarChartSharp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getSales } from '../../redux/actions';
+import './Index.css';
+import { ColorsList } from './ColorsList';
+import { ColorsEdit } from './ColorsEdit';
+import { ColorsCreate } from './ColorsCreate';
+// import { ColorsCreate } from './ColorsCreate';
 
 export default function DashBoard() {
 	const dispatch = useDispatch();
@@ -38,13 +44,21 @@ export default function DashBoard() {
 			<Resource
 				name='products'
 				list={Products}
-				create={Create}
+				edit={ModifyProduct} // traer de params
+				create={ProductForm}
 				icon={FactoryIcon}
 			/>
 			<Resource
 				name='purchases'
 				list={PurchaseList}
 				edit={PurchaseEdit}
+				icon={ReceiptIcon}
+			/>
+			<Resource
+				name='colors'
+				list={ColorsList}
+				edit={ColorsEdit}
+				create={ColorsCreate}
 				icon={ReceiptIcon}
 			/>
 		</Admin>
