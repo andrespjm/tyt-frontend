@@ -12,7 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
-  const {redUser, redData, redPurchases} = useSelector(state => state);
+  const {redUser, redData, redPurchases} = useSelector(state => state); // eslint-disable-line no-unused-vars
 	const { currentUserF } = useAuth();
 
   useEffect(() => {
@@ -21,11 +21,11 @@ export const DataAccount = (props) => {
     dispatch(getPurchases());
   }, [id])
 
-  let myPurchases = []
+  /* let myPurchases = []
 
   if (redPurchases.length) {
     myPurchases = redPurchases.filter(compra => compra.User.id === id)
-  }
+  } */
 
   return (
     <>
@@ -67,7 +67,7 @@ export const DataAccount = (props) => {
               </Link>
             </div>
           </div>
-          <br />
+          {/* <br />
           <br />
           <h2 className='font-bold'>Shipping address</h2>
           <hr />
@@ -93,7 +93,7 @@ export const DataAccount = (props) => {
                 So far you have no shipping address because you dont have purchase
               </span>
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex w-1/4">
           <div className="mx-auto my-auto justify center">
