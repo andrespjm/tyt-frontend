@@ -52,8 +52,8 @@ export default function Navbar() {
 
 	return (
 		<nav
-			className='sticky top-0 w-screen bg-black select-none text-white drop-shadow-2xl z-50
-		'
+			className='sticky top-0 bg-black select-none text-white drop-shadow-2xl z-50
+			'
 		>
 			<div
 				className='container h-16 mx-auto flex items-center justify-between
