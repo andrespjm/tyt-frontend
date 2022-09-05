@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Loader } from './Loader';
 import { Menu } from './Menu';
 
 export const DataFavorites = () => {
-	const { id } = useParams();
 	const dispatch = useDispatch();
+	const { id } = useParams();
+	const history = useHistory();
 	const [idProdDelete, setIdProdDelete] = useState('');
 	const [load, setLoad] = useState(false);
 	const [favs, setFavs] = useState([]);
@@ -39,10 +40,10 @@ export const DataFavorites = () => {
 	if (load) return <Loader />;
 
 	return (
-		<>
+		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<Menu />
 			{!favs.length ? (
-				<div className='text-white text-2xl text-center'>
+				<div className='text-white text-2xl text-center select-none'>
 					You have not selected any favourite...
 				</div>
 			) : (
@@ -64,8 +65,11 @@ export const DataFavorites = () => {
 									<span className='text-gray-400'>{e.description}</span>
 								</div>
 								<div className='flex flex-col justify-around items-center'>
-									<button className='btn btn-blue hover:btn-blue w-36'>
-										Add to bag
+									<button
+										className='btn btn-blue hover:btn-blue w-36'
+										onClick={() => history.push(`/detail/${e.id}`)}
+									>
+										Go to detail
 									</button>
 									<button
 										className='btn btn-red hover:btn-red w-36'
@@ -143,6 +147,6 @@ export const DataFavorites = () => {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
