@@ -1,10 +1,7 @@
 import { useContext, useEffect } from 'react'; // eslint-disable-line no-unused-vars
-import { useDispatch } from 'react-redux';
 import { useParams, Link, useHistory } from 'react-router-dom';
-import { getUsers } from '../../redux/actions';
 
 export const Menu = () => {
-	const dispatch = useDispatch();
 	const history = useHistory();
 	const { id } = useParams();
 
