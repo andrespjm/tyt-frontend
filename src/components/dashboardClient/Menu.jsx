@@ -5,12 +5,8 @@ import { getUsers } from '../../redux/actions';
 
 export const Menu = () => {
 	const dispatch = useDispatch();
-	const { id } = useParams();
 	const history = useHistory();
-
-	useEffect(() => {
-		dispatch(getUsers());
-	}, []);
+	const { id } = useParams();
 
 	return (
 		<div className='w-screen p-4 select-none'>
