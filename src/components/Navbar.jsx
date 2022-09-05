@@ -36,12 +36,16 @@ export default function Navbar() {
 	const handleSignout = (userId, cart, setCart) => {
 		console.log('navbar handleSignout, user id', userId);
 		console.log('navbar handleSignout, cart', cart);
-		signout().then(() => {
-			window.location.reload();
-			cartLogout(userId, cart, setCart);
-			setIsLogged(true);
-		});
-		navigate.push('/home');
+		signout()
+			.then(() => {
+				cartLogout(userId, cart, setCart);
+				setIsLogged(true);
+			})
+			.catch(err => console.log(err.message))
+			.finally(() => {
+				window.location.reload();
+			});
+		// navigate.push('/home');
 	};
 	// const handleonclicksignin = () {
 	// si no esta logueado se va a la ruta de logueo

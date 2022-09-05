@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { validationSignInSchema } from '../../../helpers/validations.helper';
@@ -8,9 +7,10 @@ export const FormLogin = ({
 	handleSignInFirebase,
 	handleSignInGoogle,
 	handleSignInFacebook,
+	statusSpinner,
+	setStatusSpinner,
 	error,
 }) => {
-	const [spinner, setSpinner] = useState(true);
 	return (
 		<div className='container mx-auto'>
 			<div className='flex justify-center px-6 my-12'>
@@ -23,7 +23,7 @@ export const FormLogin = ({
 							Please enter your details
 						</p>
 
-						<div className='flex justify-center py-3' hidden={spinner}>
+						<div className='flex justify-center py-3' hidden={statusSpinner}>
 							<BeatLoader />
 						</div>
 
@@ -39,11 +39,11 @@ export const FormLogin = ({
 							}}
 							validationSchema={validationSignInSchema}
 							onSubmit={(values, { resetForm }) => {
-								setSpinner(false);
+								setStatusSpinner(false);
 								handleSignInFirebase(values.email, values.password);
 								// resetForm();
 								setTimeout(() => {
-									setSpinner(true);
+									setStatusSpinner(true);
 								}, 3000);
 							}}
 						>
