@@ -5,12 +5,12 @@ import {
 	EditButton,
 	EmailField,
 	FunctionField,
-	Filter,
+	// Filter,
 	ImageField,
 	List,
 	NumberField,
 	TextField,
-	SearchInput,
+	// SearchInput,
 } from 'react-admin';
 
 // const userFilter = props => {
@@ -22,7 +22,7 @@ import {
 // filters={userFilter}
 export const Users = props => (
 	<List {...props} textAlign='center'>
-		<Datagrid textAlign='center'>
+		<Datagrid textAlign='center' rowClick='edit'>
 			<BooleanField source='enabled' />
 			<ImageField
 				label='Profile'
@@ -49,7 +49,7 @@ export const Users = props => (
 			<NumberField label='Identity' source='identityCard' textAlign='center' />
 			<EmailField source='email' textAlign='center' />
 			<DateField source='birthDate' textAlign='center' />
-			<EditButton label='Disable User' textAlign='center' />
+			<EditButton label='Disable' textAlign='center' />
 		</Datagrid>
 	</List>
 );
