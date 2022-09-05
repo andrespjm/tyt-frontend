@@ -2,7 +2,8 @@ import { fetchUtils } from 'react-admin';
 import { stringify } from 'query-string';
 
 const httpClient = fetchUtils.fetchJson;
-const apiUrl = import.meta.env.VITE_API || 'https://tytecommerce.herokuapp.com';
+const apiUrl =
+	import.meta.env.VITE_API_ADMIN || 'https://tytecommerce.herokuapp.com/admin';
 
 export const dataProvider = {
 	getList: (resource, params) => {
@@ -17,7 +18,7 @@ export const dataProvider = {
 
 		return httpClient(url).then(({ headers, json }) => ({
 			data: json,
-			total: parseInt(headers.get('content-range'), 10),
+			total: parseInt(headers.get('content-range').split('/').pop(), 10),
 		}));
 	},
 

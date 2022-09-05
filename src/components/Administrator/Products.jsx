@@ -7,7 +7,7 @@ import {
 	TextField,
 	NumberField,
 	DeleteButton,
-	FunctionField,
+	// FunctionField,
 	EditButton,
 	Filter,
 	SearchInput,
@@ -22,16 +22,10 @@ const Description = () => (
 
 const ProductsFilter = props => (
 	<Filter {...props}>
-		<SearchInput placeholder='Product Name' source='name' resettable alwaysOn />
+		<SearchInput placeholder='Name' source='name' resettable alwaysOn />
+		{/* <SearchInput placeholder='Collection' source='collection' /> */}
 	</Filter>
 );
-
-// const postFilters = [
-// 	// eslint-disable-next-line react/jsx-key
-// 	<TextInput label='Search' source='name' alwaysOn />,
-// 	// eslint-disable-next-line react/jsx-key
-// 	<TextInput label='name' source='name' />,
-// ];
 
 export const Products = props => {
 	return (
@@ -56,40 +50,6 @@ export const Products = props => {
 				<TextField source='name' textAlign='center' />
 				<TextField source='collection' textAlign='center' />
 				<TextField source='artist' textAlign='center' />
-				<FunctionField
-					textAlign='center'
-					label='Turntable Stock'
-					render={products =>
-						products.ProductTypes.find(el => el.name === 'Turntable').Stocks
-							.quantityST
-					}
-				/>
-				<FunctionField
-					textAlign='center'
-					label='Turntable Price'
-					render={products =>
-						products.ProductTypes.find(el => el.name === 'Turntable').Stocks
-							.priceST
-					}
-				/>
-				{/* <WrapperField label='Cake Tray'> */}
-				<FunctionField
-					textAlign='center'
-					label='Cake Tray Stock'
-					render={products =>
-						products.ProductTypes.find(el => el.name === 'Cake Tray').Stocks
-							.quantityST
-					}
-				/>
-				<FunctionField
-					textAlign='center'
-					label='Cake Tray Price'
-					render={products =>
-						products.ProductTypes.find(el => el.name === 'Cake Tray').Stocks
-							.priceST
-					}
-				/>
-				{/* </WrapperField> */}
 				<EditButton>Edit</EditButton>
 				<DeleteButton>Delete</DeleteButton>
 			</Datagrid>
