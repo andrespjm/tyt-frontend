@@ -48,19 +48,10 @@ function Detail() {
 				const response = await axios.get(`/products/${id}`);
 				setProduct(response.data);
 				dispatch(setLoading(false));
+
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
-				console.log('Aca', user.uid);
-				setLoader(false);
-				const information = {
-					userid: user.uid, // luego agregar user.uid
-					productid: id,
-				};
-				const statusFavorite = await axios
-					.put(`/favorites/status`, information)
-					.then(res => res.data);
-				setFavorites(statusFavorite);
 			} catch (error) {
 				alert(error);
 			}
@@ -127,7 +118,7 @@ function Detail() {
 			history.push('/signin');
 		} else {
 			const information = {
-				userid: user.uid, // luego agregar user.uid
+				userid: user.uid,
 				productid: id,
 			};
 			console.log(information);
@@ -292,13 +283,19 @@ function Detail() {
 							Price: $ {product.ProductTypes[0].Stocks.priceST}
 						</div>
 					</div>
-					<div className='detail-2'>
-						{rating !== 'NaN' && <span>{rating}</span>}
-						<Rating rating={rating} />
-						<Link to={`/reviews/${id}`}>
-							<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
-						</Link>
-					</div>
+
+					{rating !== 'NaN' ? (
+						<div className='detail-2'>
+							<span>{rating}</span>
+							<Rating rating={rating} />
+							<Link to={`/reviews/${id}`}>
+								<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
+							</Link>
+						</div>
+					) : (
+						<p />
+					)}
+
 					<div className='detail-3'>
 						<span>Colours</span>
 						<div className='dt3'>
