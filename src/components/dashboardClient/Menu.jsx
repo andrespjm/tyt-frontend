@@ -1,52 +1,56 @@
 import { useContext, useEffect } from 'react'; // eslint-disable-line no-unused-vars
-import { useDispatch } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
-import { getUsers } from '../../redux/actions';
+import { useParams, Link, useHistory } from 'react-router-dom';
 
 export const Menu = () => {
-	const dispatch = useDispatch();
+	const history = useHistory();
 	const { id } = useParams();
 
-	useEffect(() => {
-		dispatch(getUsers());
-	}, []);
-
 	return (
-		<>
-			<div id='menu' className='container mx auto flex justify-center'>
-				<ul className='flex justify-center'>
-					<li>
-						<Link to={`/${id}/user/menu/account`}>
-							<button
-								id='account'
-								className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400'
-							>
-								My Account
-							</button>
-						</Link>
-					</li>
-					<li>
-						<Link to={`/${id}/user/menu/orders`}>
-							<button
-								id='orders'
-								className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400 duration-1000'
-							>
-								My Orders
-							</button>
-						</Link>
-					</li>
-					<li>
-						<Link to={`/${id}/user/menu/favorites`}>
-							<button
-								id='favorites'
-								className='flex justify-center px-6 py-6 my-8 border-solid border border-white text-white hover:bg-gray-400 duration-1000'
-							>
-								My Favorites
-							</button>
-						</Link>
-					</li>
-				</ul>
+		<div className='w-screen p-4 select-none'>
+			<div
+				id='menu'
+				className='container flex justify-around text-white font-semibold'
+			>
+				<button>
+					<Link to={`/${id}/user/menu/account`}>
+						<button
+							id='account'
+							className={`px-6 py-4 w-40 border duration-1000 border-white rounded-xl hover:text-blue-500 
+							${history.location.pathname.slice(-7) === 'account' ? 'ring-4' : ''}
+							
+							`}
+						>
+							My Account
+						</button>
+					</Link>
+				</button>
+				<button>
+					<Link to={`/${id}/user/menu/orders`}>
+						<button
+							id='orders'
+							className={`px-6 py-4 w-40 border duration-1000 border-white rounded-xl hover:text-blue-500 
+							${history.location.pathname.slice(-6) === 'orders' ? 'ring-4' : ''}
+							
+							`}
+						>
+							My Orders
+						</button>
+					</Link>
+				</button>
+				<button>
+					<Link to={`/${id}/user/menu/favorites`}>
+						<button
+							id='favorites'
+							className={`px-6 py-4 w-40 border duration-1000 border-white rounded-xl  hover:text-blue-500 
+							${history.location.pathname.slice(-9) === 'favorites' ? 'ring-4' : ''}
+							
+							`}
+						>
+							My Favorites
+						</button>
+					</Link>
+				</button>
 			</div>
-		</>
+		</div>
 	);
 };
