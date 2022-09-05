@@ -23,13 +23,13 @@ const Reviews = () => {
 				data.map(e => (
 					<div className='rounded-xl' key={e.id}>
 						<img
-							src={e.product.img_home.secure_url}
+							src={e.Product.img_home.secure_url}
 							alt='img product'
 							style={{ height: '300px' }}
 							className='rounded-lg my-2'
 						/>
 						<p>
-							<b>Name: </b> {e.user.displayName}
+							<b>Name: </b> {e.User.displayName}
 						</p>
 						<p key={e.comments}>
 							<b>Comments:</b> {e.comments}
