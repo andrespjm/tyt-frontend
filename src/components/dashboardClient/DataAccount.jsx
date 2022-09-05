@@ -12,7 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 export const DataAccount = (props) => {
   const {id} = useParams();
   const dispatch = useDispatch();
-  const {redUser, redData, redPurchases} = useSelector(state => state);
+  const {redUser, redData, redPurchases} = useSelector(state => state); // eslint-disable-line no-unused-vars
 	const { currentUserF } = useAuth();
 
   useEffect(() => {
@@ -21,11 +21,11 @@ export const DataAccount = (props) => {
     dispatch(getPurchases());
   }, [id])
 
-  let myPurchases = []
+  /* let myPurchases = []
 
   if (redPurchases.length) {
     myPurchases = redPurchases.filter(compra => compra.User.id === id)
-  }
+  } */
 
   return (
     <>
@@ -50,9 +50,9 @@ export const DataAccount = (props) => {
           <div className="inline-block pl-4">
             <span className="flex">{redUser?.displayName}</span>
             <span className="flex">{redUser?.email}</span>
-            <span className="flex">{redUser?.gender}</span>
-            <span className="flex">{redUser?.identityCard}</span>
-            <span className="flex">{redUser?.birthDate?.substring(0, 10)}</span>
+            <span className="flex">{redUser.gender ? redUser.gender : ''}</span>
+            <span className="flex">{redUser.identityCard ? redUser.identityCard : ''}</span>
+            <span className="flex">{redUser.birthDate ? redUser?.birthDate?.substring(0, 10) : ''}</span>
           </div>
           <div className="inline-block float-right">
             <div className='inline-block text-center border-r-[1px]  pr-1'>
@@ -67,7 +67,7 @@ export const DataAccount = (props) => {
               </Link>
             </div>
           </div>
-          <br />
+          {/* <br />
           <br />
           <h2 className='font-bold'>Shipping address</h2>
           <hr />
@@ -89,9 +89,11 @@ export const DataAccount = (props) => {
             </>
           ):(
             <div>
-              No hay dirección de envio
+              <span>
+              There are not shippings yet
+              </span>
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex w-1/4">
           <div className="mx-auto my-auto justify center">

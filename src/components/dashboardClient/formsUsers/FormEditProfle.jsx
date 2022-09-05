@@ -1,17 +1,24 @@
 /* eslint-disable react/prop-types */
+import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useEffect } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { getUser } from '../../../redux/actions';
 import { validateUserEdit } from '../../../validations/editProfileValidate';
-import { getUser, updateUserP } from '../../../redux/actions';
 import { Menu } from '../Menu';
 
 export const FormEditProfile = () => {
 
+  const history = useHistory();
   const {id} = useParams();
   const dispatch = useDispatch();
+	const [profilePicture, setProfilePicture] = useState();
   const {redUser} = useSelector(state => state);
+
+  const handleImageProfile = e => {
+		setProfilePicture(e.target.files[0]);
+	};
 
   useEffect(() => {
     dispatch(getUser(id));
@@ -33,20 +40,35 @@ export const FormEditProfile = () => {
           initialValues={{
             firstName: redUser.firstName,
             lastName: redUser.lastName,
-            profilePicture: '',
             gender: redUser.gender ? redUser.gender : '',
             identityCard: redUser.identityCard ? redUser.identityCard : '',
-            birthDate: redUser.birthDate ? redUser.birthDate : '',
+            birthDate: redUser.birthDate ? redUser?.birthDate?.substring(0, 10) : '',
           }}
           validationSchema={validateUserEdit}
-          onSubmit={(values, { resetForm }) => {
-            console.log(values);
-            updateUserP(values);
-            resetForm();
+          onSubmit={async (values, { resetForm }) => {
+            console.log("VIEJO USUARIO",values);
+            const editUser = { ...values };
+            editUser.profilePicture = profilePicture;
+            editUser.displayName = `${editUser.firstName} ${editUser.lastName}`;
+            console.log("NUEVO USUARIO", editUser)
+            try {
+              await axios.put(`/users/user/${id}`, {
+                editUser
+              },
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+              history.push(`/${id}/user/menu/account`)
+              // resetForm();
+            } catch (error) {
+              console.log(error)
+            }
           }}
         >
           {({ errors }) => (
-            <Form className='pb-10'>
+            <Form className='pb-10' encType='multipart/form-data'>
               <div className=''>
                 <div className='flex justify-start'>
                   <div className='w-1/5 inline-block mt-4'>
@@ -126,7 +148,7 @@ export const FormEditProfile = () => {
                       )}
                     />
                     <label
-                      htmlFor='imageMain'
+                      htmlFor='profilePicture'
                       className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none mt-4 h-[43.2px]'
                     >
                       Choose your profile image (PNG, JPG)
@@ -137,6 +159,7 @@ export const FormEditProfile = () => {
                       name='profilePicture'
                       type='file'
                       accept='.jpg, .jpeg, .png'
+                      onChange={handleImageProfile}
                     />
                     <Field
                       as='select'
