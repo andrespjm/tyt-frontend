@@ -123,8 +123,8 @@ const ModifyProduct = () => {
 					description: product.description,
 					collection: document.querySelector('input[name="collection"]:checked')
 						.value,
-					// imageMain,
-					// imagesDetail,
+					imageMain,
+					imagesDetail,
 					artist: product.artist,
 					color1: strClr1,
 					color2: strClr2,
@@ -170,14 +170,13 @@ const ModifyProduct = () => {
 	return (
 		<div className='h-screen py-10 bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<form
-				className='max-w-5xl text-white mx-auto'
-				// onSubmit={handleSubmit}
+				className='max-w-7xl text-white mx-auto'
 				encType='multipart/form-data'
 			>
 				<span className='text-5xl'>Modify Product!</span>
-				<div className='grid grid-cols-[1fr_0.6fr] gap-8'>
+				<div className='grid grid-cols-[1fr_1fr] gap-8'>
 					{/* LEFT COLUMN */}
-					<div className=''>
+					<div className='flex flex-col justify-between'>
 						{/* MAIN IMAGE */}
 						<div className='mt-4 border-b-2 border-blue-300 pb-4'>
 							<div>
@@ -474,7 +473,7 @@ const ModifyProduct = () => {
 							<div className='mt-4 flex justify-center gap-4'>
 								<Link to='/admin'>
 									<button
-										className='btn btn-red hover:btn-red w-32'
+										className='btn btn-red hover:btn-red w-28'
 										value='Back'
 									>
 										Back
@@ -484,9 +483,9 @@ const ModifyProduct = () => {
 									onClick={handleModifyProduct}
 									type='submit'
 									value='Add product'
-									className='btn btn-purple hover:btn-purple justify-end'
+									className='btn btn-purple hover:btn-purple justify-end w-28'
 								>
-									Modify Product
+									Apply
 								</button>
 							</div>
 						</div>

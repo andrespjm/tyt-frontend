@@ -48,19 +48,10 @@ function Detail() {
 				const response = await axios.get(`/products/${id}`);
 				setProduct(response.data);
 				dispatch(setLoading(false));
+
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
-				console.log('Aca', user.uid);
-				setLoader(false);
-				const information = {
-					userid: user.uid, // luego agregar user.uid
-					productid: id,
-				};
-				const statusFavorite = await axios
-					.put(`/favorites/status`, information)
-					.then(res => res.data);
-				setFavorites(statusFavorite);
 			} catch (error) {
 				alert(error);
 			}
@@ -127,7 +118,7 @@ function Detail() {
 			history.push('/signin');
 		} else {
 			const information = {
-				userid: user.uid, // luego agregar user.uid
+				userid: user.uid,
 				productid: id,
 			};
 			console.log(information);
@@ -196,11 +187,12 @@ function Detail() {
 
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
 	};
-	console.log('loader after', loader);
+	// console.log('loader after', loader);
+
 	return (
 		<div
-			className='w-screen min-h-screen select-none -z-10
-			bg-gradient-to-b from-black to-neutral-300  text-white flex flex-col items-center'
+			className='w-screen select-none -z-10
+			 flex flex-col items-center text-white h-screen bg-gradient-to-b from-black via-gray-600 to-base-900'
 		>
 			{loader && <Loader />}
 			<div className='detail-content'>
@@ -269,24 +261,45 @@ function Detail() {
 				</div>
 
 				{/* RIGHT COLUMN */}
-				<div className='detail-content-right'>
+				<div className='w-[400px]'>
 					<div className='detail-1'>
 						<div className='dt1-ref'>Ref-{product.id}</div>
-						<div className='dt1-name'>{product.name}</div>
-
-						<div className='dt1-price'>
-							Price: $ {product.ProductTypes[0].Stocks.priceST}
+						<div className='flex'>
+							<span className='dt1-name'>{product.name}</span>
+							<span onClick={handleFavourite}>
+								<i
+									className={`text-2xl ml-6 cursor-pointer
+															${
+																favorites === 'Remove from my favorites'
+																	? 'bi bi-heart-fill text-myRed'
+																	: 'bi bi-heart text-gray-500'
+															}
+								 `}
+								></i>
+							</span>
+						</div>
+						<span className='text-blue-400'>Painted by: {product.artist}</span>
+						<div className='dt1-price mt-4 text-xl'>
+							Price: U$ {product.ProductTypes[0].Stocks.priceST}
 						</div>
 					</div>
-					<div className='detail-2'>
-						{rating !== 'NaN' && <span>{rating}</span>}
-						<Rating rating={rating} />
-						<Link to={`/reviews/${id}`}>
-							<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
-						</Link>
-					</div>
+
+
+					{rating !== 'NaN' ? (
+						<div className='detail-2'>
+							<span>{rating}</span>
+							<Rating rating={rating} />
+							<Link to={`/reviews/${id}`}>
+								<span className='dt2-3'>{`see all ${reviews} reviews`}</span>
+							</Link>
+						</div>
+					) : (
+						<p />
+					)}
+
 					<div className='detail-3'>
 						<span>Colours</span>
+
 						<div className='dt3'>
 							<div
 								className='dt3-1'
@@ -311,7 +324,7 @@ function Detail() {
 							></div>
 						</div>
 					</div>
-					<div className='detail-4' id={0}>
+					<div className='detail-4 mt-4' id={0}>
 						<span>Type</span>
 						<div className='dt4'>
 							<div className='dt4-1 selected' onClick={handleClick}>
@@ -324,7 +337,7 @@ function Detail() {
 							</div>
 						</div>
 					</div>
-					<div className='mt-10'>
+					<div className='mt-3'>
 						<span>Stock: </span>
 						<span id='detail-5' className='ml-2'>
 							{product.ProductTypes[0].Stocks.quantityST}
@@ -332,7 +345,7 @@ function Detail() {
 						<span> un</span>
 					</div>
 
-					<div className='mt-4 w-full flex items-center'>
+					<div className='mt-2 w-full flex items-center'>
 						<span>Select quantity:</span>
 						<div className='flex'>
 							<i
@@ -366,19 +379,31 @@ function Detail() {
 						</div>
 					</div>
 
-					<div className='detail-6'>
-						<div onClick={addToCart} className='dt6-1'>
-							Add to bag
+					<div className='detail-6 mt-4'>
+						<div
+							onClick={addToCart}
+							className='dt6-1 btn btn-blue hover:btn-blue w-full mt-2'
+						>
+							add to bag
 						</div>
-						<div className='dt6-2' onClick={handleFavourite}>
+						<div
+							className={`dt6-2 btn text-white w-full mt-2
+							${
+								favorites === 'Remove from my favorites'
+									? 'bg-orange-500 hover:bg-transparent hover:border-orange-500'
+									: 'btn-purple hover:btn-purple'
+							}
+							`}
+							onClick={handleFavourite}
+						>
 							{favorites}
 						</div>
 					</div>
 				</div>
 			</div>
 			<button
-				onClick={() => history.push('/home')}
-				className='btn btn-red mt-4'
+				onClick={history.goBack}
+				className='btn btn-red hover:btn-red w-32 mt-4'
 			>
 				back
 			</button>
@@ -394,13 +419,6 @@ function Detail() {
 					Product added to Bag 🥰 !!
 				</Alert>
 			</Snackbar>
-			{/* <Snackbar
-				open={open}
-				autoHideDuration={3000}
-				onClose={handleClose}
-				message='Product added to Bag'
-				action={action}
-			/> */}
 			<Snackbar
 				open={quantityAvailable}
 				autoHideDuration={3000}
