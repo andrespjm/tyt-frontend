@@ -90,7 +90,7 @@ export const DataAccount = (props) => {
           ):(
             <div>
               <span>
-                So far you have no shipping address because you dont have purchase
+              There are not shippings yet
               </span>
             </div>
           )} */}
