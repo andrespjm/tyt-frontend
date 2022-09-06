@@ -9,6 +9,7 @@ import { DataFavorites } from './components/dashboardClient/DataFavorites';
 import { DataOrders } from './components/dashboardClient/DataOrders';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
 import { FormEditProfile } from './components/dashboardClient/formsUsers/FormEditProfle';
+import { FormEditPassword } from './components/dashboardClient/formsUsers/FormEditPassword';
 import { HomeUser } from './components/dashboardClient/HomeUser';
 import { Menu } from './components/dashboardClient/Menu';
 import Navbar from './components/Navbar';
@@ -127,6 +128,11 @@ function App() {
 				<Route path='/:id/user/menu/account/edit'>
 					<ProtectedRouteUser>
 						<FormEditProfile />
+					</ProtectedRouteUser>
+				</Route>
+				<Route path='/:id/user/menu/account/changepass'>
+					<ProtectedRouteUser>
+						<FormEditPassword />
 					</ProtectedRouteUser>
 				</Route>
 				<Route exact path='/detail/:id' component={Detail} />
