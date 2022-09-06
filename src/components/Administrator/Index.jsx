@@ -34,16 +34,13 @@ export default function DashBoard() {
 
 	return (
 		<Admin dataProvider={dataProvider}>
-			{/* {loader && <Loader />}
-			{error && <Message />} */}
-
 			<Resource
 				name='chart'
 				list={Charts(salesData)}
 				icon={BarChartSharpIcon}
 			/>
-
 			<Resource name='user' list={Users} edit={UserEdit} icon={UserIcon} />
+
 			<Resource
 				name='product'
 				list={Products}

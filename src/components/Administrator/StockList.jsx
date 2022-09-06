@@ -19,8 +19,8 @@ export const StockList = props => (
 			/>
 			<NumberField source='quantityST' label='quantity' textAlign='center' />
 			<NumberField source='priceST' label='price' textAlign='center' />
-			<EditButton label='Edit' />
-			<DeleteButton label='Delete' />
+			<EditButton label='Edit' textAlign='center' />
+			<DeleteButton label='Delete' textAlign='center' />
 		</Datagrid>
 	</List>
 );

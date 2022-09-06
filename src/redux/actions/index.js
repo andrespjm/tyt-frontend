@@ -137,7 +137,7 @@ export const getRerview = id => {
 export const getSales = () => {
 	return async dispatch => {
 		try {
-			const response = await axios.get('/sales');
+			const response = await axios.get('/sales?total=all');
 			console.log('index/response', response.data);
 			console.log('index/status', response.status);
 			if (response.status === 200)
