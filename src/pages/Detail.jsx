@@ -52,6 +52,17 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
+
+				if (user) {
+					const information = {
+						userid: user.uid,
+						productid: id,
+					};
+					const statusFavorite = await axios
+						.put(`/favorites/status`, information)
+						.then(res => res.data);
+					setFavorites(statusFavorite);
+				}
 			} catch (error) {
 				alert(error);
 			}
