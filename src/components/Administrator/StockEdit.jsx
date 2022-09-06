@@ -3,22 +3,22 @@ import { Edit, NumberInput, SimpleForm, TextInput } from 'react-admin';
 export const StockEdit = () => {
 	return (
 		<Edit title='Edit color'>
-			<SimpleForm textAlign='center'>
+			<SimpleForm textalign='center'>
 				<TextInput disabled source='id' />
 				<NumberInput
 					disabled
 					source='ProductId'
 					label='productId'
-					textAlign='center'
+					textalign='center'
 				/>
 				<TextInput
 					disabled
 					source='ProductTypeName'
 					label='product type'
-					textAlign='center'
+					textalign='center'
 				/>
-				<NumberInput source='quantityST' label='quantity' textAlign='center' />
-				<NumberInput source='priceST' label='price' textAlign='center' />
+				<NumberInput source='quantityST' label='quantity' textalign='center' />
+				<NumberInput source='priceST' label='price' textalign='center' />
 			</SimpleForm>
 		</Edit>
 	);
