@@ -16,7 +16,7 @@ import Navbar from './components/Navbar';
 import ModifyProduct from './components/ModifyProduct';
 import PayFailure from './components/PayFailure';
 import PaySuccess from './components/PaySuccess';
-import ProductForm from './components/ProductForm2';
+import ProductForm from './components/ProductForm';
 import ShoppingCart from './components/ShoppingCart';
 
 import { useAuth } from './context/AuthContext';
@@ -26,6 +26,7 @@ import Detail from './pages/Detail';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 
+import { SignInAdmin } from './components/Administrator/auth/SignInAdmin';
 import { SignIn } from './components/auth/SignIn';
 import { ChangePassword } from './components/dashboardClient/formsUsers/ChangePassword';
 import Reviews from './components/Reviews';
@@ -76,6 +77,7 @@ function App() {
 			<Switch>
 				<Route exact path='/' component={Landing} />
 				<Route exact path='/home' component={Home} />
+				<Route exact path='/tyt-admin' component={SignInAdmin} />
 				<Route exact path='/admin' component={DashBoard} />
 				<Route exact path='/admin/addproduct' component={ProductForm} />
 				<Route exact path='/admin/modifyproduct' component={ModifyProduct} />
