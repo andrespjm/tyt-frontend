@@ -25,6 +25,7 @@ const Reviews = () => {
 	}, [dispatch]);
 
 	if (!redData.length || !data.length) return <Loader />;
+	!prod && setProd(redData.find(e => e.id === Number(id)));
 
 	return (
 		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
