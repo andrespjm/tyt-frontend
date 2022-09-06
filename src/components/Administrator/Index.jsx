@@ -16,7 +16,7 @@ import { Charts } from './Charts';
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getSales } from '../../redux/actions';
+import { getSales, getSalesProducts, getSalesUsers } from '../../redux/actions';
 import './Index.css';
 import { ColorsList } from './ColorsList';
 import { ColorsEdit } from './ColorsEdit';
@@ -27,16 +27,24 @@ import { StockEdit } from './StockEdit';
 export default function DashBoard() {
 	const dispatch = useDispatch();
 	const { salesData } = useSelector(state => state);
+	const { salesUsers } = useSelector(state => state);
+	const { salesProducts } = useSelector(state => state);
+
+	// console.log('chart/sales', salesData);
+	console.log('chart/user', salesUsers);
+	// console.log('chart/products', salesProducts);
 
 	useEffect(() => {
 		dispatch(getSales());
+		dispatch(getSalesUsers());
+		dispatch(getSalesProducts());
 	}, [dispatch]);
 
 	return (
 		<Admin dataProvider={dataProvider}>
 			<Resource
 				name='chart'
-				list={Charts(salesData)}
+				list={Charts(salesData, salesUsers, salesProducts)}
 				icon={BarChartSharpIcon}
 			/>
 			<Resource name='user' list={Users} edit={UserEdit} icon={UserIcon} />

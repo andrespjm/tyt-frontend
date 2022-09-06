@@ -7,7 +7,6 @@ import {
 	NumberField,
 	Filter,
 	SearchInput,
-	// DeleteButton,
 } from 'react-admin';
 
 const PurchasesFilter = props => (
@@ -52,7 +51,6 @@ export const PurchaseList = props => (
 			/>
 			<DateField source='createdAt' label='Created' textAlign='center' />
 			<EditButton label='Edit' textAlign='center' />
-			{/* <DeleteButton label='Del' /> */}
 		</Datagrid>
 	</List>
 );

@@ -1,0 +1,7 @@
+.chart-container {
+    width: 100vw;
+}
+
+.chart-bar {
+    display: flex;
+}

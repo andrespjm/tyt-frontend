@@ -11,9 +11,11 @@ import {
 	ERROR_FILTERING_DATA,
 	GET_USER_ORDER,
 	GET_REVIEW,
-	GET_SALES,
 	GET_PURCHASES,
 	GET_USER_FAVOURITES,
+	GET_SALES,
+	GET_SALES_PRODUCTS,
+	GET_SALES_USERS,
 } from './types';
 
 export const setLoading = payload => ({ type: SET_LOADING, payload });
@@ -133,24 +135,6 @@ export const getRerview = id => {
 	};
 };
 
-// Get Sales from backend
-export const getSales = () => {
-	return async dispatch => {
-		try {
-			const response = await axios.get('/sales?total=all');
-			console.log('index/response', response.data);
-			console.log('index/status', response.status);
-			if (response.status === 200)
-				dispatch({
-					type: GET_SALES,
-					payload: response.data,
-				});
-		} catch {
-			dispatch({ type: GET_SALES, payload: null });
-		}
-	};
-};
-
 export const getUserFavourites = id => {
 	return async dispatch => {
 		const userFavourites = (await axios.get(`/favorites?userid=${id}`)).data;
@@ -171,3 +155,54 @@ export const getUserFavourites = id => {
 // 		}
 // 	};
 // };
+
+// Get Sales from backend
+export const getSales = () => {
+	return async dispatch => {
+		try {
+			const response = await axios.get('/sales?total=all');
+			// console.log('actions/sales', response.data);
+			if (response.status === 200)
+				dispatch({
+					type: GET_SALES,
+					payload: response.data,
+				});
+		} catch {
+			dispatch({ type: GET_SALES, payload: null });
+		}
+	};
+};
+
+// Get Sales by  from backend
+export const getSalesProducts = () => {
+	return async dispatch => {
+		try {
+			const response = await axios.get('/sales?total=byProductType');
+			// console.log('actions/products', response.data);
+			if (response.status === 200)
+				dispatch({
+					type: GET_SALES_PRODUCTS,
+					payload: response.data,
+				});
+		} catch {
+			dispatch({ type: GET_SALES, payload: null });
+		}
+	};
+};
+
+// Get Sales from backend
+export const getSalesUsers = () => {
+	return async dispatch => {
+		try {
+			const response = await axios.get('/sales?total=byUser');
+			// console.log('actions/users', response.data);
+			if (response.status === 200)
+				dispatch({
+					type: GET_SALES_USERS,
+					payload: response.data,
+				});
+		} catch {
+			dispatch({ type: GET_SALES, payload: null });
+		}
+	};
+};
