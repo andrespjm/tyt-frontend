@@ -46,6 +46,12 @@ export const userExists = async id => {
 	return res.exists();
 };
 
+export const adminExists = async id => {
+	const docRef = doc(db, 'admins', id);
+	const res = await getDoc(docRef);
+	return res.exists();
+};
+
 export const existsEmail = async email => {
 	const users = [];
 	const docsRef = collection(db, 'users');
@@ -76,6 +82,14 @@ export const updateUser = async user => {
 export const getUserInfo = async id => {
 	try {
 		const docRef = doc(db, 'users', id);
+		const document = await getDoc(docRef);
+		return document.data();
+	} catch (err) {}
+};
+
+export const getAdminInfo = async id => {
+	try {
+		const docRef = doc(db, 'admins', id);
 		const document = await getDoc(docRef);
 		return document.data();
 	} catch (err) {}
