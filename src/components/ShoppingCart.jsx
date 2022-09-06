@@ -15,6 +15,7 @@ const ShoppingCart = () => {
 		(acc, curr) => acc + curr.price * curr.quantity,
 		0
 	);
+	console.log('Accaa', cart);
 	const totalShipping = cart?.reduce((acc, curr) => acc + curr.quantity * 5, 0);
 	const [checkout, setCheckout] = useState(false);
 	const [orderData, setOrderData] = useState({
@@ -280,12 +281,14 @@ const ShoppingCart = () => {
 							>
 								back
 							</button>
-							<button
-								className='btn btn-blue hover:btn-blue my-5 w-32'
-								onClick={handleCheckOut}
-							>
-								checkout
-							</button>
+							{cart.length > 0 && (
+								<button
+									className='btn btn-blue hover:btn-blue my-5 w-32'
+									onClick={handleCheckOut}
+								>
+									checkout
+								</button>
+							)}
 						</div>
 					</div>
 				</div>
