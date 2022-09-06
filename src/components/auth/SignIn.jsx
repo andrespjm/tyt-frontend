@@ -23,7 +23,7 @@ export const SignIn = () => {
 	useEffect(() => {
 		const unsubuscribe = onAuthStateChanged(auth, handleUserStateChanged);
 		return () => unsubuscribe;
-	}, [status]);
+	}, []);
 	const handleUserStateChanged = async user => {
 		if (user) {
 			const isRegister = await userExists(user.uid);
