@@ -13,12 +13,7 @@ export const FormEditProfile = () => {
   const history = useHistory();
   const {id} = useParams();
   const dispatch = useDispatch();
-	// const [profilePicture, setProfilePicture] = useState();
   const {redUser} = useSelector(state => state);
-
-  /* const handleImageProfile = e => {
-		setProfilePicture(e.target.files[0]);
-	}; */
 
   useEffect(() => {
     dispatch(getUser(id));
@@ -46,169 +41,120 @@ export const FormEditProfile = () => {
           }}
           validationSchema={validateUserEdit}
           onSubmit={async (values, { resetForm }) => {
-            console.log("VIEJO USUARIO",values);
             const editUser = { ...values };
-            // editUser.profilePicture = profilePicture;
             editUser.displayName = `${editUser.firstName} ${editUser.lastName}`;
-            console.log("NUEVO USUARIO", editUser)
             try {
-              await axios.put(`/users/user/${id}`, editUser,
-              /* {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
-              } */);
+              await axios.put(`/users/user/${id}`, editUser);
               history.push(`/${id}/user/menu/account`)
-              // resetForm();
             } catch (error) {
               console.log(error)
             }
           }}
         >
           {({ errors }) => (
-            <Form className='pb-10'>
+            <Form className='w-11/12 pb-10'>
               <div className=''>
                 <div className='flex justify-start'>
-                  <div className='w-1/5 inline-block mt-4'>
-                    <label className='flex h-[43.2px] py-2 px-4 mt-4'>Email</label>
-                    <label className='flex h-[43.2px] py-2 px-4 mt-4'>First Name*</label>
-                    <div
-                      className={`text-red-500 text-xs mt-1${
-                        errors.firstName ? 'hidden' : 'hidden'
-                      }`}
-                    >
-                      {errors.firstName}
+                  <div className='w-2/3 mt-4'>
+                    <div>
+                      <label className='inline-block w-1/3 h-[43.2px] py-2 px-4 mt-4'>Email</label>
+                      <span className="inline-block font-bold py-2 px-4 mt-4">{redUser?.email}</span>
                     </div>
-                    <label className='flex h-[43.2px] py-2 px-4 mt-4'>Last Name*</label>
-                    <div
-                      className={`text-red-500 text-xs mt-1${
-                        errors.lasttName ? 'hidden' : 'hidden'
-                      }`}
-                    >
-                      {errors.lastName}
-                    </div>
-                    {/* <label className='flex h-[43.2px] py-2 px-4 mt-4'>Profile image</label> */}
-                    <label className='flex h-[43.2px] py-2 px-4 mt-4'>Gender</label>
-                    <div
-                      className={`text-red-500 text-xs mt-1${
-                        errors.gender ? 'hidden' : 'hidden'
-                      }`}
-                    >
-                      {errors.gender}
-                    </div>
-                    <label className='flex h-[43.2px] py-2 px-4 mt-4'>Identity card</label>
-                    <div
-                      className={`text-red-500 text-xs mt-1${
-                        errors.identityCard ? 'hidden' : 'hidden'
-                      }`}
-                    >
-                      {errors.identityCard}
-                    </div>
-                    <label className='flex h-[43.2px] py-2 px-4 mt-4'>Birthdate</label>
-                    <div
-                      className={`text-red-500 text-xs mt-1${
-                        errors.birthDate ? 'hidden' : 'hidden'
-                      }`}
-                    >
-                      {errors.birthDate}
-                    </div>
-                  </div>
-                  <div className='w-2/5 inline-block mt-4'>
-                    <span className="flex font-bold py-2 px-4 mt-4">{redUser?.email}</span>
-                    <Field
-                      className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
+                    <div>
+                      <label className='inline-block w-1/3 h-[43.2px] py-2 px-4 mt-4'>First Name*</label>
+                      <Field
+                      className='inline-block bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
                       id='firstName'
                       name='firstName'
                       type='text'
-                    />
-                    <ErrorMessage
-                      id='firstName'
-                      name='firstName'
-                      component={() => (
-                        <p className='text-xs italic mt-1 text-red-500'>
-                          {errors.firstName}
-                        </p>
-                      )}
-                    />
-                    <Field
-                      className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
-                      id='lastName'
-                      name='lastName'
-                      type='text'
-                    />
-                    <ErrorMessage
-                      id='lastName'
-                      name='lastName'
-                      component={() => (
-                        <p className='text-xs italic mt-1 text-red-500'>
-                          {errors.lastName}
-                        </p>
-                      )}
-                    />
-                    {/* <label
-                      htmlFor='profilePicture'
-                      className='btn btn-purple cursor-pointer hover:bg-neutral-200 select-none mt-4 h-[43.2px]'
-                    >
-                      Choose your profile image (PNG, JPG)
-                    </label>
-                    <Field
-                      className='hidden py-2 px-4 mt-4'
-                      id='profilePicture'
-                      name='profilePicture'
-                      type='file'
-                      accept='.jpg, .jpeg, .png'
-                      onChange={handleImageProfile}
-                    /> */}
-                    <Field
-                      as='select'
-                      id='gender'
-                      name='gender'
-                      className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
-                    >
-                      <option hidden>Gender</option>
-                      <option value='Female'>Female</option>
-                      <option value='Male'>Male</option>
-                      <option value='Other'>Other</option>
-                    </Field>
-                    <ErrorMessage
-                      id='gender'
-                      name='gender'
-                      component={() => (
-                        <p className='text-xs italic mt-1 text-red-500'>
-                          {errors.gender}
-                        </p>
-                      )}
-                    />
-                    <Field
-                      className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
-                      id='identityCard'
-                      name='identityCard'
-                      type='text'
-                    />
-                    <ErrorMessage
-                      id='identityCard'
-                      name='identityCard'
-                      component={() => (
-                        <p className='text-xs italic mt-1 text-red-500'>
-                          {errors.identityCard}
-                        </p>
-                      )}
-                    />
-                    <Field
-                      className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
-                      id='birthDate'
-                      name='birthDate'
-                      type='date'
-                    />
-                    <ErrorMessage
-                      id='birthDate'
-                      name='birthDate'
-                      component={() => (
-                        <p className='text-xs italic mt-1 text-red-500'>
-                          {errors.birthDate}
-                        </p>
-                      )}
-                    />
+                      />
+                      <ErrorMessage
+                        id='firstName'
+                        name='firstName'
+                        component={() => (
+                          <p className='ml-52 text-xs italic mt-1 text-red-500'>
+                            {errors.firstName}
+                          </p>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <label className='inline-block w-1/3 h-[43.2px] py-2 px-4 mt-4'>Last Name*</label>
+                      <Field
+                        className='inline-block bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
+                        id='lastName'
+                        name='lastName'
+                        type='text'
+                      />
+                      <ErrorMessage
+                        id='lastName'
+                        name='lastName'
+                        component={() => (
+                          <p className='ml-52 text-xs italic mt-1 text-red-500'>
+                            {errors.lastName}
+                          </p>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <label className='inline-block w-1/3 h-[43.2px] py-2 px-4 mt-4'>Gender</label>
+                      <Field
+                        as='select'
+                        id='gender'
+                        name='gender'
+                        className='inline-block bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
+                      >
+                        <option hidden>Gender</option>
+                        <option value='Female'>Female</option>
+                        <option value='Male'>Male</option>
+                        <option value='Other'>Other</option>
+                      </Field>
+                      <ErrorMessage
+                        id='gender'
+                        name='gender'
+                        component={() => (
+                          <p className='ml-52 text-xs italic mt-1 text-red-500'>
+                            {errors.gender}
+                          </p>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <label className='inline-block w-1/3 h-[43.2px] py-2 px-4 mt-4'>Identity card</label>
+                      <Field
+                        className='inline-block bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
+                        id='identityCard'
+                        name='identityCard'
+                        type='text'
+                      />
+                      <ErrorMessage
+                        id='identityCard'
+                        name='identityCard'
+                        component={() => (
+                          <p className='ml-52 text-xs italic mt-1 text-red-500'>
+                            {errors.identityCard}
+                          </p>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <label className='inline-block w-1/3 h-[43.2px] py-2 px-4 mt-4'>Birthdate</label>
+                      <Field
+                        className='inline-block bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-4'
+                        id='birthDate'
+                        name='birthDate'
+                        type='date'
+                      />
+                      <ErrorMessage
+                        id='birthDate'
+                        name='birthDate'
+                        component={() => (
+                          <p className='ml-52 text-xs italic mt-1 text-red-500'>
+                            {errors.birthDate}
+                          </p>
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className='flex justify-start mt-8'>
