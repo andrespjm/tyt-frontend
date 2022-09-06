@@ -28,7 +28,7 @@ const Reviews = () => {
 	!prod && setProd(redData.find(e => e.id === Number(id)));
 
 	return (
-		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
+		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900 select-none'>
 			<div className='container mx-auto text-white'>
 				<div className='border-b border-blue-300 p-2 flex justify-between items-center'>
 					<div className='flex flex-col'>
@@ -58,31 +58,29 @@ const Reviews = () => {
 						There are no reviews for this product!...
 					</div>
 				) : (
-					data?.map(e => {
-						return (
-							<div
-								key={e.id}
-								className='grid grid-cols-[0.3fr_1fr_0.5fr] border-b border-blue-300 gap-2 py-3 select-none'
-							>
-								<img
-									src={e.User.profilePicture}
-									alt=''
-									className='aspect-square object-cover'
-								/>
-								<div className='flex flex-col py-2'>
-									<span className='text-2xl mb-3'>{e.User.displayName}</span>
-									<span className='text-gray-400'>{e.comments}</span>
-								</div>
-								<div className='flex flex-col  items-center'>
-									<ReactStarsRating
-										value={e.score}
-										className='flex'
-										isSelectable={false}
-									/>
-								</div>
+					data?.map(e => (
+						<div
+							key={e.id}
+							className='grid grid-cols-[0.3fr_1fr_0.5fr] border-b border-blue-300 gap-2 py-3 select-none'
+						>
+							<img
+								src={e.User.profilePicture}
+								alt=''
+								className='aspect-square object-cover'
+							/>
+							<div className='flex flex-col py-2'>
+								<span className='text-2xl mb-3'>{e.User.displayName}</span>
+								<span className='text-gray-400'>{e.comments}</span>
 							</div>
-						);
-					})
+							<div className='flex flex-col  items-center'>
+								<ReactStarsRating
+									value={e.score}
+									className='flex'
+									isSelectable={false}
+								/>
+							</div>
+						</div>
+					))
 				)}
 			</div>
 		</div>
