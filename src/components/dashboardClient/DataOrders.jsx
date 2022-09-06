@@ -14,11 +14,11 @@ export const DataOrders = () => {
 	}, []);
 
 	return (
-		<>
+		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<Menu />
 			<div className='w-100 text-white'>
 				{!!redUser?.Purchases?.length < 1 ? (
-					<div>There are no orders</div>
+					<div className='text-white text-2xl text-center select-none'>You have not orders</div>
 				) : (
 					<>
 						{!!redUser?.Purchases?.length && !redUser?.Purchases?.length > 0 ? (
@@ -99,6 +99,6 @@ export const DataOrders = () => {
 					</>
 				)}
 			</div>
-		</>
+		</div>
 	);
 };
