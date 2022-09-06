@@ -3,47 +3,52 @@ import { useState } from 'react';
 import ReactStarsRating from 'react-awesome-stars-rating';
 
 // eslint-disable-next-line react/prop-types
-function Stars({ productId, userId }) {
+function Stars({ productId, userId, idOrderItems }) {
 	const [value, setValue] = useState(0);
 	const [comments, setComments] = useState('');
+	const [send, setSend] = useState('no review');
+
 	const onChange = value => {
-		console.log(`React Stars Rating value is ${value}`);
-		console.log(setValue(value));
+		setValue(value);
 	};
 	const handleSend = async e => {
 		e.preventDefault();
-
-		const post = {
-			score: value,
-			comments,
-			productId,
-			userId,
-		};
-		const review = await axios.post('/review', post);
-		console.log(review.data);
-		setComments('');
-		console.log(review);
+		if (value > 0) {
+			const post = {
+				score: value,
+				comments,
+				productId,
+				userId,
+				idOrderItems,
+			};
+			await axios.post('/review', post);
+			setComments('');
+			setSend('');
+		}
 	};
 
 	return (
 		<div>
-			<div>
-				<form>
-					<ReactStarsRating
-						onChange={onChange}
-						value={value}
-						className='flex'
-						isHalf={false}
-					/>
-					<b>{value > 0 && value}</b>
-					<input
-						type='text'
-						value={comments}
-						onChange={e => setComments(e.target.value)}
-					/>
-					<input type='submit' onClick={handleSend} />
-				</form>
-			</div>
+			{send === 'no review' ? (
+				<div>
+					<form>
+						<ReactStarsRating
+							onChange={onChange}
+							value={value}
+							className='flex'
+							isHalf={false}
+						/>
+						<input
+							type='text'
+							value={comments}
+							onChange={e => setComments(e.target.value)}
+						/>
+						<input type='submit' onClick={handleSend} disabled={value === 0} />
+					</form>
+				</div>
+			) : (
+				<div></div>
+			)}
 		</div>
 	);
 }

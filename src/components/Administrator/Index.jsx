@@ -5,7 +5,7 @@ import { UserEdit } from './UserEdit';
 import { PurchaseList } from './PurchaseList';
 import { PurchaseEdit } from './PurchaseEdit';
 import { Products } from './Products';
-import ProductForm from '../../components/ProductForm2';
+import ProductForm from '../ProductForm';
 import ModifyProduct from '../../components/ModifyProduct';
 import UserIcon from '@mui/icons-material/Group';
 import ReceiptIcon from '@mui/icons-material/Receipt';

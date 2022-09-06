@@ -1,3 +1,4 @@
+import { getMenuItemUnstyledUtilityClass } from '@mui/base';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -128,28 +129,28 @@ const ProductForm = () => {
 			// 	errorSelectColl.current.innerText = 'Add a collection';
 			// else errorSelectColl.current.innerText = '';
 
-			// console.log({
-			// 	name: newProduct.name,
-			// 	description: newProduct.description,
-			// 	collection: document.querySelector('input[name="collection"]:checked')
-			// 		.value,
-			// 	imageMain,
-			// 	imagesDetail: newProduct.imagesDetail,
-			// 	artist: newProduct.artist,
-			// 	color1: strClr1,
-			// 	color2: strClr2,
-			// 	color3: strClr3,
-			// 	stockCakeTray: stock.cakeTrail,
-			// 	stockTurntable: stock.turntable,
-			// 	priceCakeTray: newProduct.priceCakeTray,
-			// 	priceTurntable: newProduct.priceTurntable,
-			// });
+			console.log({
+				name: newProduct.name,
+				description: newProduct.description,
+				collection: document.querySelector('input[name="collection"]:checked')
+					.value,
+				imageMain,
+				imagesDetail: newProduct.imagesDetail,
+				artist: newProduct.artist,
+				color1: strClr1,
+				color2: strClr2,
+				color3: strClr3,
+				stockCakeTray: stock.cakeTrail,
+				stockTurntable: stock.turntable,
+				priceCakeTray: newProduct.priceCakeTray,
+				priceTurntable: newProduct.priceTurntable,
+			});
 
 			if (!newProduct.name || Object.entries(newProduct).length === 0) {
 				errorAll.current.innerText = 'Some fields are missing';
 			} else {
-				const res = await axios.put(
-					'/products/201',
+				const res = await axios.post(
+					'/products',
 					{
 						name: newProduct.name,
 						description: newProduct.description,
@@ -179,14 +180,15 @@ const ProductForm = () => {
 				}
 			}
 		} catch (error) {
-			console.log(error);
-			// errorAll.current.innerText = error.response.data;
-			// console.log(error.response.data);
+			errorAll.current.innerText = error.response.data;
+			console.log(error.response.data);
 		}
 	};
 
+	// console.log(imagesDetail[0]?.name);
+
 	return (
-		<div className='h-screen py-10 bg-gradient-to-b from-black via-gray-700 to-base-900'>
+		<div className='p-10 bg-gray-800'>
 			<form
 				className='max-w-7xl text-white mx-auto'
 				onSubmit={handleSubmit}
@@ -407,9 +409,15 @@ const ProductForm = () => {
 								{errorSelectImageDetail.imagesDetail}
 							</span>
 							<div className='mt-4 text-[10px] flex flex-col'>
-								<span>No files currently selected for upload</span>
-								<span>No files currently selected for upload</span>
-								<span>No files currently selected for upload</span>
+								{imagesDetail?.length ? (
+									<>
+										<span>{imagesDetail[0].name}</span>
+										<span>{imagesDetail[1].name}</span>
+										<span>{imagesDetail[2].name}</span>
+									</>
+								) : (
+									<span>No files currently selected for upload</span>
+								)}
 							</div>
 						</div>
 
@@ -488,14 +496,6 @@ const ProductForm = () => {
 							</div>
 							{/* BUTTONS */}
 							<div className='mt-4 flex justify-center gap-4'>
-								<Link to='/admin'>
-									<button
-										className='btn btn-red hover:btn-red w-32'
-										value='Back'
-									>
-										Back
-									</button>
-								</Link>
 								<button
 									type='submit'
 									value='Add product'

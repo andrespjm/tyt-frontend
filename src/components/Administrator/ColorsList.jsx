@@ -1,6 +1,6 @@
 import {
 	Datagrid,
-	DeleteButton,
+	// DeleteButton,
 	EditButton,
 	List,
 	TextField,
@@ -13,8 +13,8 @@ export const ColorsList = props => (
 			<TextField source='id' textAlign='center' />
 			<TextField source='name' textAlign='center' />
 			<TextField source='hex' textAlign='center' />
-			<EditButton label='Edit' textAlign='center' />
-			<DeleteButton label='Delete' textAlign='center' />
+			<EditButton label='Edit' />
+			{/* <DeleteButton label='Delete' /> */}
 			{/* <Create label='Create Color' textAlign='center' /> */}
 		</Datagrid>
 	</List>
