@@ -49,25 +49,28 @@ const ShoppingCart = () => {
 	// look up the contact information of the last order and preload it
 	async function handleCheckOut() {
 		console.log(cart);
-		Object.entries(user).length === 0 && history.push('/signin');
-		try {
-			const userId = user.uid;
-			const orderId = (await axios.get(`/purchases/data?userId=${userId}`))
-				.data;
-			if (orderId.length > 0) {
-				setOrderData({
-					...orderData,
-					phoneNumber: orderId[0].phoneNumber,
-					postalCode: orderId[0].postalCode,
-					shippingAddressStreet: orderId[0].shippingAddressStreet,
-					shippingAddressNumber: orderId[0].shippingAddressNumber,
-				});
+		if (!user) {
+			history.push('/signin');
+		} else {
+			try {
+				const userId = user.uid;
+				const orderId = (await axios.get(`/purchases/data?userId=${userId}`))
+					.data;
+				if (orderId.length > 0) {
+					setOrderData({
+						...orderData,
+						phoneNumber: orderId[0].phoneNumber,
+						postalCode: orderId[0].postalCode,
+						shippingAddressStreet: orderId[0].shippingAddressStreet,
+						shippingAddressNumber: orderId[0].shippingAddressNumber,
+					});
+				}
+				// localStorage.setItem('payment', 'true');
+			} catch (error) {
+				alert(error.request.response);
 			}
-			// localStorage.setItem('payment', 'true');
-		} catch (error) {
-			alert(error.request.response);
+			setCheckout(true);
 		}
-		setCheckout(true);
 	}
 
 	// update contact information
