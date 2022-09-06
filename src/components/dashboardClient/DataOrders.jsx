@@ -8,35 +8,10 @@ export const DataOrders = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const { redUser } = useSelector(state => state);
-	// const [value, setValue] = useState(false);
-	// console.log(redUser);
 
 	useEffect(() => {
 		dispatch(getUserOrder(id));
 	}, []);
-	console.log('aca', redUser);
-	// const purchase = redUser.Purchases?.map(e =>
-	// 	e.OrderItems?.map(p => p.Stock.Product.id)
-	// );
-	// const items = purchase?.map(e => e.OrderItems);
-	// const arra = purchase.flat();
-	// console.log('array de ids', arra);
-	// const comment = async (productId, userId) => {
-	// 	console.log('valores enviados', productId, userId);
-	// 	const res = await axios('/review/prueba', { data: { productId, userId } });
-	// 	console.log('Acaa2', res);
-	// 	setValue(res);
-	// 	return value;
-	// };
-	console.log(
-		'omarrrrrrr',
-		redUser?.Purchases?.map(e =>
-			e.OrderItems?.map(p => p.Stock.Product.Reviews)
-				.flat()
-				.filter(e => e.UserId === id)
-				.map(e => e.ProductId)
-		)
-	);
 
 	return (
 		<>
@@ -99,17 +74,20 @@ export const DataOrders = () => {
 																/>
 															</div>
 
-															{
-																!!(e?.status === 'Received') &&
-																(!o?.Stock?.Product?.Reviews.some(i => i.ProductId === o?.Stock?.Product?.id)) && (
+															{!!(e?.status === 'Received') &&
+																!o?.Stock?.Product?.Reviews.some(
+																	i =>
+																		i.ProductId === o?.Stock?.Product?.id &&
+																		i.idOrderItems === e.id
+																) && (
 																	<div>
 																		<Stars
 																			userId={id}
 																			productId={o?.Stock?.Product?.id}
+																			idOrderItems={e.id}
 																		/>
 																	</div>
-																) 
-															}
+																)}
 														</div>
 													);
 												})}
