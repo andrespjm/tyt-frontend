@@ -1,7 +1,12 @@
 .css-to2feo-MuiPaper-root-MuiAppBar-root-RaAppBar-root .RaAppBar-toolbar {
-    padding: 780px 12px 0 0;
-    margin: 92px 0 0 0;
-    /* position:relative; */
-    /* position: absolute;
+    margin: 88px 0 0 0; 
+    /* position:relative;
+ position: absolute;
     top: 0 */
+}
+
+.RaLayout-appFrame {
+    position: relative;
+    top: 88px; 
+
 }
