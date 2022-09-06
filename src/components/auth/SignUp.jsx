@@ -25,6 +25,7 @@ export const SignUp = () => {
 				profilePicture: user.profileImageURL || user.photoURL,
 				processCompleted: false,
 				processFirebase: true,
+				enabled: true,
 			});
 			navigate.push('/user/edit');
 		} catch (error) {
