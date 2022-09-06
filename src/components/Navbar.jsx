@@ -56,7 +56,7 @@ export default function Navbar() {
 
 	return (
 		<nav
-			className='fixed top-0 inset-x-0 bg-black select-none text-white drop-shadow-2xl z-50
+			className='sticky top-0 inset-x-0 bg-black select-none text-white drop-shadow-2xl z-50
 			'
 		>
 			<div

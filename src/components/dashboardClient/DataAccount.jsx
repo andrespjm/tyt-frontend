@@ -28,7 +28,7 @@ export const DataAccount = (props) => {
   } */
 
   return (
-    <>
+    <div className='h-auto bg-gradient-to-b from-black via-gray-700 to-base-900'>
       <Menu />
       <div className="container mx-auto h-auto text-white flex">
         <div className="flex w-1/4">
@@ -120,7 +120,7 @@ export const DataAccount = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 };
 
