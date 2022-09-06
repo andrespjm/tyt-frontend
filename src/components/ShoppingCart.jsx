@@ -15,7 +15,7 @@ const ShoppingCart = () => {
 		(acc, curr) => acc + curr.price * curr.quantity,
 		0
 	);
-	console.log('Accaa', cart);
+
 	const totalShipping = cart?.reduce((acc, curr) => acc + curr.quantity * 5, 0);
 	const [checkout, setCheckout] = useState(false);
 	const [orderData, setOrderData] = useState({

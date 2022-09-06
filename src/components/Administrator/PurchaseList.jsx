@@ -5,54 +5,46 @@ import {
 	List,
 	TextField,
 	NumberField,
-	Filter,
-	SearchInput,
-	// DeleteButton,
 } from 'react-admin';
 
-const PurchasesFilter = props => (
-	<Filter {...props}>
-		<SearchInput
-			placeholder='Order Status'
-			source='status'
-			resettable
-			alwaysOn
-		/>
-	</Filter>
-);
+// const PurchaseFilter = props => (
+// 	<Filter {...props}>
+// 		<SearchInput placeholder='Status' source='status' resettable alwaysOn />
+// 	</Filter>
+// );
 
 export const PurchaseList = props => (
-	<List {...props} filters={<PurchasesFilter />} title='List of purchases'>
-		<Datagrid textAlign='center'>
+	<List {...props} textalign='center'>
+		<Datagrid textalign='center' rowClick='edit'>
 			<NumberField source='id' />
-			{/* <NumberField source='User.id' /> */}
-			<NumberField
-				source='User.displayName'
-				label='User Name'
-				textAlign='center'
-			/>
-			<TextField source='status' textAlign='center' />
-			<NumberField source='phoneNumber' label='Phone' textAlign='center' />
-			<NumberField source='postalCode' label='Zip Code' textAlign='center' />
+			<TextField source='UserId' />
+			<TextField source='status' textalign='center' />
+			<NumberField source='phoneNumber' label='Phone' textalign='center' />
+			<NumberField source='postalCode' label='Zip Code' textalign='center' />
 			<TextField
 				source='shippingAddressStreet'
 				label='Street'
-				textAlign='center'
+				textalign='center'
 			/>
 			<NumberField
 				source='shippingAddressNumber'
 				label='Address Num'
-				textAlign='center'
+				textalign='center'
 			/>
-			<TextField source='shipmentCompany' label='Company' textAlign='center' />
+			<TextField source='shipmentCompany' label='Company' textalign='center' />
 			<TextField
 				source='shipmentTracking'
 				label='Tracking'
-				textAlign='center'
+				textalign='center'
 			/>
-			<DateField source='createdAt' label='Created' textAlign='center' />
-			<EditButton label='Edit' textAlign='center' />
-			{/* <DeleteButton label='Del' /> */}
+			<NumberField
+				source='shipmentFee"'
+				label='Shipment Fee'
+				textalign='center'
+			/>
+			<NumberField source='tax"' label='Taxes' textalign='center' />
+			<DateField source='createdAt' label='Created' textalign='center' />
+			<EditButton label='Edit' textalign='center' />
 		</Datagrid>
 	</List>
 );
