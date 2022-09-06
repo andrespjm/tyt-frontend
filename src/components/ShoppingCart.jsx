@@ -63,7 +63,6 @@ const ShoppingCart = () => {
 					shippingAddressNumber: orderId[0].shippingAddressNumber,
 				});
 			}
-			// localStorage.setItem('payment', 'true');
 		} catch (error) {
 			alert(error.request.response);
 		}
@@ -97,6 +96,7 @@ const ShoppingCart = () => {
 			},
 		];
 		payMercadoPago(items);
+		localStorage.setItem('items', JSON.stringify(items));
 		setPay(true);
 		let orderId = '';
 		if (
@@ -116,6 +116,7 @@ const ShoppingCart = () => {
 				if (orderId.length > 0) {
 					orderId = orderId[0].id;
 					// setOrder(orderId);
+					localStorage.setItem('OrderId', JSON.stringify(orderId));
 
 					await axios.put(`/purchases/user/${orderId}`, {
 						...orderData,
@@ -132,6 +133,7 @@ const ShoppingCart = () => {
 						})
 					).data.id;
 					// setOrder(orderId);
+					localStorage.setItem('OrderId', JSON.stringify(orderId));
 				}
 				await axios.delete(`/order-items/PurchaseId/${orderId}`); // ok
 				// set order items and decrement stock
