@@ -5,7 +5,6 @@ import {
 	RichTextField,
 	SimpleShowLayout,
 	TextField,
-	NumberField,
 	DeleteButton,
 	// FunctionField,
 	EditButton,
@@ -31,7 +30,6 @@ export const Products = props => {
 	return (
 		<List {...props} filters={<ProductsFilter />}>
 			<Datagrid textAlign='center' expand={<Description />}>
-				<NumberField label='Id' source='id' textAlign='center' />
 				<ImageField
 					label='image'
 					source='img_home.secure_url'
@@ -50,8 +48,12 @@ export const Products = props => {
 				<TextField source='name' textAlign='center' />
 				<TextField source='collection' textAlign='center' />
 				<TextField source='artist' textAlign='center' />
-				<EditButton>Edit</EditButton>
-				<DeleteButton>Delete</DeleteButton>
+				<EditButton label='Edit' textAlign='center'>
+					Edit
+				</EditButton>
+				<DeleteButton label='Delete' textAlign='center'>
+					Delete
+				</DeleteButton>
 			</Datagrid>
 		</List>
 	);

@@ -30,6 +30,7 @@ export const StockList = props => (
 				label='product type'
 				textalign='center'
 			/>
+
 			<NumberField source='quantityST' label='quantity' textalign='center' />
 			<NumberField source='priceST' label='price' textalign='center' />
 			<EditButton label='Edit' />

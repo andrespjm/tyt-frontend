@@ -11,7 +11,7 @@ const Reviews = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [data, setdata] = useState([]);
-	const [prod, setProd] = useState([]);
+	const [prod, setProd] = useState();
 	const { redData } = useSelector(state => state);
 
 	useEffect(() => {
@@ -22,9 +22,10 @@ const Reviews = () => {
 		fetchData();
 		dispatch(getData());
 		setProd(redData.find(e => e.id === Number(id)));
-	}, []);
+	}, [dispatch]);
 
 	if (!redData.length || !data.length) return <Loader />;
+	!prod && setProd(redData.find(e => e.id === Number(id)));
 
 	return (
 		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
@@ -33,7 +34,7 @@ const Reviews = () => {
 					<div className='flex flex-col'>
 						<div className='flex items-center'>
 							<img
-								src={prod.img_home.secure_url}
+								src={prod?.img_home.secure_url}
 								alt=''
 								className=' w-20 aspect-square object-cover rounded-lg'
 							/>
@@ -42,8 +43,8 @@ const Reviews = () => {
 								Reviews!
 							</span>
 						</div>
-						<span className='mt-4'>Product Name: {prod.name}</span>
-						<span>{prod.description}</span>
+						<span className='mt-4'>Product Name: {prod?.name}</span>
+						<span>{prod?.description}</span>
 					</div>
 					<button
 						onClick={history.goBack}

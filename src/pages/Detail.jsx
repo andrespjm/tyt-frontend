@@ -52,6 +52,17 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
+
+				if (user) {
+					const information = {
+						userid: user.uid,
+						productid: id,
+					};
+					const statusFavorite = await axios
+						.put(`/favorites/status`, information)
+						.then(res => res.data);
+					setFavorites(statusFavorite);
+				}
 			} catch (error) {
 				alert(error);
 			}
@@ -384,7 +395,7 @@ function Detail() {
 							onClick={addToCart}
 							className='dt6-1 btn btn-blue hover:btn-blue w-full mt-2'
 						>
-							add to bag
+							Add to bag
 						</div>
 						<div
 							className={`dt6-2 btn text-white w-full mt-2
