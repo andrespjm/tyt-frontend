@@ -22,7 +22,8 @@ export const SignUp = () => {
 				firstName: values.firstName,
 				lastName: values.lastName,
 				email: user.email,
-				profilePicture: user.profileImageURL || user.photoURL,
+				profilePicture:
+					'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV08Ejaq3NcdSDQTtaclHU6NyzKBvFAiixyw&usqp=CAU',
 				processCompleted: false,
 				processFirebase: true,
 				enabled: true,
