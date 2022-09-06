@@ -40,7 +40,7 @@ export const DataFavorites = () => {
 	if (load) return <Loader />;
 
 	return (
-		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
+		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900 select-none'>
 			<Menu />
 			{!favs.length ? (
 				<div className='text-white text-2xl text-center select-none'>

@@ -1,8 +1,6 @@
-import { getMenuItemUnstyledUtilityClass } from '@mui/base';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import '../components/ProductForm2.css';
 import { getColors } from '../redux/actions';
 import { validateProduct } from '../validations/productValidation';
