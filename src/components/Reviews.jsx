@@ -64,7 +64,7 @@ const Reviews = () => {
 								className='grid grid-cols-[0.3fr_1fr_0.5fr] border-b border-blue-300 gap-2 py-3 select-none'
 							>
 								<img
-									src={e.Product.img_home.secure_url}
+									src={e.User.profilePicture}
 									alt=''
 									className='aspect-square object-cover'
 								/>
