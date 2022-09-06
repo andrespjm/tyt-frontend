@@ -57,7 +57,7 @@ function App() {
 	}
 	return (
 		<>
-			{location.pathname !== '/paysuccess' ? <Navbar /> : <></>}
+			<Navbar />
 
 			{user &&
 				Object.entries(user).length !== 0 &&
