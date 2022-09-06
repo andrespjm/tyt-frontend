@@ -7,6 +7,7 @@ import {
 	auth,
 	getUserInfo,
 	registerNewUser,
+	signout,
 	userExists,
 } from '../../firebase/firebase';
 import { cartSignIn } from '../../helpers/cartSignIn.js';
@@ -22,15 +23,19 @@ export const SignIn = () => {
 	useEffect(() => {
 		const unsubuscribe = onAuthStateChanged(auth, handleUserStateChanged);
 		return () => unsubuscribe;
-	}, [status]);
+	}, []);
 	const handleUserStateChanged = async user => {
 		if (user) {
 			const isRegister = await userExists(user.uid);
 			if (isRegister) {
 				const userInfo = await getUserInfo(user.uid);
 				if (userInfo.processCompleted) {
-					await cartSignIn(user.uid, cart, setCart);
-					return navigate.push('/home');
+					if (userInfo.enabled) {
+						await cartSignIn(user.uid, cart, setCart);
+						return navigate.push('/home');
+					} else {
+						return signout().then(() => setError('Wrong username or password'));
+					}
 				}
 				return navigate.push('/user/edit');
 			} else {
@@ -41,6 +46,7 @@ export const SignIn = () => {
 					profilePicture: user.profileImageURL || user.photoURL,
 					processCompleted: false,
 					processFirebase: false,
+					enabled: true,
 				});
 				navigate.push('/user/edit');
 			}
