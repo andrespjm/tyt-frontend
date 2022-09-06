@@ -83,20 +83,20 @@ export const FormEditPassword = () => {
                   />
                 </div>
               </div>
-                <div className='flex justify-start mt-8 ml-5'>
+                <div className='flex justify-start mt-8 ml-24'>
                   <div className='w-1/6 inline-block'>
                     <Link to={`/${id}/user/menu/account`}>
                       <button
-                        className='btn btn-red hover:btn-red w-32'
+                        className='btn btn-red hover:btn-red w-28'
                         value='Back'
                       >
                         Cancel
                       </button>
                     </Link>
                   </div>
-                  <div className='w-1/6 inline-block ml-4'>
+                  <div className='w-1/6 inline-block ml-6'>
                     <button
-                      className='btn btn-purple hover:btn-purple'
+                      className='btn btn-purple hover:btn-purple w-28'
                       type='submit'
                     >
                       Send
