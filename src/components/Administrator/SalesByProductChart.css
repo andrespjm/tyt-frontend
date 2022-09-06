@@ -1,0 +1,8 @@
+.chartContainer {
+    border: 1px solid grey;
+    border-radius: 10px;
+    width: 42%;
+    height: 300px;
+    padding: 10px;
+
+}
