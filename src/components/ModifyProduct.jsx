@@ -1,33 +1,51 @@
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getColors } from '../redux/actions';
 
 const ModifyProduct = () => {
 	const dispatch = useDispatch();
-	const [product, setProduct] = useState({});
+	const [product, setProduct] = useState({
+		stockCakeTray: 1,
+		priceCakeTray: 1,
+		stockTurntable: 1,
+		priceTurntable: 1,
+	});
 	const [newColors, setNewColors] = useState([]);
 	const [imageMain, setImageMain] = useState();
 	const [imagesDetail, setimagesDetail] = useState([]);
 	const errorAll = useRef();
 	const success = useRef();
 	const { redColors } = useSelector(state => state);
-	const id = window.location.href.split('/')[5];
-	console.log(id);
+	const id = window.location.href.split('/')[6];
 
 	useEffect(() => {
 		dispatch(getColors());
 		async function fetchData() {
 			try {
 				const response = await axios.get(`/products/${id}`);
-				setProduct(response.data);
+				setProduct({ ...product, ...response.data });
+				setProduct({
+					...product,
+					stockCakeTray: product.ProductTypes[0].Stocks.quantityST,
+					priceCakeTray: product.ProductTypes[0].Stocks.priceST,
+					stockTurntable: product.ProductTypes[1].Stocks.quantityST,
+					priceTurntable: product.ProductTypes[1].Stocks.priceST,
+				});
+
+				setNewColors([
+					product.Colors[0].name,
+					product.Colors[1].name,
+					product.Colors[2].name,
+				]);
+
+				updateSwitchColors();
 			} catch (error) {
 				console.log('error en modify', error);
 			}
 		}
 		fetchData();
-	}, [dispatch]);
+	}, []);
 
 	const updateSwitchColors = () => {
 		if (!product.Colors) return;
@@ -43,10 +61,13 @@ const ModifyProduct = () => {
 							: element.name;
 				}
 		});
+
 		document.querySelectorAll('.modify-mycolors').forEach(element => {
 			if (!element.checked) element.disabled = true;
 		});
 	};
+
+	!newColors.length && updateSwitchColors();
 
 	const handleOnClickColors = e => {
 		if (e.target.checked) {
@@ -87,12 +108,7 @@ const ModifyProduct = () => {
 	const handleModifyProduct = async e => {
 		e.preventDefault();
 		success.current.innerText = '';
-		const images = [];
-		if (imagesDetail) {
-			for (const image of imagesDetail) {
-				images.push(image);
-			}
-		}
+
 		const color1 = redColors.filter(color => color.name === newColors[0]);
 		const strClr1 = `${color1[0].hex},${color1[0].name}`;
 		const color2 = redColors.filter(color => color.name === newColors[1]);
@@ -100,47 +116,30 @@ const ModifyProduct = () => {
 		const color3 = redColors.filter(color => color.name === newColors[2]);
 		const strClr3 = `${color3[0].hex},${color3[0].name}`;
 
-		// console.log({
-		// 	name: product.name,
-		// 	description: product.description,
-		// 	collection: document.querySelector('input[name="collection"]:checked')
-		// 		.value,
-		// 	imageMain,
-		// 	imagesDetail,
-		// 	artist: product.artist,
-		// 	color1: strClr1,
-		// 	color2: strClr2,
-		// 	color3: strClr3,
-		// 	stockCakeTray: product.stockCakeTray,
-		// 	stockTurntable: product.stockTurntable,
-		// 	priceCakeTray: product.priceCakeTray,
-		// 	priceTurntable: product.priceTurntable,
-		// });
+		const toModify = {
+			name: product.name,
+			description: product.description,
+			collection: product.collection,
+			color1: strClr1,
+			color2: strClr2,
+			color3: strClr3,
+			stockCakeTray: product.stockCakeTray,
+			stockTurntable: product.stockTurntable,
+			priceCakeTray: product.priceCakeTray,
+			priceTurntable: product.priceTurntable,
+		};
+
+		imageMain && (toModify.imageMain = imageMain);
+		imagesDetail.length && (toModify.Detail = [...imagesDetail]);
+
+		console.log(toModify);
+
 		try {
-			const res = await axios.put(
-				`/products/${id}`,
-				{
-					name: product.name,
-					description: product.description,
-					collection: document.querySelector('input[name="collection"]:checked')
-						.value,
-					imageMain,
-					imagesDetail,
-					artist: product.artist,
-					color1: strClr1,
-					color2: strClr2,
-					color3: strClr3,
-					stockCakeTray: product.stockCakeTray,
-					stockTurntable: product.stockTurntable,
-					priceCakeTray: product.priceCakeTray,
-					priceTurntable: product.priceTurntable,
+			const res = await axios.put(`/products/${id}`, toModify, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
 				},
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
-				}
-			);
+			});
 			if (res.data.success === 'ok') {
 				errorAll.current.innerText = '';
 				return (success.current.innerText = 'Product added successfully');
@@ -151,25 +150,9 @@ const ModifyProduct = () => {
 	};
 
 	if (!product.name) return <h1>Loading...</h1>;
-	if (!product.stockCakeTray) {
-		setProduct({
-			...product,
-			stockCakeTray: product.ProductTypes[0].Stocks.quantityST,
-			priceCakeTray: product.ProductTypes[0].Stocks.priceST,
-			stockTurntable: product.ProductTypes[1].Stocks.quantityST,
-			priceTurntable: product.ProductTypes[1].Stocks.priceST,
-		});
-		setNewColors([
-			product.Colors[0].name,
-			product.Colors[1].name,
-			product.Colors[2].name,
-		]);
-		updateSwitchColors();
-	}
-	// console.log(product);
 
 	return (
-		<div className='py-10 bg-gray-800'>
+		<div className='p-10 bg-gray-800'>
 			<form
 				className='max-w-7xl text-white mx-auto'
 				encType='multipart/form-data'
@@ -216,7 +199,7 @@ const ModifyProduct = () => {
 							<input
 								type='text'
 								className='w-full bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1
-                '
+	              '
 								value={product.name}
 								name='name'
 								placeholder='Name...'
@@ -266,7 +249,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Abstract'
 											checked={product.collection === 'Abstract'}
-											onChange={() => {}}
+											onChange={handleChange}
 										/>
 										<label htmlFor='Abstract'>Abstract</label>
 									</div>
@@ -280,7 +263,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Flowers'
 											checked={product.collection === 'Flowers'}
-											onChange={() => {}}
+											onChange={handleChange}
 										/>
 										<label htmlFor='Flowers'>Flowers</label>
 									</div>
@@ -294,7 +277,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Butterflies'
 											checked={product.collection === 'Butterflies'}
-											onChange={() => {}}
+											onChange={handleChange}
 										/>
 										<label htmlFor='Butterflies'>Butterflies</label>
 									</div>
@@ -308,7 +291,7 @@ const ModifyProduct = () => {
 											name='collection'
 											value='Other'
 											checked={product.collection === 'Other'}
-											onChange={() => {}}
+											onChange={handleChange}
 										/>
 										<label htmlFor='Other'>Other</label>
 									</div>
@@ -319,18 +302,18 @@ const ModifyProduct = () => {
 						{/* INVENTARY */}
 						<div className='grid grid-cols-2 gap-4 mt-4'>
 							<div className='flex justify-between items-center'>
-								<label className='mb-2'>Cake Trail Stock:</label>
+								<label className='mb-2'>Cake Tray Stock:</label>
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
 									value={product.stockCakeTray}
 									name='stockCakeTray'
-									placeholder='0, 1, 2 or more...'
+									placeholder='un'
 									onChange={handleChange}
 								/>
 							</div>
 							<div className='flex justify-between items-center'>
-								<label className='mb-2'>Cake Trail Price:</label>
+								<label className='mb-2'>Cake Tray Price:</label>
 								<input
 									type='number'
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
@@ -347,7 +330,7 @@ const ModifyProduct = () => {
 									className='w-1/3 bg-gray-700 border-2 border-gray-500 rounded-lg py-2 px-4 mt-1'
 									value={product.stockTurntable}
 									name='stockTurntable'
-									placeholder='0, 1, 2 or more...'
+									placeholder='un'
 									onChange={handleChange}
 								/>
 							</div>
