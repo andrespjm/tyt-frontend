@@ -66,7 +66,7 @@ const Reviews = () => {
 							<img
 								src={e.User.profilePicture}
 								alt=''
-								className='aspect-square object-cover'
+								className='w-20 aspect-square object-cover'
 							/>
 							<div className='flex flex-col py-2'>
 								<span className='text-2xl mb-3'>{e.User.displayName}</span>
