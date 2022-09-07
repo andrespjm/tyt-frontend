@@ -1,10 +1,10 @@
+import loading from '../assets/cakes&bases Loading.gif';
+import './Loader.css';
+
 export const Loader = () => {
 	return (
-		<div className='container'>
-			<div className='lds-ripple'>
-				<div></div>
-				<div></div>
-			</div>
+		<div className='loader-container'>
+			<img src={loading} alt='HTML5 Icon'></img>
 		</div>
 	);
 };

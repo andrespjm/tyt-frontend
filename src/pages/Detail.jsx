@@ -63,6 +63,7 @@ function Detail() {
 						.then(res => res.data);
 					setFavorites(statusFavorite);
 				}
+				setLoader(false);
 			} catch (error) {
 				alert(error);
 			}
@@ -395,7 +396,7 @@ function Detail() {
 							onClick={addToCart}
 							className='dt6-1 btn btn-blue hover:btn-blue w-full mt-2'
 						>
-							add to bag
+							Add to bag
 						</div>
 						<div
 							className={`dt6-2 btn text-white w-full mt-2

@@ -14,6 +14,7 @@ export const GET_REVIEW = 'GET_REVIEW';
 export const GET_PURCHASES = 'GET_PURCHASES';
 export const GET_USER_FAVOURITES = 'GET_USER_FAVOURITES';
 
-
 // SALES
 export const GET_SALES = 'GET_SALES';
+export const GET_SALES_USERS = 'GET_SALES_USERS';
+export const GET_SALES_PRODUCTS = 'GET_SALES_PRODUCTS';

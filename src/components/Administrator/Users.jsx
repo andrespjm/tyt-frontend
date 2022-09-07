@@ -5,21 +5,12 @@ import {
 	EditButton,
 	EmailField,
 	FunctionField,
-	// Filter,
 	ImageField,
 	List,
 	NumberField,
 	TextField,
-	// SearchInput,
 } from 'react-admin';
 
-// const userFilter = props => {
-// 	<Filter {...props}>
-// 		<SearchInput source='firstName' resettable alwaysOn />
-// 	</Filter>;
-// };
-
-// filters={userFilter}
 export const Users = props => (
 	<List {...props} textAlign='center'>
 		<Datagrid textAlign='center' rowClick='edit'>
