@@ -461,7 +461,7 @@ const Landing = () => {
 				</div>
 				<div className='container max-w-5xl mt-20'>
 					<div className='mx-auto w-3/4 text-center lg:text-5xl font-light'>
-						Subscribe and Get 15% Off Your First Purchase
+						Subscribe to our Newsletters and keep informed!
 					</div>
 					<div className='h-52 lg:px-10'>
 						<span className='text-xs lg:text-base'>Email *</span>
