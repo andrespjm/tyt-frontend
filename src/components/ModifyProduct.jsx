@@ -15,12 +15,7 @@ const ModifyProduct = () => {
 		stockTurntable: 1,
 		priceTurntable: 1,
 	});
-	const [newColors, setNewColors] = useState([
-		'blue',
-		'green',
-		'purple',
-		'gray',
-	]);
+	const [newColors, setNewColors] = useState([]);
 	const [imageMain, setImageMain] = useState();
 	const [imagesDetail, setimagesDetail] = useState();
 	const errorAll = useRef();
@@ -28,6 +23,7 @@ const ModifyProduct = () => {
 	const { redColors } = useSelector(state => state);
 	const urlSplit = window.location.href.split('/');
 	const id = urlSplit[urlSplit.length - 1];
+	console.log(id);
 	const [error, setError] = useState({});
 
 	useEffect(() => {
@@ -36,16 +32,20 @@ const ModifyProduct = () => {
 			try {
 				const response = await axios.get(`/products/${id}`);
 				setProduct({ ...product, ...response.data });
+
+				setNewColors([
+					product.Colors[0].name,
+					product.Colors[1].name,
+					product.Colors[2].name,
+				]);
+
+				updateSwitchColors();
 			} catch (error) {
 				console.log('error en modify', error);
 			}
 		}
 		fetchData();
 	}, []);
-
-	useEffect(() => {
-		updateSwitchColors();
-	}, [newColors]);
 
 	const updateSwitchColors = () => {
 		if (!product.Colors) return;
@@ -209,14 +209,6 @@ const ModifyProduct = () => {
 		]);
 
 		updateSwitchColors();
-	}
-
-	if (newColors.length === 4) {
-		setNewColors([
-			product.Colors[0].name,
-			product.Colors[1].name,
-			product.Colors[2].name,
-		]);
 	}
 
 	return (
