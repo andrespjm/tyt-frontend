@@ -36,9 +36,9 @@ export default function Navbar() {
 	const handleSignout = (userId, cart, setCart) => {
 		console.log('navbar handleSignout, user id', userId);
 		console.log('navbar handleSignout, cart', cart);
-		signout()
+		cartLogout(userId, cart, setCart)
+			.then(() => signout())
 			.then(() => {
-				cartLogout(userId, cart, setCart);
 				setIsLogged(true);
 			})
 			.catch(err => console.log(err.message))
