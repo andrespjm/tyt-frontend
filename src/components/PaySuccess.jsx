@@ -65,8 +65,8 @@ const PaySuccess = () => {
 	}
 
 	return (
-		<div className='absolute top-0 w-screen h-[800px] flex items-center justify-center'>
-			<div className='bg-blue-200 p-9 rounded-lg w-[600px]  text-center'>
+		<div className='relative w-screen h-[800px] flex items-center justify-center'>
+			<div className='absolute top-[20px] bg-blue-200 p-9 rounded-lg w-[600px]  text-center'>
 				<h2 className='text-3xl m-4'>Your purchase was successful!</h2>
 				<h4>Order N° {order}</h4>
 				{cart.map(e => (
