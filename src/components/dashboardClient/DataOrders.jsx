@@ -1,3 +1,4 @@
+import './DataOrders.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -16,7 +17,11 @@ export const DataOrders = () => {
 	return (
 		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<Menu />
-			<div className='w-100 text-white'>
+			<div className=' text-white' style={{ width: '90vw', margin: '5px auto' }}>
+				<div className='text-5xl border-b border-blue-300 p-2'>
+					<i className="bi bi-bag-fill px-1 text-yellow-400"></i>
+					My Orders!
+				</div>
 				{!!redUser?.Purchases?.length < 1 ? (
 					<div className='text-white text-2xl text-center select-none'>You have not orders</div>
 				) : (
@@ -27,29 +32,12 @@ export const DataOrders = () => {
 							redUser?.Purchases?.map((e, k) => {
 								return (
 									<div
-										className='relative rounded-xl'
-										style={{
-											border: '1px solid white',
-											minHeight: '50vh',
-											maxWidth: '50%',
-											margin: '20px auto',
-										}}
+										className='orderContainer border-b border-blue-300'
+
 										key={k}
 									>
-										<svg
-											fill='none'
-											viewBox='0 0 24 24'
-											strokeWidth='1.5'
-											stroke='currentColor'
-											className='w-60 h-60 absolute left-5'
-										>
-											<path
-												strokeLinecap='round'
-												strokeLinejoin='round'
-												d='M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
-											/>
-										</svg>
-										<div className='w-36 absolute top-36 left-20'>
+
+										<div className='orderStatus'>
 											<div>
 												<b>Order ID:</b> {e?.id}
 											</div>
@@ -57,21 +45,24 @@ export const DataOrders = () => {
 												<b>Status:</b> {e?.status}
 											</div>
 										</div>
-										<div className='w-4/6 absolute left-72 flex-col justify-center '>
-											{!!e?.OrderItems?.length > 0 &&
-												e?.OrderItems?.map((o, k) => {
-													return (
-														<div key={k} className='flex m-3'>
-															<div className='basis-2/6'>
+										<div>
+
+										{!!e?.OrderItems?.length > 0 &&
+											e?.OrderItems?.map((o, k) => {
+												return (
+													<div key={k} className='orderDetails'>
+														<div className='orderDetailsImage '>
+															<img
+																className='aspect-square object-cover'
+																src={o?.Stock?.Product?.img_home?.secure_url}
+															/>
+														</div>
+														<div className='orderDetailsText'>
+
+															<div className=''>
 																<div>{o?.Stock?.Product?.name}</div>
 																<div>Quantity: {o?.quantity}</div>
 																<div>Price: {o?.price}</div>
-															</div>
-															<div className='w-28 h-28 flex justify-center justify-items-center overflow-hidden  rounded-xl'>
-																<img
-																	className='w-full object-cover'
-																	src={o?.Stock?.Product?.img_home?.secure_url}
-																/>
 															</div>
 
 															{!!(e?.status === 'Received') &&
@@ -80,7 +71,7 @@ export const DataOrders = () => {
 																		i.ProductId === o?.Stock?.Product?.id &&
 																		i.idOrderItems === e.id
 																) && (
-																	<div>
+																	<div className='startsContainer'>
 																		<Stars
 																			userId={id}
 																			productId={o?.Stock?.Product?.id}
@@ -89,9 +80,13 @@ export const DataOrders = () => {
 																	</div>
 																)}
 														</div>
-													);
-												})}
+													</div>
+												);
+											})}
 										</div>
+
+
+
 									</div>
 								);
 							})

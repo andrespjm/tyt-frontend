@@ -31,7 +31,7 @@ function Stars({ productId, userId, idOrderItems }) {
 		<div>
 			{send === 'no review' ? (
 				<div>
-					<form>
+					<form className='flex flex-col'>
 						<ReactStarsRating
 							onChange={onChange}
 							value={value}
@@ -39,11 +39,14 @@ function Stars({ productId, userId, idOrderItems }) {
 							isHalf={false}
 						/>
 						<input
+							className='my-2 bg-transparent text-yellow-50'
+							style={{border: '1px solid white'}}
+							placeholder='Write a review'
 							type='text'
 							value={comments}
 							onChange={e => setComments(e.target.value)}
 						/>
-						<input type='submit' onClick={handleSend} disabled={value === 0} />
+						<input className='bg-pink-300 my-1 rounded-lg w-3/6 mx-auto' type='submit' value='Send'onClick={handleSend} disabled={value === 0} />
 					</form>
 				</div>
 			) : (

@@ -1,0 +1,48 @@
+.orderContainer{
+    width: 100%;
+    position: relative;
+    min-height: 45vh;
+    padding: 20px 0;
+    display: flex;
+}
+
+
+
+
+
+.orderDetails{
+    width: 60%;
+    display: flex;
+    margin-bottom: 20px;
+
+}
+
+@media(max-width: 1000px){
+    .orderDetails{
+        width: 75%;
+    }
+}
+@media(max-width: 900px){
+    .orderDetails{
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .orderDetailsText{
+        width: 40%;
+    }
+
+    .orderDetailsImage{
+        width: 70%;
+    }
+}
+
+.orderDetailsImage{
+    width: 40%;
+    margin-right: 10px;
+
+}
+
+.startsContainer{
+    position: absolute;
+}
