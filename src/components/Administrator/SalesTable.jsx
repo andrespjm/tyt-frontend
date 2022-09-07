@@ -30,6 +30,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function SalesTable(sales) {
 	// console.log('table/sales', sales.sales);
+
+	const array = sales.sales.sort((a, b) =>
+		a.orderId > b.orderId ? 1 : b.orderId > a.orderId ? -1 : 0
+	);
+
 	function createData(
 		name,
 		orderId,
@@ -43,7 +48,7 @@ export default function SalesTable(sales) {
 		return { name, orderId, status, date, shipmentFee, tax, products, total };
 	}
 
-	const rows = sales.sales.map(e => {
+	const rows = array.map(e => {
 		return createData(
 			e.name,
 			e.orderId,
