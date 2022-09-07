@@ -7,9 +7,7 @@ const initialState = [];
 const salesProducts = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case GET_SALES_PRODUCTS:
-			return payload.sort((a, b) =>
-				a.total > b.total ? -1 : b.total > a.total ? 1 : 0
-			);
+			return payload;
 		default:
 			return state;
 	}

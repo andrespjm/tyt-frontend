@@ -12,9 +12,11 @@ import {
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export function SalesByProductChart(products) {
-	console.log('graph/products', products.products);
+	// console.log('graph/products', products.products);
 
-	const salesProducts = products.products;
+	const salesProducts = products.products.sort((a, b) =>
+		a.total > b.total ? -1 : b.total > a.total ? 1 : 0
+	);
 
 	const options = {
 		maintainAspectRatio: false,
