@@ -12,17 +12,18 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import FactoryIcon from '@mui/icons-material/Factory';
 import StockIcon from '@mui/icons-material/Apps';
 import ColorIcon from '@mui/icons-material/Palette';
-import { Charts } from './Charts';
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getSales, getSalesProducts, getSalesUsers } from '../../redux/actions';
-import './Index.css';
 import { ColorsList } from './ColorsList';
 import { ColorsEdit } from './ColorsEdit';
 import { ColorsCreate } from './ColorsCreate';
 import { StockList } from './StockList';
 import { StockEdit } from './StockEdit';
+import { Charts } from './Charts';
+
+import './Index.css';
 
 export default function DashBoard() {
 	const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function DashBoard() {
 	const { salesProducts } = useSelector(state => state);
 
 	// console.log('chart/sales', salesData);
-	console.log('chart/user', salesUsers);
+	// console.log('chart/user', salesUsers);
 	// console.log('chart/products', salesProducts);
 
 	useEffect(() => {
