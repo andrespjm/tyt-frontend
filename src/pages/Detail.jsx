@@ -63,6 +63,7 @@ function Detail() {
 						.then(res => res.data);
 					setFavorites(statusFavorite);
 				}
+				setLoader(false);
 			} catch (error) {
 				alert(error);
 			}
