@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import DashBoard from './components/Administrator/Index';
 import { SignUp } from './components/auth/SignUp';
 import { DataAccount } from './components/dashboardClient/DataAccount';
@@ -38,6 +38,7 @@ import { ProtectedRouteUser } from './routes/ProtectedRouteUser';
 
 function App() {
 	const { setCurrentUserF, user, currentAdmin } = useAuth();
+	const location = useLocation();
 	const navigate = useHistory();
 	useEffect(() => {
 		// signout();
@@ -66,7 +67,7 @@ function App() {
 	}
 	return (
 		<>
-			<Navbar />
+			{location.pathname.slice(0, 6) !== '/admin' ? <Navbar /> : <></>}
 
 			{(user &&
 				Object.entries(user).length !== 0 &&
