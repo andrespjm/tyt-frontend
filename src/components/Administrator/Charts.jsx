@@ -2,6 +2,8 @@ import { SalesByProductChart } from './SalesByProductChart';
 import { SalesByUserChart } from './SalesByUserChart';
 import SalesTable from './SalesTable';
 import './Charts.css';
+import { UnLog } from './UnLogBut';
+import './UnLogBut.css';
 
 export const Charts = (salesData, salesUsers, salesProducts) => {
 	// console.log('chart/sales', salesData);
@@ -10,6 +12,7 @@ export const Charts = (salesData, salesUsers, salesProducts) => {
 
 	return (
 		<div>
+			<UnLog />
 			<div className='chart-container'>
 				<div className='chart-bar'>
 					<SalesByUserChart users={salesUsers} />

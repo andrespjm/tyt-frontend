@@ -1,7 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { validationSignInSchema } from '../../../../helpers/validations.helper';
 
-export const FormSignInAdmin = () => {
+// eslint-disable-next-line react/prop-types
+export const FormSignInAdmin = ({ handleSubmit, error }) => {
 	return (
 		<div>
 			<div className='h-[calc(100vh-30px)] bg-purple-400 flex justify-center items-center'>
@@ -12,9 +13,11 @@ export const FormSignInAdmin = () => {
 						<h1 className='text-3xl font-bold text-center mb-4 cursor-pointer'>
 							Welcome my dear Admin!
 						</h1>
-						<p className='w-full text-center text-sm mb-8 font-semibold text-red-400 tracking-wide cursor-pointer'>
-							Wrong username or password
-						</p>
+						{error && (
+							<p className='w-full text-center text-sm mb-8 font-semibold text-red-400 tracking-wide cursor-pointer'>
+								Wrong username or password
+							</p>
+						)}
 					</div>
 					<Formik
 						initialValues={{
@@ -22,7 +25,9 @@ export const FormSignInAdmin = () => {
 							password: '',
 						}}
 						validationSchema={validationSignInSchema}
-						onSubmit={(values, { resetForm }) => {}}
+						onSubmit={(values, { resetForm }) => {
+							handleSubmit(values);
+						}}
 					>
 						{({ errors }) => (
 							<Form className='space-y-4'>
