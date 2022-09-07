@@ -1,0 +1,64 @@
+.orderContainer{
+    width: 100%;
+    position: relative;
+    min-height: 45vh;
+    padding: 20px 0;
+    display: flex;
+    padding-top: 50px;
+}
+
+
+
+
+
+.orderDetails{
+    width: 60%;
+    display: flex;
+    margin-bottom: 20px;
+
+}
+
+@media(max-width: 1000px){
+    .orderDetails{
+        width: 75%;
+    }
+}
+@media(max-width: 900px){
+    .orderDetails{
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .orderDetailsText{
+        width: 40%;
+    }
+
+    .orderDetailsImage{
+        width: 70%;
+    }
+}
+
+.orderDetailsImage{
+    width: 30%;
+    margin-right: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid snow;
+}
+
+.startsContainer{
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    width: 50%;
+}
+
+.orderStatus{
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 17vw;
+}
+

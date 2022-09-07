@@ -2,6 +2,10 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getColors } from '../redux/actions';
+import {
+	validateProduct,
+	validateProductSubmit,
+} from '../validations/modifyProductValidation';
 
 const ModifyProduct = () => {
 	const dispatch = useDispatch();
@@ -11,14 +15,20 @@ const ModifyProduct = () => {
 		stockTurntable: 1,
 		priceTurntable: 1,
 	});
-	const [newColors, setNewColors] = useState([]);
+	const [newColors, setNewColors] = useState([
+		'blue',
+		'green',
+		'purple',
+		'gray',
+	]);
 	const [imageMain, setImageMain] = useState();
-	const [imagesDetail, setimagesDetail] = useState([]);
+	const [imagesDetail, setimagesDetail] = useState();
 	const errorAll = useRef();
 	const success = useRef();
 	const { redColors } = useSelector(state => state);
-	const id = window.location.href.split('/').length - 1;
-	// const id = 200;
+	const urlSplit = window.location.href.split('/');
+	const id = urlSplit[urlSplit.length - 1];
+	const [error, setError] = useState({});
 
 	useEffect(() => {
 		dispatch(getColors());
@@ -26,20 +36,16 @@ const ModifyProduct = () => {
 			try {
 				const response = await axios.get(`/products/${id}`);
 				setProduct({ ...product, ...response.data });
-
-				setNewColors([
-					product.Colors[0].name,
-					product.Colors[1].name,
-					product.Colors[2].name,
-				]);
-
-				updateSwitchColors();
 			} catch (error) {
 				console.log('error en modify', error);
 			}
 		}
 		fetchData();
 	}, []);
+
+	useEffect(() => {
+		updateSwitchColors();
+	}, [newColors]);
 
 	const updateSwitchColors = () => {
 		if (!product.Colors) return;
@@ -87,8 +93,16 @@ const ModifyProduct = () => {
 		}
 	};
 
-	const handleChange = e => {
+	const handleChange = (e, newColors) => {
+		console.log(newColors);
 		setProduct({ ...product, [e.target.name]: e.target.value });
+		setError(
+			validateProduct({
+				...product,
+				[e.target.name]: e.target.value,
+				newColors,
+			})
+		);
 	};
 
 	const handleImage = e => {
@@ -99,9 +113,22 @@ const ModifyProduct = () => {
 		document.getElementById('main-img-name').innerHTML = e.target.files[0].name;
 	};
 
+	const handleChangeImages = e => {
+		setimagesDetail(e.target.files);
+		document.getElementById('img1').innerHTML = e.target.files[0].name;
+		document.getElementById('img2').innerHTML = e.target.files[1].name;
+		document.getElementById('img3').innerHTML = e.target.files[2].name;
+	};
+
 	const handleModifyProduct = async e => {
 		e.preventDefault();
+		console.log(newColors);
+		setError(validateProductSubmit(product, newColors));
+		setError(validateProduct(product, newColors));
+		console.log(error);
+
 		success.current.innerText = '';
+		console.log(newColors);
 
 		const color1 = redColors.filter(color => color.name === newColors[0]);
 		const strClr1 = `${color1[0].hex},${color1[0].name}`;
@@ -110,8 +137,18 @@ const ModifyProduct = () => {
 		const color3 = redColors.filter(color => color.name === newColors[2]);
 		const strClr3 = `${color3[0].hex},${color3[0].name}`;
 
+		console.log(product); // ok
+		console.log(color1); // ok
+		console.log(color2); // ok
+		console.log(color3); // ok
+		console.log(strClr1);
+		console.log(strClr2);
+
+		console.log(strClr3);
+
 		const toModify = {
 			name: product.name,
+			artist: product.artist,
 			description: product.description,
 			collection: product.collection,
 			color1: strClr1,
@@ -123,23 +160,35 @@ const ModifyProduct = () => {
 			priceTurntable: product.priceTurntable,
 		};
 
+		const images = [];
+		if (imagesDetail) {
+			for (const image of imagesDetail) {
+				images.push(image);
+			}
+		}
+
 		imageMain && (toModify.imageMain = imageMain);
-		imagesDetail.length && (toModify.Detail = [...imagesDetail]);
+		images.length && (toModify.imagesDetail = images || []);
 
 		console.log(toModify);
 
-		try {
-			const res = await axios.put(`/products/${id}`, toModify, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			});
-			if (res.data.success === 'ok') {
-				errorAll.current.innerText = '';
-				return (success.current.innerText = 'Product added successfully');
+		if (Object.entries(error).length < 1) {
+			try {
+				success.current.innerText = 'Loading product..';
+				const res = await axios.put(`/products/${id}`, toModify, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				});
+				if (res.data.success === 'ok') {
+					errorAll.current.innerText = '';
+					return (success.current.innerText = 'Product added successfully');
+				}
+			} catch (error) {
+				console.log(error);
 			}
-		} catch (error) {
-			console.log(error);
+		} else {
+			console.log('All fields need to be completed');
 		}
 	};
 
@@ -160,6 +209,14 @@ const ModifyProduct = () => {
 		]);
 
 		updateSwitchColors();
+	}
+
+	if (newColors.length === 4) {
+		setNewColors([
+			product.Colors[0].name,
+			product.Colors[1].name,
+			product.Colors[2].name,
+		]);
 	}
 
 	return (
@@ -218,11 +275,11 @@ const ModifyProduct = () => {
 							/>
 
 							<span
-							// className={`text-red-400 text-xs mt-1${
-							// error.name ? 'visible' : 'invisible'
-							// }`}
+								className={`text-red-400 p-0.5${
+									error.name ? 'visible' : 'invisible'
+								}`}
 							>
-								{/* {error.name} */}
+								{error.name}
 							</span>
 						</div>
 
@@ -238,11 +295,11 @@ const ModifyProduct = () => {
 								onChange={handleChange}
 							/>
 							<span
-							// className={`text-red-400 text-xs mt-1${
-							// 	error.artist ? 'visible' : 'invisible'
-							// }`}
+								className={`text-red-400 p-0.5${
+									error.artist ? 'visible' : 'invisible'
+								}`}
 							>
-								{/* {error.artist} */}
+								{error.artist}
 							</span>
 						</div>
 
@@ -356,6 +413,10 @@ const ModifyProduct = () => {
 									onChange={handleChange}
 								/>
 							</div>
+							<span className='p-0.5 text-red-400'>
+								{' '}
+								{error.numbers && error.numbers}
+							</span>
 						</div>
 
 						{/* DETAILS IMAGE */}
@@ -375,7 +436,8 @@ const ModifyProduct = () => {
 									name='imagesDetail'
 									accept='.jpg, .jpeg, .png'
 									multiple
-									onChange={e => setimagesDetail(e.target.files)}
+									onChange={handleChangeImages}
+									// onChange={e => setimagesDetail(e.target.files)}
 								/>
 							</div>
 							<span
@@ -386,9 +448,9 @@ const ModifyProduct = () => {
 								{/* {errorSelectImageDetail.imagesDetail} */}
 							</span>
 							<div className='mt-4 text-[10px] flex flex-col'>
-								<span>{product.img_detail[0]?.secure_url}</span>
-								<span>{product.img_detail[1]?.secure_url}</span>
-								<span>{product.img_detail[2]?.secure_url}</span>
+								<span id='img1'>{product.img_detail[0]?.secure_url}</span>
+								<span id='img2'>{product.img_detail[1]?.secure_url}</span>
+								<span id='img3'>{product.img_detail[2]?.secure_url}</span>
 							</div>
 						</div>
 
@@ -464,6 +526,14 @@ const ModifyProduct = () => {
 									))
 								)}
 							</div>
+							<span
+								className={`text-red-400 mt-1${
+									error.required ? 'visible' : 'invisible'
+								}`}
+							>
+								{error.required}
+							</span>
+							<span className='p-0.5 text-green-400' ref={success}></span>
 							{/* BUTTONS */}
 							<div className='mt-4 flex justify-center gap-4'>
 								<button
@@ -479,7 +549,7 @@ const ModifyProduct = () => {
 					</div>
 				</div>
 				<span className='p-0.5 text-red-400 italic' ref={errorAll}></span>
-				<span className='p-0.5 text-green-400 italic' ref={success}></span>
+				{/* <span className='p-0.5 text-green-400 italic' ref={success}></span> */}
 			</form>
 		</div>
 	);

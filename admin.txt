@@ -1,0 +1,8 @@
+URL:
+http://localhost:5173/tyt-admin?secretkey=123
+
+email: 
+admin@tyt.com
+
+pass: 
+Lapiz2000@
