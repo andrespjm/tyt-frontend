@@ -26,6 +26,7 @@ export function AuthProvider({ children }) {
 	const [loading, setLoading] = useState(true);
 	const [currentUserF, setCurrentUserF] = useState({});
 	const [currentUser, setCurrentUser] = useState({});
+	const [currentAdmin, setCurrentAdmin] = useState({});
 
 	const signup = async (email, password) => {
 		const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -77,6 +78,8 @@ export function AuthProvider({ children }) {
 				currentUser,
 				setCurrentUserF,
 				setCurrentUser,
+				currentAdmin,
+				setCurrentAdmin,
 			}}
 		>
 			{children}
