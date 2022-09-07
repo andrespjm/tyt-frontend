@@ -5,8 +5,8 @@ import {
 	List,
 	TextField,
 	NumberField,
-	Filter,
-	SearchInput,
+	// Filter,
+	// SearchInput,
 } from 'react-admin';
 
 // const PurchaseFilter = props => (
@@ -40,11 +40,11 @@ export const PurchaseList = props => (
 				textalign='center'
 			/>
 			<NumberField
-				source='shipmentFee"'
+				source='shipmentFee'
 				label='Shipment Fee'
 				textalign='center'
 			/>
-			<NumberField source='tax"' label='Taxes' textalign='center' />
+			<NumberField source='tax' label='Taxes' textalign='center' />
 			<DateField source='createdAt' label='Created' textalign='center' />
 			<EditButton label='Edit' textalign='center' />
 		</Datagrid>
