@@ -22,7 +22,9 @@ export const FormEditPassword = () => {
 			);
 		} catch (error) {
 			setMessage(error.code);
-		}
+		} finally {
+      window.location.reload();
+    }
 	};
 
   useEffect(() => {
@@ -52,6 +54,9 @@ export const FormEditPassword = () => {
         onSubmit={(values, { resetForm }) => {
           handleResetPassword(values.email);
           resetForm();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }}
       >
         {({ errors }) => (
