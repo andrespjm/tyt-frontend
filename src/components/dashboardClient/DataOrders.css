@@ -4,6 +4,7 @@
     min-height: 45vh;
     padding: 20px 0;
     display: flex;
+    padding-top: 50px;
 }
 
 
@@ -38,11 +39,26 @@
 }
 
 .orderDetailsImage{
-    width: 40%;
+    width: 30%;
     margin-right: 10px;
-
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid snow;
 }
 
 .startsContainer{
     position: absolute;
+    top: 40px;
+    right: 20px;
+    width: 50%;
 }
+
+.orderStatus{
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 17vw;
+}
+

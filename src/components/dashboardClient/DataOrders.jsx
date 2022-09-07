@@ -18,7 +18,7 @@ export const DataOrders = () => {
 		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
 			<Menu />
 			<div className=' text-white' style={{ width: '90vw', margin: '5px auto' }}>
-				<div className='text-5xl border-b border-blue-300 p-2'>
+				<div className='text-5xl border-b border-blue-300 p-2 pb-5' >
 					<i className="bi bi-bag-fill px-1 text-yellow-400"></i>
 					My Orders!
 				</div>
@@ -38,10 +38,10 @@ export const DataOrders = () => {
 									>
 
 										<div className='orderStatus'>
-											<div>
+											<div className='border-b border-blue-300'>
 												<b>Order ID:</b> {e?.id}
 											</div>
-											<div>
+											<div className='border-b border-blue-300'>
 												<b>Status:</b> {e?.status}
 											</div>
 										</div>
