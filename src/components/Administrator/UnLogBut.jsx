@@ -1,10 +1,11 @@
 import { useDispatch } from 'react-redux';
+import { signout } from '../../firebase/firebase';
 
 export const UnLog = () => {
 	const dispatch = useDispatch();
 
 	const handleUnLog = e => {
-		dispatch();
+		dispatch(() => signout().then(() => window.location.reload()));
 	};
 
 	return (
