@@ -24,9 +24,9 @@ export const DataAccount = (props) => {
   const {redUser, redData, redPurchases} = useSelector(state => state); // eslint-disable-line no-unused-vars
 	const { currentUserF } = useAuth();
 
-  const deleteUser = (id) => {
+  const deleteUser = async (id) => {
     console.log(id)
-		axios
+		await axios
 			.put(`/users/deleteUser/${id}`, { data: { id } })
 			.then(() => setLoad(false));
 	};
