@@ -29,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function SalesTable(sales) {
-	console.log('table/sales', sales.sales);
+	// console.log('table/sales', sales.sales);
 	function createData(
 		name,
 		orderId,
@@ -73,8 +73,8 @@ export default function SalesTable(sales) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{rows.map(row => (
-						<StyledTableRow key={row.name}>
+					{rows.map((row, i) => (
+						<StyledTableRow key={i}>
 							<StyledTableCell component='th' scope='row'>
 								{row.name}
 							</StyledTableCell>
