@@ -197,12 +197,9 @@ const ShoppingCart = () => {
 												</p>
 												<div id='shp-bottom-shp-details flex justify-between'>
 													{/* ADD FAV AND DELETE */}
-													<span className='underline text-blue-300'>
-														<i className='bi bi-bookmark-heart pr-2'></i>
-														Add to favorites
-													</span>
+
 													<span
-														className='text-rose-400 ml-20 underline cursor-pointer'
+														className='text-rose-400 underline cursor-pointer'
 														onClick={() =>
 															// setCart(cart.filter(i => i.stockId !== e.stockId))
 															setDeleteItem(e.stockId)

@@ -3,7 +3,7 @@
 
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getUser, getData } from '../../redux/actions';
 import { Loader } from './Loader';
@@ -14,120 +14,137 @@ import { ShoppingCartContext } from '../../context/ShoppingCartContext';
 import { signout } from '../../firebase/firebase';
 import { cartLogout } from '../../helpers/carLogout';
 
-
-export const DataAccount = (props) => {
-  const {id} = useParams();
-  const dispatch = useDispatch();
+export const DataAccount = props => {
+	const { id } = useParams();
+	const dispatch = useDispatch();
 	const [cart, setCart] = useContext(ShoppingCartContext);
-  const [idDelete, setIdDelete] = useState('');
+	const [idDelete, setIdDelete] = useState('');
 	const [load, setLoad] = useState(false);
-  const {redUser, redData, redPurchases} = useSelector(state => state); // eslint-disable-line no-unused-vars
+	const { redUser, redData, redPurchases } = useSelector(state => state); // eslint-disable-line no-unused-vars
 	const { currentUserF } = useAuth();
 
-  const deleteUser = (id) => {
+
+  const deleteUser = async (id) => {
     console.log(id)
-		axios
+		await axios
 			.put(`/users/deleteUser/${id}`, { data: { id } })
 			.then(() => setLoad(false));
 	};
 
-  const toogleModal = () =>
+	const toogleModal = () =>
 		document.querySelector('#fav-modal').classList.toggle('hidden');
 
-  const handleSignout = (id, cart, setCart) => {
-    signout()
-      .then(() => {
-        cartLogout(id, cart, setCart);
-        setIsLogged(true);
-      })
-      .catch(err => console.log(err.message))
-      .finally(() => {
-        window.location.reload();
-      });
-    };
+	const handleSignout = (id, cart, setCart) => {
+		cartLogout(id, cart, setCart)
+			.then(() => signout())
+			.then(() => {
+				setIsLogged(true);
+			})
+			.catch(err => console.log(err.message))
+			.finally(() => {
+				window.location.reload();
+			});
+	};
 
-  useEffect(() => {
-    dispatch(getUser(id));
-    dispatch(getData());
-  }, [id])
+	useEffect(() => {
+		dispatch(getUser(id));
+		dispatch(getData());
+	}, [id]);
 
 	if (load) return <Loader />;
 
-  return (
-    <div className='h-auto bg-gradient-to-b from-black via-gray-700 to-base-900'>
-      <Menu />
-      <div className="container mx-auto h-auto text-white flex">
-        <div className="flex w-1/4">
-          <div className='mx-auto my-auto'>
-            <img src={redData[0]?.img_home?.secure_url} alt='Image not found' className="w-56 h-56 rounded-lg object-cover"/>
-          </div>
-        </div>
-        <div className="text-white w-2/4">
-          <h2 className='font-bold'>Account information</h2>
-          <hr />
-          <br />
-          <div className="inline-block">
-            <span className="flex">Full Name: </span>
-            <span className="flex">Email: </span>
-            <span className="flex">Gender: </span>
-            <span className="flex">Identity Card: </span>
-            <span className="flex">Birthdate: </span>
-          </div>
-          <div className="inline-block pl-4">
-            <span className="flex">{redUser?.displayName}</span>
-            <span className="flex">{redUser?.email}</span>
-            <span className="flex">{redUser.gender ? redUser.gender : ''}</span>
-            <span className="flex">{redUser.identityCard ? redUser.identityCard : ''}</span>
-            <span className="flex">{redUser.birthDate ? redUser?.birthDate?.substring(0, 10) : ''}</span>
-          </div>
-          <div className="inline-block float-right">
-            <div className='inline-block text-center border-r-[1px]  pr-1'>
-              <Link to={`/${id}/user/menu/account/changepass`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
-                Change password
-              </Link>
-            </div>
-            <div className='inline-block text-center pl-1'>
-              <Link to={`/${id}/user/menu/account/edit`} className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'>
-                Edit
-              </Link>
-            </div>
-            <div className='mt-4'>
-              <button
-                className='float-right btn btn-red hover:btn-red w-36'
-                onClick={() => {
-                  setIdDelete(id);
-                  toogleModal();
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="flex w-1/4">
-          <div className="mx-auto my-auto justify center">
-            {currentUserF.profilePicture !== null ? (
-              <>
-                <img
-                  className='inline-block w-56 h-56 mr-2 rounded-full ring-1 ring-white'
-                  src={currentUserF.profilePicture}
-                  onError={({ currentTarget }) => {
-                    currentTarget.onerror = null; // prevents looping
-                    currentTarget.src =
-                      'https://doodleipsum.com/500/abstract';
-                  }}
-                  alt=''
-                />
-              </>
-            ) : (
-              <>
-                <img src={redUser?.profilePicture} alt='Image user not found' className='w-56 h-56 rounded-lg'/>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-      <div id='fav-modal' className='hidden relative z-10'>
+	return (
+		<div className='h-auto bg-gradient-to-b from-black via-gray-700 to-base-900'>
+			<Menu />
+			<div className='container mx-auto h-auto text-white flex'>
+				<div className='flex w-1/4'>
+					<div className='mx-auto my-auto'>
+						<img
+							src={redData[0]?.img_home?.secure_url}
+							alt='Image not found'
+							className='w-56 h-56 rounded-lg object-cover'
+						/>
+					</div>
+				</div>
+				<div className='text-white w-2/4'>
+					<h2 className='font-bold'>Account information</h2>
+					<hr />
+					<br />
+					<div className='inline-block'>
+						<span className='flex'>Full Name: </span>
+						<span className='flex'>Email: </span>
+						<span className='flex'>Gender: </span>
+						<span className='flex'>Identity Card: </span>
+						<span className='flex'>Birthdate: </span>
+					</div>
+					<div className='inline-block pl-4'>
+						<span className='flex'>{redUser?.displayName}</span>
+						<span className='flex'>{redUser?.email}</span>
+						<span className='flex'>{redUser.gender ? redUser.gender : ''}</span>
+						<span className='flex'>
+							{redUser.identityCard ? redUser.identityCard : ''}
+						</span>
+						<span className='flex'>
+							{redUser.birthDate ? redUser?.birthDate?.substring(0, 10) : ''}
+						</span>
+					</div>
+					<div className='inline-block float-right'>
+						<div className='inline-block text-center border-r-[1px]  pr-1'>
+							<Link
+								to={`/${id}/user/menu/account/changepass`}
+								className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'
+							>
+								Change password
+							</Link>
+						</div>
+						<div className='inline-block text-center pl-1'>
+							<Link
+								to={`/${id}/user/menu/account/edit`}
+								className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800'
+							>
+								Edit
+							</Link>
+						</div>
+						<div className='mt-4'>
+							<button
+								className='float-right btn btn-red hover:btn-red w-36'
+								onClick={() => {
+									setIdDelete(id);
+									toogleModal();
+								}}
+							>
+								Delete
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className='flex w-1/4'>
+					<div className='mx-auto my-auto justify center'>
+						{currentUserF.profilePicture !== null ? (
+							<>
+								<img
+									className='inline-block w-56 h-56 mr-2 rounded-full ring-1 ring-white'
+									src={currentUserF.profilePicture}
+									onError={({ currentTarget }) => {
+										currentTarget.onerror = null; // prevents looping
+										currentTarget.src = 'https://doodleipsum.com/500/abstract';
+									}}
+									alt=''
+								/>
+							</>
+						) : (
+							<>
+								<img
+									src={redUser?.profilePicture}
+									alt='Image user not found'
+									className='w-56 h-56 rounded-lg'
+								/>
+							</>
+						)}
+					</div>
+				</div>
+			</div>
+			<div id='fav-modal' className='hidden relative z-10'>
 				<div className='fixed inset-0 bg-gray-800 bg-opacity-70 transition-opacity'></div>
 				<div className='fixed inset-0 z-10 overflow-y-auto'>
 					<div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
@@ -157,7 +174,7 @@ export const DataAccount = (props) => {
 										</h3>
 										<div className='mt-2'>
 											<p className='text-sm text-gray-500'>
-                        Are you sure you want to delete your account?
+												Are you sure you want to delete your account?
 											</p>
 										</div>
 									</div>
@@ -168,7 +185,7 @@ export const DataAccount = (props) => {
 									onClick={() => {
 										toogleModal();
 										deleteUser(id, idDelete);
-                    handleSignout(id, cart, setCart);
+										handleSignout(id, cart, setCart);
 									}}
 									type='button'
 									className='mt-3 inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm'
@@ -187,7 +204,6 @@ export const DataAccount = (props) => {
 					</div>
 				</div>
 			</div>
-    </div>
-  )
+		</div>
+	);
 };
-

@@ -5,6 +5,8 @@ import {
 	List,
 	TextField,
 	NumberField,
+	Filter,
+	SearchInput,
 } from 'react-admin';
 
 // const PurchaseFilter = props => (
