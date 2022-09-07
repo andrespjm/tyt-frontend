@@ -12,8 +12,10 @@ import {
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export function SalesByUserChart(users) {
-	const dataUser = users.users;
-	console.log('graph/users', dataUser);
+	const dataUser = users.users.sort((a, b) =>
+		a.total > b.total ? -1 : b.total > a.total ? 1 : 0
+	);
+	// console.log('graph/users', dataUser);
 
 	const options = {
 		maintainAspectRatio: false,
