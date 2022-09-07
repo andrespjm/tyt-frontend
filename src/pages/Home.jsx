@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import waves from '../assets/waves.svg';
+import { Loader } from '../components/Loader';
 import Sidebar from '../components/Sidebar';
 import { getData, getFilteredData } from '../redux/actions';
 import './Home.css';
@@ -9,12 +10,18 @@ import './Home.css';
 const Home = () => {
 	const dispatch = useDispatch();
 	const { redData } = useSelector(state => state);
+	const [loader, setLoader] = useState(true);
 
 	useEffect(() => {
 		if (localStorage.getItem('Filter')) {
 			dispatch(getFilteredData(JSON.parse(localStorage.getItem('Query'))));
 		} else dispatch(getData());
 	}, [dispatch]); //
+
+	if (redData.length > 0 && loader) {
+		setLoader(false);
+	}
+	if (loader) return <Loader />;
 
 	return (
 		<div
@@ -29,10 +36,10 @@ const Home = () => {
 			>
 				{/* lg:grid-cols-3
 				sm:bg-blue-500
-					md:bg-yellow-500
-					lg:bg-red-500
-					xl:bg-green-500
-					2xl:bg-gray-500 */}
+				md:bg-yellow-500
+				lg:bg-red-500
+				xl:bg-green-500
+			2xl:bg-gray-500 */}
 				{redData?.map((prod, i) => (
 					<Link key={i} to={`/detail/${prod.id}`}>
 						<div

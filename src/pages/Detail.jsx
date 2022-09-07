@@ -36,12 +36,11 @@ function Detail() {
 	const { vertical, horizontal } = state;
 
 	// adding state to use loader component
-	const [loader, setLoader] = useState(false);
+	const [loader, setLoader] = useState(true);
 
 	console.log('loader before', loader);
 
 	useEffect(() => {
-		setLoader(true);
 		async function fetchData() {
 			try {
 				dispatch(setLoading(true));
@@ -63,7 +62,6 @@ function Detail() {
 						.then(res => res.data);
 					setFavorites(statusFavorite);
 				}
-				setLoader(false);
 			} catch (error) {
 				alert(error);
 			}
@@ -201,13 +199,16 @@ function Detail() {
 		// document.getElementsByClassName(miClassDiv).classList.toggle('selected');
 	};
 
-	console.log('favorites', favorites);
+	if (product && loader) {
+		setLoader(false);
+	}
+	if (loader) return <Loader />;
+
 	return (
 		<div
 			className='w-screen select-none -z-10
 			 flex flex-col items-center text-white h-screen bg-gradient-to-b from-black via-gray-600 to-base-900'
 		>
-			{loader && <Loader />}
 			<div className='detail-content'>
 				{/* LEFT COLUMN */}
 				<div className='detail-content-left'>
