@@ -52,6 +52,7 @@ function Detail() {
 				const rating = await axios(`/review/score/${id}`).then(res => res.data);
 				setRating(rating.averageScore);
 				setReviews(rating.numberRevisions);
+				setLoader(false);
 			} catch (error) {
 				alert(error);
 			}
