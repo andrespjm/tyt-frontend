@@ -144,7 +144,7 @@ const ProductForm = () => {
 				newProduct.imageMain = imageMain;
 				newProduct.imagesDetail = images || [];
 
-				if (!newProduct.name || Object.entries(newProduct).length === 0) {
+				if (!imageMain || Object.entries(newProduct).length === 0) {
 					errorAll.current.innerText = 'Some fields are missing';
 				} else {
 					success.current.innerText = 'Loading product..';

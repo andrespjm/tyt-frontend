@@ -6,6 +6,7 @@ import {
 	SimpleShowLayout,
 	TextField,
 	DeleteButton,
+	NumberField,
 	// FunctionField,
 	EditButton,
 	Filter,
@@ -29,13 +30,14 @@ const ProductsFilter = props => (
 export const Products = props => {
 	return (
 		<List {...props} filters={<ProductsFilter />}>
-			<Datagrid textAlign='center' expand={<Description />}>
+			<Datagrid textalign='center' expand={<Description />}>
+				<NumberField source='id' textalign='center' />
 				<ImageField
 					label='image'
 					source='img_home.secure_url'
 					src='img_home.secure_url'
 					title='name'
-					textAlign='center'
+					textalign='center'
 					sx={{
 						'& img': {
 							maxWidth: 50,
@@ -45,13 +47,13 @@ export const Products = props => {
 						},
 					}}
 				/>
-				<TextField source='name' textAlign='center' />
-				<TextField source='collection' textAlign='center' />
-				<TextField source='artist' textAlign='center' />
-				<EditButton label='Edit' textAlign='center'>
+				<TextField source='name' textalign='center' />
+				<TextField source='collection' textalign='center' />
+				<TextField source='artist' textalign='center' />
+				<EditButton label='Edit' textalign='center'>
 					Edit
 				</EditButton>
-				<DeleteButton label='Delete' textAlign='center'>
+				<DeleteButton label='Delete' textalign='center'>
 					Delete
 				</DeleteButton>
 			</Datagrid>
