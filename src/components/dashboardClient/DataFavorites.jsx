@@ -40,19 +40,19 @@ export const DataFavorites = () => {
 	if (load) return <Loader />;
 
 	return (
-		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900'>
+		<div className='h-screen bg-gradient-to-b from-black via-gray-700 to-base-900 select-none'>
 			<Menu />
-			{!favs.length ? (
-				<div className='text-white text-2xl text-center select-none'>
-					You have not selected any favourite...
+			<div className='container mx-auto text-white'>
+				<div className='text-5xl border-b border-blue-300 p-2'>
+					<i className='bi-heart-fill text-myRed mr-4'></i>
+					Favorites!
 				</div>
-			) : (
-				<div className='container mx-auto text-white'>
-					<div className='text-5xl border-b border-blue-300 p-2'>
-						<i className='bi-heart-fill text-myRed mr-4'></i>
-						Favorites!
+				{!favs.length ? (
+					<div className='text-white text-2xl text-center mt-4 select-none'>
+						You have not selected any favourite...
 					</div>
-					{favs?.map(e => {
+				) : (
+					favs?.map(e => {
 						return (
 							<div
 								key={e.id}
@@ -87,9 +87,9 @@ export const DataFavorites = () => {
 								</div>
 							</div>
 						);
-					})}
-				</div>
-			)}
+					})
+				)}
+			</div>
 			<div id='fav-modal' className='hidden relative z-10'>
 				<div className='fixed inset-0 bg-gray-800 bg-opacity-70 transition-opacity'></div>
 

@@ -13,6 +13,9 @@ module.exports = {
 					200: '#7d2bc4',
 				},
 			},
+			width: {
+				'136.91px': '136.91px',
+			},
 			minHeight: {
 				'55vh': '55vh',
 			},

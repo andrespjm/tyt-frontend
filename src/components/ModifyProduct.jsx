@@ -6,7 +6,7 @@ import { getColors } from '../redux/actions';
 const ModifyProduct = () => {
 	const dispatch = useDispatch();
 	const [product, setProduct] = useState({
-		stockCakeTray: 1,
+		stockCakeTray: 1000,
 		priceCakeTray: 1,
 		stockTurntable: 1,
 		priceTurntable: 1,
@@ -17,7 +17,8 @@ const ModifyProduct = () => {
 	const errorAll = useRef();
 	const success = useRef();
 	const { redColors } = useSelector(state => state);
-	const id = window.location.href.split('/')[6];
+	const id = window.location.href.split('/').length - 1;
+	// const id = 200;
 
 	useEffect(() => {
 		dispatch(getColors());
@@ -25,13 +26,6 @@ const ModifyProduct = () => {
 			try {
 				const response = await axios.get(`/products/${id}`);
 				setProduct({ ...product, ...response.data });
-				setProduct({
-					...product,
-					stockCakeTray: product.ProductTypes[0].Stocks.quantityST,
-					priceCakeTray: product.ProductTypes[0].Stocks.priceST,
-					stockTurntable: product.ProductTypes[1].Stocks.quantityST,
-					priceTurntable: product.ProductTypes[1].Stocks.priceST,
-				});
 
 				setNewColors([
 					product.Colors[0].name,
@@ -150,6 +144,23 @@ const ModifyProduct = () => {
 	};
 
 	if (!product.name) return <h1>Loading...</h1>;
+
+	if (product.stockCakeTray === 1000) {
+		setProduct({
+			...product,
+			stockCakeTray: product.ProductTypes[0].Stocks.quantityST,
+			priceCakeTray: product.ProductTypes[0].Stocks.priceST,
+			stockTurntable: product.ProductTypes[1].Stocks.quantityST,
+			priceTurntable: product.ProductTypes[1].Stocks.priceST,
+		});
+		setNewColors([
+			product.Colors[0].name,
+			product.Colors[1].name,
+			product.Colors[2].name,
+		]);
+
+		updateSwitchColors();
+	}
 
 	return (
 		<div className='p-10 bg-gray-800'>
