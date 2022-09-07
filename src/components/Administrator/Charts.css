@@ -6,3 +6,11 @@
     display: flex;
     justify-content: space-between;
 }
+
+.graph-1 {
+    width: 58%;
+}
+
+.graph-2 {
+    width: 38%;
+}

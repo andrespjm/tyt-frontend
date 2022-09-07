@@ -1,3 +1,5 @@
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 
 export const UnLog = () => {
@@ -9,9 +11,10 @@ export const UnLog = () => {
 
 	return (
 		<div>
-			<button className='logout-button' onClick={e => handleUnLog(e)}>
-				Logout
-			</button>
+			<Stack spacing={2} direction='row' onClick={e => handleUnLog(e)}>
+				<Button variant='contained'>Logout</Button>
+			</Stack>
+			<button></button>
 		</div>
 	);
 };
