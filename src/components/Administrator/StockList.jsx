@@ -12,7 +12,7 @@ import {
 const StockFilter = props => (
 	<Filter {...props}>
 		<SearchInput
-			placeholder='Product Id'
+			placeholder='Product Id (Number)'
 			source='ProductId'
 			resettable
 			alwaysOn
@@ -23,8 +23,8 @@ const StockFilter = props => (
 export const StockList = props => (
 	<List {...props} filters={<StockFilter />} textalign='center'>
 		<Datagrid textalign='center' rowClick='edit'>
-			<TextField source='id' textalign='center' />
-			<NumberField source='ProductId' label='productId' textalign='center' />
+			<TextField source='id' label='stock id' textalign='center' />
+			<NumberField source='ProductId' label='product id' textalign='center' />
 			<TextField
 				source='ProductTypeName'
 				label='product type'

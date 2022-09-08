@@ -1,8 +1,8 @@
-import './Landing.css';
-import waves from '../assets/waves.svg';
 import { useDispatch } from 'react-redux';
-import { getFilteredData } from '../redux/actions';
 import { Link } from 'react-router-dom';
+import waves from '../assets/waves.svg';
+import { getFilteredData } from '../redux/actions';
+import './Landing.css';
 
 const Landing = () => {
 	const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const Landing = () => {
 							'
 					>
 						<img
-							src='https://i.ibb.co/vc9K164/tinywow-IMG-9476-4930324.png'
+							src='https://res.cloudinary.com/dyqwtxenu/image/upload/v1662566977/tyt/tinywow_IMG_9476_4930324_lbdtph.png'
 							className='w-full h-full object-contain
 							lg:ml-16
 							2xl:ml-32

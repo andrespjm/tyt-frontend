@@ -8,8 +8,8 @@ import { DataAccount } from './components/dashboardClient/DataAccount';
 import { DataFavorites } from './components/dashboardClient/DataFavorites';
 import { DataOrders } from './components/dashboardClient/DataOrders';
 import { EditUserProfile } from './components/dashboardClient/formsUsers/EditUserProfile';
-import { FormEditProfile } from './components/dashboardClient/formsUsers/FormEditProfle';
 import { FormEditPassword } from './components/dashboardClient/formsUsers/FormEditPassword';
+import { FormEditProfile } from './components/dashboardClient/formsUsers/FormEditProfle';
 import { HomeUser } from './components/dashboardClient/HomeUser';
 import { Menu } from './components/dashboardClient/Menu';
 import Navbar from './components/Navbar';
@@ -33,12 +33,14 @@ import { ChangePassword } from './components/dashboardClient/formsUsers/ChangePa
 import Reviews from './components/Reviews';
 import Page404 from './pages/Page404';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import { ProtectedRouteAdmin } from './routes/ProtectedRouteAdmin';
 import { ProtectedRouteUser } from './routes/ProtectedRouteUser';
 
 function App() {
 	const { setCurrentUserF, user } = useAuth();
 	const navigate = useHistory();
 	useEffect(() => {
+		// signout();
 		onAuthStateChanged(auth, handleUserStateChanged);
 	}, [user]);
 	async function handleUserStateChanged(user) {
@@ -64,22 +66,26 @@ function App() {
 	}
 	return (
 		<>
-			<Navbar />
+			{location.pathname.slice(0, 6) !== '/admin' ? <Navbar /> : <></>}
 
-			{user &&
-				Object.entries(user).length !== 0 &&
-				user.hasOwnProperty('emailVerified') &&
-				!user.emailVerified && (
-					<div className='text-center bg-yellow-400 text-md py-3 w-full'>
-						<b>Please activate your account</b>
-					</div>
-				)}
-
+			{user && !user.emailVerified && user.emailVerified !== 'admin@tyt.com' ? (
+				''
+			) : user && !user.emailVerified ? (
+				<div className='text-center bg-yellow-400 text-md py-3 w-full'>
+					<b>Please activate your account</b>
+				</div>
+			) : (
+				''
+			)}
 			<Switch>
 				<Route exact path='/' component={Landing} />
 				<Route exact path='/home' component={Home} />
 				<Route exact path='/tyt-admin' component={SignInAdmin} />
-				<Route exact path='/admin' component={DashBoard} />
+				<Route exact path='/admin'>
+					<ProtectedRouteAdmin>
+						<DashBoard />
+					</ProtectedRouteAdmin>
+				</Route>
 				<Route exact path='/admin/addproduct' component={ProductForm} />
 				<Route exact path='/admin/modifyproduct' component={ModifyProduct} />
 				<Route exact path='/shop/shoppingCart' component={ShoppingCart} />
