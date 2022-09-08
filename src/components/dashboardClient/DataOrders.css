@@ -40,6 +40,7 @@
 
 .orderDetailsImage{
     width: 30%;
+    height: 20%;
     margin-right: 10px;
     border-radius: 10px;
     overflow: hidden;
@@ -47,10 +48,7 @@
 }
 
 .startsContainer{
-    position: absolute;
-    top: 40px;
-    right: 20px;
-    width: 50%;
+    width: 100%;
 }
 
 .orderStatus{
