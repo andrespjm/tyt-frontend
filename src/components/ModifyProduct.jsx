@@ -182,7 +182,7 @@ const ModifyProduct = () => {
 				});
 				if (res.data.success === 'ok') {
 					errorAll.current.innerText = '';
-					return (success.current.innerText = 'Product added successfully');
+					return (success.current.innerText = 'Product modified successfully');
 				}
 			} catch (error) {
 				console.log(error);
