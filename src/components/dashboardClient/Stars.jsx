@@ -47,7 +47,7 @@ function Stars({ productId, userId, idOrderItems }) {
 							value={comments}
 							onChange={e => setComments(e.target.value)}
 						/>
-						<input className='bg-purple-400 hover:bg-purple-500 my-1 rounded-lg w-3/6 mx-auto h-10' type='submit' value='Send'onClick={handleSend} disabled={value === 0} />
+						<input className='bg-purple-400 hover:bg-purple-500 my-1 rounded-lg w-2/6 mx-auto h-10' type='submit' value='Send'onClick={handleSend} disabled={value === 0} />
 					</form>
 				</div>
 			) : (

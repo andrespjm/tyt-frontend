@@ -1,5 +1,5 @@
 .orderContainer{
-    width: 100%;
+    width: 105%;
     position: relative;
     min-height: 45vh;
     padding: 20px 0;
@@ -12,7 +12,7 @@
 
 
 .orderDetails{
-    width: 60%;
+    width: 90%;
     display: flex;
     margin-bottom: 20px;
 
@@ -48,7 +48,8 @@
 }
 
 .startsContainer{
-    width: 100%;
+    width: 60vw;
+    margin-left: 50px;
 }
 
 .orderStatus{
