@@ -35,6 +35,7 @@ import Page404 from './pages/Page404';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import { ProtectedRouteAdmin } from './routes/ProtectedRouteAdmin';
 import { ProtectedRouteUser } from './routes/ProtectedRouteUser';
+import Developers from './components/Developers/Gonzalo';
 
 function App() {
 	const { setCurrentUserF, user } = useAuth();
@@ -66,7 +67,7 @@ function App() {
 	}
 	return (
 		<>
-			{location.pathname.slice(0, 6) !== '/admin' ? <Navbar /> : <></>}
+			{location.pathname.slice(0, 6) !== '/admin' && <Navbar />}
 
 			{user && !user.emailVerified && user.emailVerified !== 'admin@tyt.com' ? (
 				''
@@ -80,6 +81,7 @@ function App() {
 			<Switch>
 				<Route exact path='/' component={Landing} />
 				<Route exact path='/home' component={Home} />
+				<Route exact path='/developers' component={Developers} />
 				<Route exact path='/tyt-admin' component={SignInAdmin} />
 				<Route exact path='/admin'>
 					<ProtectedRouteAdmin>
