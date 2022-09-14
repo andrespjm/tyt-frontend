@@ -46,7 +46,7 @@ const Gonzalo = () => {
 						<div className='card-content'>
 							<div className='card-subtitle'>ABOUT</div>
 							<p className='card-desc'>
-								Expert in learning. Full Stack Web Developer, MBA in Finance and
+								Expert in learning. Full Stack Developer, MBA in Finance and
 								Civil Engineer. Passionate about programming.
 							</p>
 						</div>
@@ -84,7 +84,7 @@ const Gonzalo = () => {
 										Front-end Developer at <span>Amazon</span>
 									</div>
 									<div className='card-item-desc'>
-										Algun texto acerca de las funciones.
+										Disrupt stumptown retro everyday carry unicorn.
 									</div>
 								</div>
 								<div className='card-item' data-year='2016'>
@@ -92,15 +92,15 @@ const Gonzalo = () => {
 										UI Developer at <span>Microsoft</span>
 									</div>
 									<div className='card-item-desc'>
-										Algun texto acerca de las funciones.
+										Developed new conversion funnels and disrupt.
 									</div>
 								</div>
 								<div className='card-item' data-year='2018'>
 									<div className='card-item-title'>
-										Designer at <span>Google</span>
+										UI Developer at <span>Google</span>
 									</div>
 									<div className='card-item-desc'>
-										Algun texto acerca de las funciones.
+										Onboarding illustrations for App.
 									</div>
 								</div>
 								<div className='card-item' data-year='2020'>
@@ -108,7 +108,7 @@ const Gonzalo = () => {
 										Full-Stack Developer at <span>Apple</span>
 									</div>
 									<div className='card-item-desc'>
-										Algun texto acerca de las funciones.
+										Responsible for the encomposing brand expreience.
 									</div>
 								</div>
 							</div>
@@ -131,7 +131,7 @@ const Gonzalo = () => {
 										<path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z' />
 										<circle cx='12' cy='10' r='3' />
 									</svg>
-									Bogota, Colombia
+									Bogotá, Colombia
 								</div>
 								<div className='card-contact'>
 									<svg
@@ -145,7 +145,7 @@ const Gonzalo = () => {
 									>
 										<path d='M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z' />
 									</svg>
-									(317) 637-9339
+									+57 (317) 637 9339
 								</div>
 								<div className='card-contact'>
 									<svg
