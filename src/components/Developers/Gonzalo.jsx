@@ -108,7 +108,7 @@ const Gonzalo = () => {
 										Full-Stack Developer at <span>Apple</span>
 									</div>
 									<div className='card-item-desc'>
-										Responsible for the encomposing brand expreience.
+										Responsible for the encomposing brand experience.
 									</div>
 								</div>
 							</div>
