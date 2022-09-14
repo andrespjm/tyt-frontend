@@ -18,10 +18,6 @@ const Gonzalo = () => {
 		section.classList.add('is-active');
 	};
 
-	buttons.forEach(btn => {
-		btn.addEventListener('click', handleButtonClick);
-	});
-
 	return (
 		<div className='container p-20'>
 			<div className='card' data-state='#about'>
@@ -166,7 +162,7 @@ const Gonzalo = () => {
 							</div>
 						</div>
 					</div>
-					<div className='card-buttons'>
+					<div className='card-buttons' onClick={handleButtonClick}>
 						<button data-section='#about' className='is-active'>
 							ABOUT
 						</button>
