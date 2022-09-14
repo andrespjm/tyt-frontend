@@ -5,7 +5,10 @@ import Omar from '../components/Developers/Omar';
 
 const Developers = () => {
 	return (
-		<div className='flex gap-10'>
+		<div
+			className='container grid grid-cols-1 gap-1
+				md:grid-cols-2 xl:grid-cols-3 '
+		>
 			<Gonzalo />
 			<Juancho />
 			<Eugenia />
