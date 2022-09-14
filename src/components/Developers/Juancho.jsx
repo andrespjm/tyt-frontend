@@ -1,14 +1,14 @@
 import './Developers.css';
 
-const Gonzalo = () => {
-	const buttons = document.querySelectorAll('.gonzalo-card-buttons button');
-	const sections = document.querySelectorAll('.gonzalo-card-section');
-	const card = document.querySelector('#gonzalo');
+const Juancho = () => {
+	const buttons = document.querySelectorAll('.juancho-card-buttons button');
+	const sections = document.querySelectorAll('.juancho-card-section');
+	const card = document.querySelector('#juancho');
 
 	const handleButtonClick = e => {
 		const targetSection = e.target.getAttribute('data-section');
 		const section = document.querySelector(targetSection);
-		targetSection !== '#gonzalo-about'
+		targetSection !== '#juancho-about'
 			? card.classList.add('is-active')
 			: card.classList.remove('is-active');
 		card.setAttribute('data-state', targetSection);
@@ -20,7 +20,7 @@ const Gonzalo = () => {
 
 	return (
 		<div className='container p-20'>
-			<div id='gonzalo' className='card' data-state='#gonzalo-about'>
+			<div id='juancho' className='card' data-state='#juancho-about'>
 				<div className='card-header'>
 					<div
 						className='card-cover'
@@ -34,13 +34,13 @@ const Gonzalo = () => {
 						src='https://i.ibb.co/Gdy31nn/Whats-App-Image-2022-09-12-at-8-36-52-PM.jpg'
 						alt='avatar'
 					/>
-					<h1 className='card-fullname mb-3'>Gonzalo Correa</h1>
+					<h1 className='card-fullname mb-3'>Juancho Correa</h1>
 					<h2 className='card-jobtitle'>Full Stack Developer</h2>
 				</div>
 				<div className='card-main'>
 					<div
-						className='gonzalo-card-section card-section is-active'
-						id='gonzalo-about'
+						className='juancho-card-section card-section is-active'
+						id='juancho-about'
 					>
 						<div className='card-content'>
 							<div className='card-subtitle'>ABOUT</div>
@@ -75,8 +75,8 @@ const Gonzalo = () => {
 						</div>
 					</div>
 					<div
-						className='gonzalo-card-section card-section'
-						id='gonzalo-experience'
+						className='juancho-card-section card-section'
+						id='juancho-experience'
 					>
 						<div className='card-content'>
 							<div className='card-subtitle'>WORK EXPERIENCE</div>
@@ -117,8 +117,8 @@ const Gonzalo = () => {
 						</div>
 					</div>
 					<div
-						className='gonzalo-card-section card-section'
-						id='gonzalo-contact'
+						className='juancho-card-section card-section'
+						id='juancho-contact'
 					>
 						<div className='card-content'>
 							<div className='card-subtitle'>CONTACT</div>
@@ -172,14 +172,14 @@ const Gonzalo = () => {
 						</div>
 					</div>
 					<div
-						className='gonzalo-card-buttons card-buttons'
+						className='juancho-card-buttons card-buttons'
 						onClick={handleButtonClick}
 					>
-						<button data-section='#gonzalo-about' className='is-active'>
+						<button data-section='#juancho-about' className='is-active'>
 							ABOUT
 						</button>
-						<button data-section='#gonzalo-experience'>EXPERIENCE</button>
-						<button data-section='#gonzalo-contact'>CONTACT</button>
+						<button data-section='#juancho-experience'>EXPERIENCE</button>
+						<button data-section='#juancho-contact'>CONTACT</button>
 					</div>
 				</div>
 			</div>
@@ -187,4 +187,4 @@ const Gonzalo = () => {
 	);
 };
 
-export default Gonzalo;
+export default Juancho;
