@@ -35,7 +35,7 @@ import Page404 from './pages/Page404';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import { ProtectedRouteAdmin } from './routes/ProtectedRouteAdmin';
 import { ProtectedRouteUser } from './routes/ProtectedRouteUser';
-import Developers from './components/Developers/Gonzalo';
+import Developers from './pages/Developers';
 
 function App() {
 	const { setCurrentUserF, user } = useAuth();
