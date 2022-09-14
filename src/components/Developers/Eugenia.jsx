@@ -48,6 +48,7 @@ const Eugenia = () => {
 							<div className='card-subtitle'>ABOUT</div>
 							<p className='card-desc'>
 								Full Stack Web Developer | Accountant | Business Administration
+								Happy to have arrived in the world of code.
 							</p>
 						</div>
 						<div className='card-social'>
