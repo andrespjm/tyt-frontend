@@ -1,6 +1,7 @@
 import Gonzalo from '../components/Developers/Gonzalo';
 import Juancho from '../components/Developers/Juancho';
 import Eugenia from '../components/Developers/Eugenia';
+import Omar from '../components/Developers/Omar';
 
 const Developers = () => {
 	return (
@@ -8,6 +9,7 @@ const Developers = () => {
 			<Gonzalo />
 			<Juancho />
 			<Eugenia />
+			<Omar/>
 		</div>
 	);
 };
