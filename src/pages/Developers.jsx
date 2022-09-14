@@ -4,7 +4,10 @@ import Eugenia from '../components/Developers/Eugenia';
 
 const Developers = () => {
 	return (
-		<div className='flex gap-10'>
+		<div
+			className='container grid grid-cols-1 gap-1
+				md:grid-cols-2 xl:grid-cols-3 '
+		>
 			<Gonzalo />
 			<Juancho />
 			<Eugenia />
