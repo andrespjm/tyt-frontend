@@ -172,8 +172,8 @@ export default function Navbar() {
 						</svg>
 						Home
 					</Link>
-					<Link
-						to='/developers'
+					<a
+						href='/developers'
 						role='menuitem'
 						className='
 						flex
@@ -187,7 +187,7 @@ export default function Navbar() {
 					>
 						<i className='bi bi-laptop'></i>
 						Developers
-					</Link>
+					</a>
 
 					<Link
 						role='menuitem'
