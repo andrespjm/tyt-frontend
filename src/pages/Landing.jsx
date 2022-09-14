@@ -403,7 +403,7 @@ const Landing = () => {
 											localStorage.setItem('Colors', JSON.stringify([]));
 											localStorage.setItem('Query', JSON.stringify(query));
 										}}
-										src='https://i.ibb.co/Zm4NwTb/tinywow-IMG-1367-4878105.png'
+										src='https://i.ibb.co/PC1kK0P/tinywow-IMG-1367-5496288.png'
 										className='object-contain mt-1
 								duration-1000 hover:rotate-45 hover:scale-150 
 							'
