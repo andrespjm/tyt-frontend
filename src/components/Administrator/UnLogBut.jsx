@@ -1,5 +1,5 @@
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import { useDispatch } from 'react-redux';
 import { signout } from '../../firebase/firebase';
 
@@ -7,7 +7,10 @@ export const UnLog = () => {
 	const dispatch = useDispatch();
 
 	const handleUnLog = e => {
-		dispatch(() => signout().then(() => window.location.reload()));
+		dispatch(async () => {
+			await signout();
+			location.reload();
+		});
 	};
 
 	return (
