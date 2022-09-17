@@ -1,6 +1,7 @@
 import Edwin from '../components/Developers/Edwin';
 import Eugenia from '../components/Developers/Eugenia';
 import Gonzalo from '../components/Developers/Gonzalo';
+import Gustavo from '../components/Developers/Gustavo';
 import Juancho from '../components/Developers/Juancho';
 import Omar from '../components/Developers/Omar';
 
@@ -15,6 +16,7 @@ const Developers = () => {
 			<Eugenia />
 			<Omar />
 			<Edwin />
+			<Gustavo />
 		</div>
 	);
 };
